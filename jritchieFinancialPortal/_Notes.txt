@@ -1,0 +1,19 @@
+﻿AccountViewModels.cs
+	add to RegisterViewModel
+
+---
+
+IdentityModels.cs
+	add properties to ApplicationUser
+
+	add dbSets to ApplicationDbContext
+
+---
+
+ManageViewModel.cs
+	add properties to IndexViewModel
+
+	add ChangeUserProfileViewModel
+
+---
+

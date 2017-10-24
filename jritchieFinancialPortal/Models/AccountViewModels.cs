@@ -64,6 +64,20 @@ namespace jritchieFinancialPortal.Models
 
     public class RegisterViewModel
     {
+        // Add this...
+        [Required]
+        [Display(Name = "First Name")]
+        public string FirstName { get; set; }
+
+        [Required]
+        [Display(Name = "Last Name")]
+        public string LastName { get; set; }
+
+        [Required]
+        [Display(Name = "Time Zone")]
+        public string TimeZone { get; set; }
+        // ******************************************
+
         [Required]
         [EmailAddress]
         [Display(Name = "Email")]
