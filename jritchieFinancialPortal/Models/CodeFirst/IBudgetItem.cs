@@ -8,10 +8,13 @@ namespace jritchieFinancialPortal.Models.CodeFirst
 {
     interface IBudgetItem
     {
-        string Name { get; set; }
-         DateTimeOffset Date { get; set; }
-        int Frequency { get; set; }
-        string Type { get; set; }
+        int Id { get; set; }
         decimal Amount { get; set; }
+        string DescriptionName { get; set; }
+        Category CategoryId { get; set; }
+        int Frequency { get; set; }
+
+        Category Category { get; set; }
+
     }
 }
