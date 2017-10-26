@@ -12,7 +12,8 @@ namespace jritchieFinancialPortal.Models.CodeFirst
         {
             // HashSet for faster access to data.
             Users = new HashSet<ApplicationUser>();     // Assign multiple users to household.
-            Accounts = new HashSet<Account>();          // Assign multiple accounts.
+            Accounts = new HashSet<BankAccount>();      // Assign multiple accounts.
+            Budgets = new HashSet<Budget>();            // Assign multiple budgets.
         }
 
         public int Id { get; set; }
@@ -21,7 +22,7 @@ namespace jritchieFinancialPortal.Models.CodeFirst
         public DateTimeOffset Established { get; set; }
 
         public virtual ICollection<ApplicationUser> Users { get; set; }
-        public virtual ICollection<Account> Accounts { get; set; }
-
+        public virtual ICollection<BankAccount> Accounts { get; set; }
+        public virtual ICollection<Budget> Budgets { get; set; }
     }
 }

@@ -5,14 +5,20 @@ using System.Web;
 
 namespace jritchieFinancialPortal.Models.CodeFirst
 {
-    public class Income : IBudgetItem
+    public class Income : IBudgetItem, ICalculate
     {
         public int Id { get; set; }
         public decimal Amount { get; set; }
         public string DescriptionName { get; set; }
-        public Category CategoryId { get; set; }
+        public int BudgetId { get; set; }
         public int Frequency { get; set; }
 
-        public virtual Category Category { get; set; }
+        public virtual Budget Budget { get; set; }
+
+        public decimal CalculateYearlyTotal()
+        {
+            return Amount * Frequency;
+        }
+
     }
 }

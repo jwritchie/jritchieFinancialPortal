@@ -7,13 +7,15 @@ namespace jritchieFinancialPortal.Models.CodeFirst
 {
     public class Budget
     {
-        int Id { get; set; }
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public int CategoryID { get; set; }
+        public int HouseholdId { get; set; }
 
-        public virtual ICollection<Household> Households { get; set; }
-        public virtual ICollection<ApplicationUser> Users { get; set; }
+        public virtual Category Category { get; set; }
+        public virtual Household Household { get; set; }
+
         public virtual ICollection<Income> Incomes { get; set; }
         public virtual ICollection<Expense> Expenses { get; set; }
-        public virtual ICollection<Transaction> Transactions { get; set; }
-
     }
 }

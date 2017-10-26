@@ -14,6 +14,7 @@ namespace jritchieFinancialPortal.Models
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string TimeZone { get; set; }
+        public int? HouseholdId { get; set; }
         public bool Member { get; set; }
 
         public string Fullname
@@ -26,10 +27,11 @@ namespace jritchieFinancialPortal.Models
 
         public ApplicationUser()
         {
-            Accounts = new HashSet<Account>();
+            BankAccounts = new HashSet<BankAccount>();
         }
         
-        public virtual ICollection<Account> Accounts { get; set; }
+        public virtual Household Household { get; set; }
+        public virtual ICollection<BankAccount> BankAccounts { get; set; }
 
 
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)
@@ -54,12 +56,13 @@ namespace jritchieFinancialPortal.Models
             return new ApplicationDbContext();
         }
 
-        public DbSet<Household> Households { get; set; }
-        public DbSet<Account> Accounts { get; set; }
-        public DbSet<Transaction> Transactions { get; set; }
+        public DbSet<Bank> Banks { get; set; }
+        public DbSet<BankAccount> BankAccounts { get; set; }
         public DbSet<Budget> Budgets { get; set; }
         public DbSet<Category> Categories { get; set; }
-        public DbSet<Income> Incomes { get; set; }
         public DbSet<Expense> Expenses { get; set; }
+        public DbSet<Household> Households { get; set; }
+        public DbSet<Income> Incomes { get; set; }
+        public DbSet<Transaction> Transactions { get; set; }
     }
 }

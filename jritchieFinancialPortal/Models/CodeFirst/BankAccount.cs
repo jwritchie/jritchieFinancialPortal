@@ -5,9 +5,9 @@ using System.Web;
 
 namespace jritchieFinancialPortal.Models.CodeFirst
 {
-    public class Account
+    public class BankAccount
     {
-        public Account()
+        public BankAccount()
         {
             // HashSets for faster access to data.
             Users = new HashSet<ApplicationUser> ();
