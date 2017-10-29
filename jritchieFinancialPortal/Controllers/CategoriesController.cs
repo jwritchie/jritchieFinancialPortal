@@ -12,105 +12,105 @@ using jritchieFinancialPortal.Models.CodeFirst;
 namespace jritchieFinancialPortal.Controllers
 {
     [Authorize]
-    public class HouseholdsController : UniversalController
+    public class CategoriesController : UniversalController
     {
-        // GET: Households
+        // GET: Categories
         public ActionResult Index()
         {
-            return View(db.Households.ToList());
+            return View(db.Categories.ToList());
         }
 
-        // GET: Households/Details/5
+        // GET: Categories/Details/5
         public ActionResult Details(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Household household = db.Households.Find(id);
-            if (household == null)
+            Category category = db.Categories.Find(id);
+            if (category == null)
             {
                 return HttpNotFound();
             }
-            return View(household);
+            return View(category);
         }
 
-        // GET: Households/Create
+        // GET: Categories/Create
         public ActionResult Create()
         {
             return View();
         }
 
-        // POST: Households/Create
+        // POST: Categories/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Name,Established")] Household household)
+        public ActionResult Create([Bind(Include = "Id,Name,Description")] Category category)
         {
             if (ModelState.IsValid)
             {
-                db.Households.Add(household);
+                db.Categories.Add(category);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            return View(household);
+            return View(category);
         }
 
-        // GET: Households/Edit/5
+        // GET: Categories/Edit/5
         public ActionResult Edit(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Household household = db.Households.Find(id);
-            if (household == null)
+            Category category = db.Categories.Find(id);
+            if (category == null)
             {
                 return HttpNotFound();
             }
-            return View(household);
+            return View(category);
         }
 
-        // POST: Households/Edit/5
+        // POST: Categories/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Name,Established")] Household household)
+        public ActionResult Edit([Bind(Include = "Id,Name,Description")] Category category)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(household).State = EntityState.Modified;
+                db.Entry(category).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            return View(household);
+            return View(category);
         }
 
-        // GET: Households/Delete/5
+        // GET: Categories/Delete/5
         public ActionResult Delete(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Household household = db.Households.Find(id);
-            if (household == null)
+            Category category = db.Categories.Find(id);
+            if (category == null)
             {
                 return HttpNotFound();
             }
-            return View(household);
+            return View(category);
         }
 
-        // POST: Households/Delete/5
+        // POST: Categories/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Household household = db.Households.Find(id);
-            db.Households.Remove(household);
+            Category category = db.Categories.Find(id);
+            db.Categories.Remove(category);
             db.SaveChanges();
             return RedirectToAction("Index");
         }

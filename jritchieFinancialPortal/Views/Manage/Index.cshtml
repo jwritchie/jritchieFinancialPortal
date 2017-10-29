@@ -9,25 +9,51 @@
 <div>
     <h4>Change your account settings</h4>
     <hr />
-    <dl class="dl-horizontal">
-        <dt>Password:</dt>
-        <dd>
-            [
-            @if (Model.HasPassword)
+
+        @{
+            var user = User.Identity.Name;
+            if (user != "DemoUser@coderfoundry.com")
             {
-                @Html.ActionLink("Change your password", "ChangePassword")
+                <dl class="dl-horizontal">
+                    <dt>Profile:</dt>
+                    <dd>
+                        [
+                        @Html.ActionLink("Update Profile", "ChangeProfile")
+                        ]
+                    </dd>
+                    <dt>Password:</dt>
+                    <dd>
+                        [
+                        @if (Model.HasPassword)
+                        {
+                            @Html.ActionLink("Change your password", "ChangePassword")
+                        }
+                        else
+                        {
+                            @Html.ActionLink("Create", "SetPassword")
+                        }
+                        ]
+                    </dd>
+                </dl>
             }
             else
             {
-                @Html.ActionLink("Create", "SetPassword")
+                <p><span style="font-weight:bold">Note: </span><span style="font-style:italic">These options are not available to Demo Accounts.</span></p>
+                <dl class="dl-horizontal">
+                    <dt>Name:</dt>
+                    <dd>[Update Profile]</dd>
+                    <dt>Password:</dt>
+                    <dd>[Change your password]</dd>
+                </dl>
             }
-            ]
-        </dd>
-        <dt>External Logins:</dt>
+        }
+</div>
+
+        @*<dt>External Logins:</dt>
         <dd>
             @Model.Logins.Count [
             @Html.ActionLink("Manage", "ManageLogins") ]
-        </dd>
+        </dd>*@
         @*
             Phone Numbers can used as a second factor of verification in a two-factor authentication system.
              
@@ -56,12 +82,12 @@
                 }
             </dd>
         *@
-        <dt>Two-Factor Authentication:</dt>
-        <dd>
+        @*<dt>Two-Factor Authentication:</dt>*@
+        @*<dd>
             <p>
                 There are no two-factor authentication providers configured. See <a href="https://go.microsoft.com/fwlink/?LinkId=403804">this article</a>
                 for details on setting up this ASP.NET application to support two-factor authentication.
-            </p>
+            </p>*@
             @*@if (Model.TwoFactor)
                 {
                     using (Html.BeginForm("DisableTwoFactorAuthentication", "Manage", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
@@ -82,6 +108,6 @@
                         </text>
                     }
                 }*@
-        </dd>
-    </dl>
-</div>
+        @*</dd>
+        </dl>
+    </div>*@

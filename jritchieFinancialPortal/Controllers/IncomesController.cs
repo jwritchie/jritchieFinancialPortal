@@ -12,105 +12,110 @@ using jritchieFinancialPortal.Models.CodeFirst;
 namespace jritchieFinancialPortal.Controllers
 {
     [Authorize]
-    public class HouseholdsController : UniversalController
+    public class IncomesController : UniversalController
     {
-        // GET: Households
+        // GET: Incomes
         public ActionResult Index()
         {
-            return View(db.Households.ToList());
+            var incomes = db.Incomes.Include(i => i.Budget);
+            return View(incomes.ToList());
         }
 
-        // GET: Households/Details/5
+        // GET: Incomes/Details/5
         public ActionResult Details(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Household household = db.Households.Find(id);
-            if (household == null)
+            Income income = db.Incomes.Find(id);
+            if (income == null)
             {
                 return HttpNotFound();
             }
-            return View(household);
+            return View(income);
         }
 
-        // GET: Households/Create
+        // GET: Incomes/Create
         public ActionResult Create()
         {
+            ViewBag.BudgetId = new SelectList(db.Budgets, "Id", "Name");
             return View();
         }
 
-        // POST: Households/Create
+        // POST: Incomes/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Name,Established")] Household household)
+        public ActionResult Create([Bind(Include = "Id,Amount,DescriptionName,BudgetId,Frequency")] Income income)
         {
             if (ModelState.IsValid)
             {
-                db.Households.Add(household);
+                db.Incomes.Add(income);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            return View(household);
+            ViewBag.BudgetId = new SelectList(db.Budgets, "Id", "Name", income.BudgetId);
+            return View(income);
         }
 
-        // GET: Households/Edit/5
+        // GET: Incomes/Edit/5
         public ActionResult Edit(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Household household = db.Households.Find(id);
-            if (household == null)
+            Income income = db.Incomes.Find(id);
+            if (income == null)
             {
                 return HttpNotFound();
             }
-            return View(household);
+            ViewBag.BudgetId = new SelectList(db.Budgets, "Id", "Name", income.BudgetId);
+            return View(income);
         }
 
-        // POST: Households/Edit/5
+        // POST: Incomes/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Name,Established")] Household household)
+        public ActionResult Edit([Bind(Include = "Id,Amount,DescriptionName,BudgetId,Frequency")] Income income)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(household).State = EntityState.Modified;
+                db.Entry(income).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            return View(household);
+            ViewBag.BudgetId = new SelectList(db.Budgets, "Id", "Name", income.BudgetId);
+            return View(income);
         }
 
-        // GET: Households/Delete/5
+        // GET: Incomes/Delete/5
         public ActionResult Delete(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Household household = db.Households.Find(id);
-            if (household == null)
+            Income income = db.Incomes.Find(id);
+            if (income == null)
             {
                 return HttpNotFound();
             }
-            return View(household);
+            return View(income);
         }
 
-        // POST: Households/Delete/5
+        // POST: Incomes/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Household household = db.Households.Find(id);
-            db.Households.Remove(household);
+            Income income = db.Incomes.Find(id);
+            db.Incomes.Remove(income);
             db.SaveChanges();
             return RedirectToAction("Index");
         }

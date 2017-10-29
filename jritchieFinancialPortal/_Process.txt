@@ -1,0 +1,19 @@
+﻿
+
+
+Roles?	if 'Admin' then see all households:  different view
+
+Log-in  OR  Register  View
+
+	Upon logging in ...  go directly to household
+
+	Upon registering ... (do not have a household, or need to join one)
+
+		CreateOrJoin  Household  View
+
+			Show list of households?
+			Can user be in multiple? NO!
+
+
+Drop tables:
+	Drop from SSMS

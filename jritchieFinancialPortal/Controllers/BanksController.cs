@@ -12,105 +12,105 @@ using jritchieFinancialPortal.Models.CodeFirst;
 namespace jritchieFinancialPortal.Controllers
 {
     [Authorize]
-    public class HouseholdsController : UniversalController
+    public class BanksController : UniversalController
     {
-        // GET: Households
+        // GET: Banks
         public ActionResult Index()
         {
-            return View(db.Households.ToList());
+            return View(db.Banks.ToList());
         }
 
-        // GET: Households/Details/5
+        // GET: Banks/Details/5
         public ActionResult Details(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Household household = db.Households.Find(id);
-            if (household == null)
+            Bank bank = db.Banks.Find(id);
+            if (bank == null)
             {
                 return HttpNotFound();
             }
-            return View(household);
+            return View(bank);
         }
 
-        // GET: Households/Create
+        // GET: Banks/Create
         public ActionResult Create()
         {
             return View();
         }
 
-        // POST: Households/Create
+        // POST: Banks/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Name,Established")] Household household)
+        public ActionResult Create([Bind(Include = "Id,Name,Address,Phone")] Bank bank)
         {
             if (ModelState.IsValid)
             {
-                db.Households.Add(household);
+                db.Banks.Add(bank);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            return View(household);
+            return View(bank);
         }
 
-        // GET: Households/Edit/5
+        // GET: Banks/Edit/5
         public ActionResult Edit(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Household household = db.Households.Find(id);
-            if (household == null)
+            Bank bank = db.Banks.Find(id);
+            if (bank == null)
             {
                 return HttpNotFound();
             }
-            return View(household);
+            return View(bank);
         }
 
-        // POST: Households/Edit/5
+        // POST: Banks/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Name,Established")] Household household)
+        public ActionResult Edit([Bind(Include = "Id,Name,Address,Phone")] Bank bank)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(household).State = EntityState.Modified;
+                db.Entry(bank).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            return View(household);
+            return View(bank);
         }
 
-        // GET: Households/Delete/5
+        // GET: Banks/Delete/5
         public ActionResult Delete(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Household household = db.Households.Find(id);
-            if (household == null)
+            Bank bank = db.Banks.Find(id);
+            if (bank == null)
             {
                 return HttpNotFound();
             }
-            return View(household);
+            return View(bank);
         }
 
-        // POST: Households/Delete/5
+        // POST: Banks/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Household household = db.Households.Find(id);
-            db.Households.Remove(household);
+            Bank bank = db.Banks.Find(id);
+            db.Banks.Remove(bank);
             db.SaveChanges();
             return RedirectToAction("Index");
         }

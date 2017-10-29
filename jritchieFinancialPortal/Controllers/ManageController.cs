@@ -11,7 +11,7 @@ using jritchieFinancialPortal.Models;
 namespace jritchieFinancialPortal.Controllers
 {
     [Authorize]
-    public class ManageController : Controller
+    public class ManageController : UniversalController
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
@@ -101,123 +101,132 @@ namespace jritchieFinancialPortal.Controllers
 
         //
         // GET: /Manage/AddPhoneNumber
-        public ActionResult AddPhoneNumber()
-        {
-            return View();
-        }
+        //public ActionResult AddPhoneNumber()
+        //{
+        //    return View();
+        //}
 
         //
         // POST: /Manage/AddPhoneNumber
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> AddPhoneNumber(AddPhoneNumberViewModel model)
-        {
-            if (!ModelState.IsValid)
-            {
-                return View(model);
-            }
-            // Generate the token and send it
-            var code = await UserManager.GenerateChangePhoneNumberTokenAsync(User.Identity.GetUserId(), model.Number);
-            if (UserManager.SmsService != null)
-            {
-                var message = new IdentityMessage
-                {
-                    Destination = model.Number,
-                    Body = "Your security code is: " + code
-                };
-                await UserManager.SmsService.SendAsync(message);
-            }
-            return RedirectToAction("VerifyPhoneNumber", new { PhoneNumber = model.Number });
-        }
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public async Task<ActionResult> AddPhoneNumber(AddPhoneNumberViewModel model)
+        //{
+        //    if (!ModelState.IsValid)
+        //    {
+        //        return View(model);
+        //    }
+        //    // Generate the token and send it
+        //    var code = await UserManager.GenerateChangePhoneNumberTokenAsync(User.Identity.GetUserId(), model.Number);
+        //    if (UserManager.SmsService != null)
+        //    {
+        //        var message = new IdentityMessage
+        //        {
+        //            Destination = model.Number,
+        //            Body = "Your security code is: " + code
+        //        };
+        //        await UserManager.SmsService.SendAsync(message);
+        //    }
+        //    return RedirectToAction("VerifyPhoneNumber", new { PhoneNumber = model.Number });
+        //}
 
         //
         // POST: /Manage/EnableTwoFactorAuthentication
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> EnableTwoFactorAuthentication()
-        {
-            await UserManager.SetTwoFactorEnabledAsync(User.Identity.GetUserId(), true);
-            var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
-            if (user != null)
-            {
-                await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
-            }
-            return RedirectToAction("Index", "Manage");
-        }
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public async Task<ActionResult> EnableTwoFactorAuthentication()
+        //{
+        //    await UserManager.SetTwoFactorEnabledAsync(User.Identity.GetUserId(), true);
+        //    var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
+        //    if (user != null)
+        //    {
+        //        await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+        //    }
+        //    return RedirectToAction("Index", "Manage");
+        //}
 
         //
         // POST: /Manage/DisableTwoFactorAuthentication
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> DisableTwoFactorAuthentication()
-        {
-            await UserManager.SetTwoFactorEnabledAsync(User.Identity.GetUserId(), false);
-            var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
-            if (user != null)
-            {
-                await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
-            }
-            return RedirectToAction("Index", "Manage");
-        }
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public async Task<ActionResult> DisableTwoFactorAuthentication()
+        //{
+        //    await UserManager.SetTwoFactorEnabledAsync(User.Identity.GetUserId(), false);
+        //    var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
+        //    if (user != null)
+        //    {
+        //        await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+        //    }
+        //    return RedirectToAction("Index", "Manage");
+        //}
 
         //
         // GET: /Manage/VerifyPhoneNumber
-        public async Task<ActionResult> VerifyPhoneNumber(string phoneNumber)
-        {
-            var code = await UserManager.GenerateChangePhoneNumberTokenAsync(User.Identity.GetUserId(), phoneNumber);
-            // Send an SMS through the SMS provider to verify the phone number
-            return phoneNumber == null ? View("Error") : View(new VerifyPhoneNumberViewModel { PhoneNumber = phoneNumber });
-        }
+        //public async Task<ActionResult> VerifyPhoneNumber(string phoneNumber)
+        //{
+        //    var code = await UserManager.GenerateChangePhoneNumberTokenAsync(User.Identity.GetUserId(), phoneNumber);
+        //    // Send an SMS through the SMS provider to verify the phone number
+        //    return phoneNumber == null ? View("Error") : View(new VerifyPhoneNumberViewModel { PhoneNumber = phoneNumber });
+        //}
 
         //
         // POST: /Manage/VerifyPhoneNumber
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> VerifyPhoneNumber(VerifyPhoneNumberViewModel model)
-        {
-            if (!ModelState.IsValid)
-            {
-                return View(model);
-            }
-            var result = await UserManager.ChangePhoneNumberAsync(User.Identity.GetUserId(), model.PhoneNumber, model.Code);
-            if (result.Succeeded)
-            {
-                var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
-                if (user != null)
-                {
-                    await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
-                }
-                return RedirectToAction("Index", new { Message = ManageMessageId.AddPhoneSuccess });
-            }
-            // If we got this far, something failed, redisplay form
-            ModelState.AddModelError("", "Failed to verify phone");
-            return View(model);
-        }
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public async Task<ActionResult> VerifyPhoneNumber(VerifyPhoneNumberViewModel model)
+        //{
+        //    if (!ModelState.IsValid)
+        //    {
+        //        return View(model);
+        //    }
+        //    var result = await UserManager.ChangePhoneNumberAsync(User.Identity.GetUserId(), model.PhoneNumber, model.Code);
+        //    if (result.Succeeded)
+        //    {
+        //        var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
+        //        if (user != null)
+        //        {
+        //            await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+        //        }
+        //        return RedirectToAction("Index", new { Message = ManageMessageId.AddPhoneSuccess });
+        //    }
+        //    // If we got this far, something failed, redisplay form
+        //    ModelState.AddModelError("", "Failed to verify phone");
+        //    return View(model);
+        //}
 
         //
         // POST: /Manage/RemovePhoneNumber
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> RemovePhoneNumber()
-        {
-            var result = await UserManager.SetPhoneNumberAsync(User.Identity.GetUserId(), null);
-            if (!result.Succeeded)
-            {
-                return RedirectToAction("Index", new { Message = ManageMessageId.Error });
-            }
-            var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
-            if (user != null)
-            {
-                await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
-            }
-            return RedirectToAction("Index", new { Message = ManageMessageId.RemovePhoneSuccess });
-        }
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public async Task<ActionResult> RemovePhoneNumber()
+        //{
+        //    var result = await UserManager.SetPhoneNumberAsync(User.Identity.GetUserId(), null);
+        //    if (!result.Succeeded)
+        //    {
+        //        return RedirectToAction("Index", new { Message = ManageMessageId.Error });
+        //    }
+        //    var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
+        //    if (user != null)
+        //    {
+        //        await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+        //    }
+        //    return RedirectToAction("Index", new { Message = ManageMessageId.RemovePhoneSuccess });
+        //}
 
         //
         // GET: /Manage/ChangePassword
         public ActionResult ChangePassword()
         {
-            return View();
+            var user = UserManager.FindById(User.Identity.GetUserId()).UserName;
+            //var user = User.Identity.Name;
+
+            if (user != "DemoUser@coderfoundry.com")
+            {
+                return View();
+            }
+
+            return RedirectToAction("Index");
+            //return View();
         }
 
         //
@@ -321,6 +330,50 @@ namespace jritchieFinancialPortal.Controllers
             var result = await UserManager.AddLoginAsync(User.Identity.GetUserId(), loginInfo.Login);
             return result.Succeeded ? RedirectToAction("ManageLogins") : RedirectToAction("ManageLogins", new { Message = ManageMessageId.Error });
         }
+
+
+        // GET: /Manage/ChangeProfile
+        [Authorize]
+        public ActionResult ChangeProfile()
+        {
+            var currentUser = UserManager.FindById(User.Identity.GetUserId());
+            ChangeUserProfileViewModel user = new ChangeUserProfileViewModel();
+            user.FirstName = currentUser.FirstName;
+            user.LastName = currentUser.LastName;
+            user.TimeZone = currentUser.TimeZone;
+
+            var timezones = TimeZoneInfo.GetSystemTimeZones();
+            TimeZoneInfo defaultTimeZone = TimeZoneInfo.FindSystemTimeZoneById(user.TimeZone);
+            ViewBag.TimeZone = new SelectList(timezones, "Id", "Id", defaultTimeZone.Id);
+
+            var userName = currentUser.UserName;
+            if (userName != "DemoUser@coderfoundry.com")
+            {
+                return View(user);
+            }
+
+            return RedirectToAction("Index");
+            //return View(user);
+        }
+
+        //
+        // POST: /Manage/ChangeProfile
+        [Authorize]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult ChangeProfile([Bind(Include = "FirstName,LastName,TimeZone")] ChangeUserProfileViewModel user)
+        {
+            if (ModelState.IsValid)
+            {
+                var currentUser = UserManager.FindById(User.Identity.GetUserId());
+                currentUser.FirstName = user.FirstName;
+                currentUser.LastName = user.LastName;
+                currentUser.TimeZone = user.TimeZone;
+                UserManager.Update(currentUser);
+            }
+            return RedirectToAction("Index", "Home", null);
+        }
+
 
         protected override void Dispose(bool disposing)
         {
