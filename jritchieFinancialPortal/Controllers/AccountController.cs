@@ -9,6 +9,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using jritchieFinancialPortal.Models;
+using jritchieFinancialPortal.Models.Helpers;
 
 namespace jritchieFinancialPortal.Controllers
 {
@@ -79,7 +80,17 @@ namespace jritchieFinancialPortal.Controllers
             switch (result)
             {
                 case SignInStatus.Success:
-                    return RedirectToLocal(returnUrl);
+
+                    if (Extensions.IsInHousehold(User.Identity))
+                    {
+                        return RedirectToAction("Index", "Households");
+                    }
+                    else
+                    {
+                        return RedirectToAction("Create", "Households");
+                    }
+                //return RedirectToLocal(returnUrl);
+
                 case SignInStatus.LockedOut:
                     return View("Lockout");
                 case SignInStatus.RequiresVerification:

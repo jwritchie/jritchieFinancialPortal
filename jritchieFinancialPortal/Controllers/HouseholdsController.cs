@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using jritchieFinancialPortal.Models;
 using jritchieFinancialPortal.Models.CodeFirst;
+using Microsoft.AspNet.Identity;
 
 namespace jritchieFinancialPortal.Controllers
 {
@@ -50,8 +51,20 @@ namespace jritchieFinancialPortal.Controllers
         {
             if (ModelState.IsValid)
             {
+                household.Established = DateTimeOffset.UtcNow;
+
                 db.Households.Add(household);
                 db.SaveChanges();
+
+
+
+                var user = db.Users.Find(User.Identity.GetUserId());
+                user.HouseholdId = household.Id;
+
+                db.Entry(user).State = EntityState.Modified;
+                db.SaveChanges();
+
+
                 return RedirectToAction("Index");
             }
 
