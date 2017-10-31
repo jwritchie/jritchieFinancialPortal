@@ -18,6 +18,9 @@ namespace jritchieFinancialPortal.Controllers
             if (User.Identity.IsAuthenticated)
             {
                 var user = db.Users.Find(User.Identity.GetUserId());
+
+                ViewBag.UserTimeZone = user.TimeZone;
+
             }
 
             base.OnActionExecuting(filterContext);

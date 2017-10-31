@@ -35,6 +35,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <FilesToIncludeForPublish>AllFilesInProjectFolder</FilesToIncludeForPublish>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -196,8 +197,10 @@
     <Compile Include="Controllers\CategoriesController.cs" />
     <Compile Include="Controllers\ExpensesController.cs" />
     <Compile Include="Controllers\IncomesController.cs" />
+    <Compile Include="Controllers\InvitationsController.cs" />
     <Compile Include="Controllers\TransactionsController.cs" />
     <Compile Include="Controllers\UniversalController.cs" />
+    <Compile Include="Models\CodeFirst\Invitation.cs" />
     <Compile Include="Models\Helpers\AuthorizeHouseholdRequired.cs" />
     <Compile Include="Models\Helpers\CalculationHelper.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -221,6 +224,8 @@
     <Compile Include="Models\Helpers\DemoLoginsHelper.cs" />
     <Compile Include="Models\Helpers\Extensions.cs" />
     <Compile Include="Models\Helpers\RefreshAuthenticationHelper.cs" />
+    <Compile Include="Models\Helpers\CustomHelpers.cs" />
+    <Compile Include="Models\HouseholdUserViewModel.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -1763,6 +1768,8 @@
     <Content Include="Assets\plugins\tinymce\skins\lightgray\fonts\tinymce.ttf" />
     <Content Include="Assets\plugins\tinymce\skins\lightgray\fonts\tinymce.woff" />
     <Content Include="Assets\plugins\toastr\toastr.js.map" />
+    <None Include="Properties\PublishProfiles\jritchie-budgeter - FTP.pubxml" />
+    <None Include="Properties\PublishProfiles\jritchie-budgeter - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -1781,7 +1788,9 @@
     <Content Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
-    <Content Include="Views\Web.config" />
+    <Content Include="Views\Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
@@ -1850,6 +1859,12 @@
     <Content Include="Views\Transactions\Index.cshtml" />
     <Content Include="Views\Manage\ChangeProfile.cshtml" />
     <Content Include="Views\Shared\_Layout - CopyOriginal.cshtml" />
+    <Content Include="Views\Invitations\Create.cshtml" />
+    <Content Include="Views\Invitations\Delete.cshtml" />
+    <Content Include="Views\Invitations\Details.cshtml" />
+    <Content Include="Views\Invitations\Edit.cshtml" />
+    <Content Include="Views\Invitations\Index.cshtml" />
+    <Content Include="Views\Account\RegisterInvitee.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

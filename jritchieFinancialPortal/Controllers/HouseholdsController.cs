@@ -9,16 +9,63 @@ using System.Web.Mvc;
 using jritchieFinancialPortal.Models;
 using jritchieFinancialPortal.Models.CodeFirst;
 using Microsoft.AspNet.Identity;
+using System.Threading.Tasks;
+using jritchieFinancialPortal.Models.Helpers;
 
 namespace jritchieFinancialPortal.Controllers
 {
-    [Authorize]
+    [AuthorizeHouseholdRequired]
     public class HouseholdsController : UniversalController
     {
+        // GET: Households ... Is in a household?
+        public ActionResult IsInHousehold()
+        {
+            var user = db.Users.Find(User.Identity.GetUserId());
+
+            if (User.IsInRole("Admin"))
+            {
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                if (user.HouseholdId != null)
+                {
+                    return RedirectToAction("Details", "Households", new { id = user.HouseholdId } );
+                }
+                else
+                {
+                    return RedirectToAction("Create");
+                }
+            }
+        }
+
+
         // GET: Households
         public ActionResult Index()
         {
-            return View(db.Households.ToList());
+
+            if (User.IsInRole("Admin"))
+            {
+                List<HouseholdUserViewModel> householdUserVMList = new List<HouseholdUserViewModel>();
+                foreach (var household in db.Households.ToList())
+                {
+                    HouseholdUserViewModel householdUserVM = new HouseholdUserViewModel();
+                    householdUserVM.Household = household;
+
+                    householdUserVM.SelectedUsers = household.Users.Select(u => u.Id).ToArray();    // users in household.
+                    householdUserVM.SelectedUsersName = household.Users.OrderBy(u => u.LastName).Select(u => u.Fullname).ToArray();
+
+                    householdUserVMList.Add(householdUserVM);
+                }
+
+                return View(householdUserVMList);
+                //return View(db.Households.ToList());
+            }
+            else
+            {
+                var user = db.Users.Find(User.Identity.GetUserId());
+                return RedirectToAction("Details", "Households", new { id = user.HouseholdId } );
+            }
         }
 
         // GET: Households/Details/5
@@ -28,12 +75,19 @@ namespace jritchieFinancialPortal.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Household household = db.Households.Find(id);
-            if (household == null)
+
+            HouseholdUserViewModel householdUserVM = new HouseholdUserViewModel();
+            householdUserVM.Household = db.Households.Find(id);
+            householdUserVM.SelectedUsers = householdUserVM.Household.Users.Select(u => u.Id).ToArray();    // users in household.
+            householdUserVM.SelectedUsersName = householdUserVM.Household.Users.OrderBy(u => u.LastName).Select(u => u.Fullname).ToArray();
+
+            //Household household = db.Households.Find(id);
+            if (householdUserVM == null)
             {
                 return HttpNotFound();
             }
-            return View(household);
+
+            return View(householdUserVM);
         }
 
         // GET: Households/Create
@@ -47,7 +101,7 @@ namespace jritchieFinancialPortal.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Name,Established")] Household household)
+        public async Task<ActionResult> Create([Bind(Include = "Id,Name,Established")] Household household)
         {
             if (ModelState.IsValid)
             {
@@ -56,16 +110,15 @@ namespace jritchieFinancialPortal.Controllers
                 db.Households.Add(household);
                 db.SaveChanges();
 
-
-
                 var user = db.Users.Find(User.Identity.GetUserId());
                 user.HouseholdId = household.Id;
 
                 db.Entry(user).State = EntityState.Modified;
                 db.SaveChanges();
 
-
-                return RedirectToAction("Index");
+                await HttpContext.RefreshAuthentication(user);  // join POST & leave POST
+                return RedirectToAction("Details", "Households", new { id = user.HouseholdId } );
+                //return RedirectToAction("Index");
             }
 
             return View(household);
@@ -128,6 +181,37 @@ namespace jritchieFinancialPortal.Controllers
             return RedirectToAction("Index");
         }
 
+
+
+        public async Task<ActionResult> JoinHousehold(int householdId)
+        {
+            // Implementation for joining a household.
+            var user = db.Users.Find(User.Identity.GetUserId());
+            user.HouseholdId = householdId;
+
+            db.Entry(user).State = EntityState.Modified;
+            db.SaveChanges();
+
+            await ControllerContext.HttpContext.RefreshAuthentication(user);
+            return RedirectToAction("Details", "Households", new { id = user.HouseholdId });
+            //return View();
+        }
+
+        public async Task<ActionResult> LeaveHousehold()
+        {
+            var user = db.Users.Find(User.Identity.GetUserId());
+            user.HouseholdId = null;
+
+            db.Entry(user).State = EntityState.Modified;
+            db.SaveChanges();
+
+            // Implementation of leaving household (flush browser cookie).
+            await ControllerContext.HttpContext.RefreshAuthentication(user);
+            return RedirectToAction("Index","Home");
+        }
+
+
+        
         protected override void Dispose(bool disposing)
         {
             if (disposing)

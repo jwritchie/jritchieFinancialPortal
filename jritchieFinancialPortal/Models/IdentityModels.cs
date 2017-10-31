@@ -67,5 +67,6 @@ namespace jritchieFinancialPortal.Models
         public DbSet<Household> Households { get; set; }
         public DbSet<Income> Incomes { get; set; }
         public DbSet<Transaction> Transactions { get; set; }
+        public DbSet<Invitation> Invitations { get; set; }
     }
 }

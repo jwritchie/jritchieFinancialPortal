@@ -76,6 +76,9 @@ namespace jritchieFinancialPortal.Models
         [Required]
         [Display(Name = "Time Zone")]
         public string TimeZone { get; set; }
+
+        public string InviteCode { get; set; }
+        public string InviteEmail { get; set; }
         // ******************************************
 
         [Required]

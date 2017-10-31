@@ -1,0 +1,54 @@
+﻿@model IEnumerable<jritchieFinancialPortal.Models.CodeFirst.Invitation>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            Household Name
+            @*@Html.DisplayNameFor(model => model.Household.Name)*@
+        </th>
+        <th>
+            Email of Person Invited
+            @*@Html.DisplayNameFor(model => model.Email)*@
+        </th>
+        <th>
+            Date/Time Invitation issued
+            @*@Html.DisplayNameFor(model => model.DateTimeIssued)*@
+        </th>
+        @*<th>
+            @Html.DisplayNameFor(model => model.Accept)
+        </th>*@
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Household.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Email)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DateTimeIssued)
+        </td>
+        @*<td>
+            @Html.DisplayFor(modelItem => item.Accept)
+        </td>*@
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
+            @*@Html.ActionLink("Details", "Details", new { id=item.Id }) |*@
+            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
+        </td>
+    </tr>
+}
+
+</table>

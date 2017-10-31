@@ -31,19 +31,5 @@ namespace jritchieFinancialPortal.Controllers
 
             return View();
         }
-
-        public ActionResult JoinHousehold()
-        {
-            // Implementation for creating and joining a household.
-            return View();
-        }
-
-        public async Task<ActionResult> LeaveHousehold()
-        {
-            // Implementation of leaving household
-            var user = db.Users.Find(User.Identity.GetUserId());
-            await ControllerContext.HttpContext.RefreshAuthentication(user);
-            return View();
-        }
     }
 }
