@@ -68,16 +68,11 @@ namespace jritchieFinancialPortal.Controllers
             if (ModelState.IsValid)
             {
                 invitation.DateTimeIssued = DateTimeOffset.UtcNow;
+                invitation.DateTimeExpires = DateTimeOffset.UtcNow.AddMinutes(1);
                 invitation.PasswordGUID = Guid.NewGuid().ToString();
-
-                //if (Guid1 == Guid2)
-                //{
-
-                //}
 
                 db.Invitations.Add(invitation);
                 db.SaveChanges();
-
 
                 try
                 {
@@ -89,8 +84,9 @@ namespace jritchieFinancialPortal.Controllers
                     var email = new MailMessage(from, invitation.Email)
                     {
                         Subject = "FP Notification Email: Invitation issued",
-                        Body = string.Format(body, "Message from FP:", "You have been invited to join a FP Household." +
-                                                   "Please click <a href=\"" + callbackUrl + "\">here</a> to join."),
+                        Body = string.Format(body, "Message from FP:", "You have been invited to join a FP Household. " +
+                                                   "Please click <a href=\"" + callbackUrl + "\">here</a> to join.  " + 
+                                                   "NOTE: This invitation will expire at: '" + invitation.DateTimeExpires.ToString("MM/dd/yyyy | hh:mm:ss")  + "' UTC."),
                         IsBodyHtml = true
                     };
 
@@ -104,20 +100,6 @@ namespace jritchieFinancialPortal.Controllers
                     await Task.FromResult(0);
                 }
 
-
-                //var callbackUrl = Url.Action("Register", "Account", new { code = invitation.PasswordGUID }, protocol: Request.Url.Scheme);
-                //await UserManager.SendEmailAsync(user.Id, "Reset Password", "Please reset your password by clicking <a href=\"" + callbackUrl + "\">here</a>");
-
-
-
-
-
-
-
-
-
-
-
                 return RedirectToAction("Index");
             }
 
@@ -126,37 +108,37 @@ namespace jritchieFinancialPortal.Controllers
         }
 
         // GET: Invitations/Edit/5
-        public ActionResult Edit(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Invitation invitation = db.Invitations.Find(id);
-            if (invitation == null)
-            {
-                return HttpNotFound();
-            }
-            ViewBag.HouseholdId = new SelectList(db.Households, "Id", "Name", invitation.HouseholdId);
-            return View(invitation);
-        }
+        //public ActionResult Edit(int? id)
+        //{
+        //    if (id == null)
+        //    {
+        //        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+        //    }
+        //    Invitation invitation = db.Invitations.Find(id);
+        //    if (invitation == null)
+        //    {
+        //        return HttpNotFound();
+        //    }
+        //    ViewBag.HouseholdId = new SelectList(db.Households, "Id", "Name", invitation.HouseholdId);
+        //    return View(invitation);
+        //}
 
         // POST: Invitations/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,HouseholdId,Email,DateTimeIssued,Accept")] Invitation invitation)
-        {
-            if (ModelState.IsValid)
-            {
-                db.Entry(invitation).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-            ViewBag.HouseholdId = new SelectList(db.Households, "Id", "Name", invitation.HouseholdId);
-            return View(invitation);
-        }
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public ActionResult Edit([Bind(Include = "Id,HouseholdId,Email,DateTimeIssued,Accept")] Invitation invitation)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        db.Entry(invitation).State = EntityState.Modified;
+        //        db.SaveChanges();
+        //        return RedirectToAction("Index");
+        //    }
+        //    ViewBag.HouseholdId = new SelectList(db.Households, "Id", "Name", invitation.HouseholdId);
+        //    return View(invitation);
+        //}
 
         // GET: Invitations/Delete/5
         public ActionResult Delete(int? id)

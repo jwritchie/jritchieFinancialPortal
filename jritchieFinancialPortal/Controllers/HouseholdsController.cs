@@ -24,16 +24,19 @@ namespace jritchieFinancialPortal.Controllers
 
             if (User.IsInRole("Admin"))
             {
+                ViewBag.UserTimeZone = user.TimeZone;
                 return RedirectToAction("Index");
             }
             else
             {
                 if (user.HouseholdId != null)
                 {
+                    ViewBag.UserTimeZone = user.TimeZone;
                     return RedirectToAction("Details", "Households", new { id = user.HouseholdId } );
                 }
                 else
                 {
+                    ViewBag.UserTimeZone = user.TimeZone;
                     return RedirectToAction("Create");
                 }
             }
@@ -193,6 +196,9 @@ namespace jritchieFinancialPortal.Controllers
             db.SaveChanges();
 
             await ControllerContext.HttpContext.RefreshAuthentication(user);
+
+            ViewBag.UserTimeZone = user.TimeZone;
+
             return RedirectToAction("Details", "Households", new { id = user.HouseholdId });
             //return View();
         }

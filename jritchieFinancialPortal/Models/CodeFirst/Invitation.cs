@@ -14,7 +14,7 @@ namespace jritchieFinancialPortal.Models.CodeFirst
         public string Email { get; set; }
         public string PasswordGUID { get; set; }
         public DateTimeOffset DateTimeIssued { get; set; }
-        public bool Accept { get; set; }
+        public DateTimeOffset DateTimeExpires { get; set; }
 
         public virtual Household Household { get; set; }
     }

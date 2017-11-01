@@ -10,6 +10,7 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using jritchieFinancialPortal.Models;
 using jritchieFinancialPortal.Models.Helpers;
+using jritchieFinancialPortal.Models.CodeFirst;
 
 namespace jritchieFinancialPortal.Controllers
 {
@@ -107,7 +108,7 @@ namespace jritchieFinancialPortal.Controllers
 
 
                     return RedirectToAction("IsInHousehold", "Households");
-                    //return RedirectToLocal(returnUrl);
+                //return RedirectToLocal(returnUrl);
 
                 case SignInStatus.LockedOut:
                     return View("Lockout");
@@ -454,20 +455,42 @@ namespace jritchieFinancialPortal.Controllers
                 return View("Error");
             }
             else
-            { 
-                ViewBag.InviteCode = code;
-                ViewBag.InviteEmail = email;
+            {
+                try
+                { 
+                Invitation currentInvitation = db.Invitations.First(i => i.PasswordGUID == code);
 
-                RegisterViewModel rVM = new RegisterViewModel();
-                rVM.InviteCode = code;
-                rVM.Email = email;
+                DateTimeOffset expiration = currentInvitation.DateTimeExpires;
+                DateTimeOffset currentDateTime = DateTimeOffset.UtcNow;
+                    if (expiration < currentDateTime)
+                    {
+                        db.Invitations.Remove(currentInvitation);
+                        db.SaveChanges();
 
-                var timezones = TimeZoneInfo.GetSystemTimeZones();
-                var defaultTimeZone = TimeZoneInfo.FindSystemTimeZoneById("Eastern Standard Time");
-                ViewBag.TimeZone = new SelectList(timezones, "Id", "Id", defaultTimeZone.Id);
+                        //return RedirectToAction("Index");
+                        return View("RegisterInviteExpired");
+                    }
+                    else
+                    {
+                        ViewBag.InviteCode = code;
+                        ViewBag.InviteEmail = email;
 
-                return View(rVM);
-                //return View();
+                        RegisterViewModel rVM = new RegisterViewModel();
+                        rVM.InviteCode = code;
+                        rVM.Email = email;
+
+                        var timezones = TimeZoneInfo.GetSystemTimeZones();
+                        var defaultTimeZone = TimeZoneInfo.FindSystemTimeZoneById("Eastern Standard Time");
+                        ViewBag.TimeZone = new SelectList(timezones, "Id", "Id", defaultTimeZone.Id);
+
+                        return View(rVM);
+                        //return View();
+                    }
+                }
+                catch
+                {
+                    return View("RegisterInviteExpired");
+                }
             }
         }
 
@@ -492,7 +515,21 @@ namespace jritchieFinancialPortal.Controllers
                     // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
                     // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
 
-                    return RedirectToAction("Index", "Home");
+
+                    Invitation currentInvitation = db.Invitations.First(i => i.PasswordGUID == InviteCode);
+                    db.Invitations.Remove(currentInvitation);
+                    db.SaveChanges();
+
+                    //user.HouseholdId = currentInvitation.HouseholdId;
+                    //db.Entry(user).State = System.Data.Entity.EntityState.Modified;
+                    //db.SaveChanges();
+                    //await ControllerContext.HttpContext.RefreshAuthentication(user);
+                    //ViewBag.UserTimeZone = user.TimeZone;
+                    //return RedirectToAction("Details", "Households", new { id = user.HouseholdId });
+
+
+                    return RedirectToAction("JoinHousehold", "Households", new { householdId = currentInvitation.HouseholdId });
+                    //return RedirectToAction("Index", "Home");
                 }
                 AddErrors(result);
             }
