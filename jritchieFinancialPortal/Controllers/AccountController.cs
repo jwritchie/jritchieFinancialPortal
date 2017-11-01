@@ -501,9 +501,11 @@ namespace jritchieFinancialPortal.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> RegisterInvitee(RegisterViewModel model, string InviteCode, string InviteEmail)
         {
+            Invitation currentInvitation = db.Invitations.First(i => i.PasswordGUID == InviteCode);
+
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email, FirstName = model.FirstName, LastName = model.LastName, TimeZone = model.TimeZone };
+                var user = new ApplicationUser { UserName = model.Email, Email = model.Email, FirstName = model.FirstName, LastName = model.LastName, TimeZone = model.TimeZone, HouseholdId = currentInvitation.HouseholdId };
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
@@ -516,19 +518,18 @@ namespace jritchieFinancialPortal.Controllers
                     // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
 
 
-                    Invitation currentInvitation = db.Invitations.First(i => i.PasswordGUID == InviteCode);
                     db.Invitations.Remove(currentInvitation);
                     db.SaveChanges();
 
                     //user.HouseholdId = currentInvitation.HouseholdId;
                     //db.Entry(user).State = System.Data.Entity.EntityState.Modified;
                     //db.SaveChanges();
-                    //await ControllerContext.HttpContext.RefreshAuthentication(user);
-                    //ViewBag.UserTimeZone = user.TimeZone;
-                    //return RedirectToAction("Details", "Households", new { id = user.HouseholdId });
+                    await ControllerContext.HttpContext.RefreshAuthentication(user);
+                    ViewBag.UserTimeZone = user.TimeZone;
+                    return RedirectToAction("Details", "Households", new { id = user.HouseholdId });
 
 
-                    return RedirectToAction("JoinHousehold", "Households", new { householdId = currentInvitation.HouseholdId });
+                    //return RedirectToAction("JoinHousehold", "Households", new { householdId = currentInvitation.HouseholdId });
                     //return RedirectToAction("Index", "Home");
                 }
                 AddErrors(result);

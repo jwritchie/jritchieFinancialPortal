@@ -12,10 +12,11 @@ using Microsoft.AspNet.Identity;
 using System.Net.Mail;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Identity.Owin;
+using jritchieFinancialPortal.Models.Helpers;
 
 namespace jritchieFinancialPortal.Controllers
 {
-    [Authorize]
+    [AuthorizeHouseholdRequired]
     public class InvitationsController : UniversalController
     {
         // GET: Invitations
@@ -68,7 +69,7 @@ namespace jritchieFinancialPortal.Controllers
             if (ModelState.IsValid)
             {
                 invitation.DateTimeIssued = DateTimeOffset.UtcNow;
-                invitation.DateTimeExpires = DateTimeOffset.UtcNow.AddMinutes(1);
+                invitation.DateTimeExpires = DateTimeOffset.UtcNow.AddMinutes(10);
                 invitation.PasswordGUID = Guid.NewGuid().ToString();
 
                 db.Invitations.Add(invitation);

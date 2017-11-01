@@ -8,10 +8,11 @@ using System.Web;
 using System.Web.Mvc;
 using jritchieFinancialPortal.Models;
 using jritchieFinancialPortal.Models.CodeFirst;
+using jritchieFinancialPortal.Models.Helpers;
 
 namespace jritchieFinancialPortal.Controllers
 {
-    [Authorize]
+    [AuthorizeHouseholdRequired]
     public class TransactionsController : UniversalController
     {
         // GET: Transactions

@@ -1,15 +1,15 @@
 ﻿@model jritchieFinancialPortal.Models.RegisterViewModel
 @{
-    ViewBag.Title = "Register Invited Household member";
+    ViewBag.Title = "Welcome, ";
 }
 
-<h2>@ViewBag.Title.</h2>
-<h3>@ViewBag.InviteCode</h3>
+<h2>@ViewBag.Title @ViewBag.InviteEmail</h2>
+@*<h3>@ViewBag.InviteCode</h3>*@
 
 @using (Html.BeginForm("RegisterInvitee", "Account", new { InviteCode = ViewBag.InviteCode, InviteEmail = ViewBag.InviteEmail }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
 {
     @Html.AntiForgeryToken()
-    <h4>Create a new account.</h4>
+    <h4>Please enter the following information:</h4>
     <hr />
     @Html.ValidationSummary("", new { @class = "text-danger" })
 

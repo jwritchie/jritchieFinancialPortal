@@ -27,16 +27,43 @@
             @Html.ToUserTime(Model.Household.Established, ViewBag.UserTimeZone as string, "MM/dd/yyyy | hh:mm:ss")
             @*@Html.DisplayFor(model => model.Established)*@
         </dd>
-
-        <dt>
-            Members
-            @*@Html.DisplayFor(model => model.SelectedUsersName)*@
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.SelectedUsersName)
-        </dd>
-
     </dl>
+
+
+    <table class="table">
+        <tr>
+            <th>Members</th>
+            @*<th></th>*@
+            <th></th>
+        </tr>
+
+        @foreach (var member in Model.SelectedUsers)
+        {
+            <tr>
+                <td>
+                    @member.Fullname
+                </td>
+
+                @if (member.Id == ViewBag.CurrentUserId)
+                {
+                    <td>
+                        @Html.ActionLink("Update Profile", "Index", "Manage")
+                    </td>
+
+                    <td>
+                        @Html.ActionLink("Leave this Household", "LeaveHousehold", "Households")
+                    </td>
+                }
+                else
+                {
+                    <td></td>
+                    <td></td>
+                }
+
+            </tr>
+        }
+
+    </table>
 </div>
 
 <hr />

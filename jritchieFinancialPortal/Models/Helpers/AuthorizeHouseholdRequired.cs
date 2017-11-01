@@ -30,7 +30,7 @@ namespace jritchieFinancialPortal.Models.Helpers
             {
                 filterContext.Result = new RedirectToRouteResult
                     (new RouteValueDictionary
-                    (new { controller = "Households", action = "JoinHousehold" } ));
+                    (new { controller = "Households", action = "Create" } ));
             }
         }
     }

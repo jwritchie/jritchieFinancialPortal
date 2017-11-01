@@ -14,9 +14,9 @@ using jritchieFinancialPortal.Models.Helpers;
 
 namespace jritchieFinancialPortal.Controllers
 {
-    [AuthorizeHouseholdRequired]
     public class HouseholdsController : UniversalController
     {
+        [AuthorizeHouseholdRequired]
         // GET: Households ... Is in a household?
         public ActionResult IsInHousehold()
         {
@@ -42,7 +42,7 @@ namespace jritchieFinancialPortal.Controllers
             }
         }
 
-
+        [AuthorizeHouseholdRequired]
         // GET: Households
         public ActionResult Index()
         {
@@ -55,7 +55,8 @@ namespace jritchieFinancialPortal.Controllers
                     HouseholdUserViewModel householdUserVM = new HouseholdUserViewModel();
                     householdUserVM.Household = household;
 
-                    householdUserVM.SelectedUsers = household.Users.Select(u => u.Id).ToArray();    // users in household.
+                    householdUserVM.SelectedUsers = household.Users.Where(u => u.HouseholdId == household.Id).ToList();    // users in household.
+
                     householdUserVM.SelectedUsersName = household.Users.OrderBy(u => u.LastName).Select(u => u.Fullname).ToArray();
 
                     householdUserVMList.Add(householdUserVM);
@@ -71,6 +72,7 @@ namespace jritchieFinancialPortal.Controllers
             }
         }
 
+        [AuthorizeHouseholdRequired]
         // GET: Households/Details/5
         public ActionResult Details(int? id)
         {
@@ -81,7 +83,9 @@ namespace jritchieFinancialPortal.Controllers
 
             HouseholdUserViewModel householdUserVM = new HouseholdUserViewModel();
             householdUserVM.Household = db.Households.Find(id);
-            householdUserVM.SelectedUsers = householdUserVM.Household.Users.Select(u => u.Id).ToArray();    // users in household.
+
+            householdUserVM.SelectedUsers = householdUserVM.Household.Users.ToList();
+
             householdUserVM.SelectedUsersName = householdUserVM.Household.Users.OrderBy(u => u.LastName).Select(u => u.Fullname).ToArray();
 
             //Household household = db.Households.Find(id);
@@ -127,6 +131,7 @@ namespace jritchieFinancialPortal.Controllers
             return View(household);
         }
 
+        [AuthorizeHouseholdRequired]
         // GET: Households/Edit/5
         public ActionResult Edit(int? id)
         {
@@ -142,6 +147,7 @@ namespace jritchieFinancialPortal.Controllers
             return View(household);
         }
 
+        [AuthorizeHouseholdRequired]
         // POST: Households/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
@@ -158,50 +164,52 @@ namespace jritchieFinancialPortal.Controllers
             return View(household);
         }
 
-        // GET: Households/Delete/5
-        public ActionResult Delete(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Household household = db.Households.Find(id);
-            if (household == null)
-            {
-                return HttpNotFound();
-            }
-            return View(household);
-        }
+        //[AuthorizeHouseholdRequired]
+        //// GET: Households/Delete/5
+        //public ActionResult Delete(int? id)
+        //{
+        //    if (id == null)
+        //    {
+        //        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+        //    }
+        //    Household household = db.Households.Find(id);
+        //    if (household == null)
+        //    {
+        //        return HttpNotFound();
+        //    }
+        //    return View(household);
+        //}
 
-        // POST: Households/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
-        {
-            Household household = db.Households.Find(id);
-            db.Households.Remove(household);
-            db.SaveChanges();
-            return RedirectToAction("Index");
-        }
+        //[AuthorizeHouseholdRequired]
+        //// POST: Households/Delete/5
+        //[HttpPost, ActionName("Delete")]
+        //[ValidateAntiForgeryToken]
+        //public ActionResult DeleteConfirmed(int id)
+        //{
+        //    Household household = db.Households.Find(id);
+        //    db.Households.Remove(household);
+        //    db.SaveChanges();
+        //    return RedirectToAction("Index");
+        //}
 
 
 
-        public async Task<ActionResult> JoinHousehold(int householdId)
-        {
-            // Implementation for joining a household.
-            var user = db.Users.Find(User.Identity.GetUserId());
-            user.HouseholdId = householdId;
+        //public async Task<ActionResult> JoinHousehold(int householdId)
+        //{
+        //    // Implementation for joining a household.
+        //    var user = db.Users.Find(User.Identity.GetUserId());
+        //    user.HouseholdId = householdId;
 
-            db.Entry(user).State = EntityState.Modified;
-            db.SaveChanges();
+        //    db.Entry(user).State = EntityState.Modified;
+        //    db.SaveChanges();
 
-            await ControllerContext.HttpContext.RefreshAuthentication(user);
+        //    await ControllerContext.HttpContext.RefreshAuthentication(user);
 
-            ViewBag.UserTimeZone = user.TimeZone;
+        //    ViewBag.UserTimeZone = user.TimeZone;
 
-            return RedirectToAction("Details", "Households", new { id = user.HouseholdId });
-            //return View();
-        }
+        //    return RedirectToAction("Details", "Households", new { id = user.HouseholdId });
+        //    //return View();
+        //}
 
         public async Task<ActionResult> LeaveHousehold()
         {

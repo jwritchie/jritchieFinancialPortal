@@ -36,10 +36,12 @@
             @Html.DisplayFor(modelItem => item.Email)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.DateTimeIssued)
+            @Html.ToUserTime(item.DateTimeIssued, ViewBag.UserTimeZone as string, "MM/dd/yyyy | hh:mm:ss")
+            @*@Html.DisplayFor(modelItem => item.DateTimeIssued)*@
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.DateTimeExpires)
+            @Html.ToUserTime(item.DateTimeExpires, ViewBag.UserTimeZone as string, "MM/dd/yyyy | hh:mm:ss")
+            @*@Html.DisplayFor(modelItem => item.DateTimeExpires)*@
         </td>
         <td>
             @*@Html.ActionLink("Edit", "Edit", new { id=item.Id }) |*@
