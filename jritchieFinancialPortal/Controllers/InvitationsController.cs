@@ -66,6 +66,16 @@ namespace jritchieFinancialPortal.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Create([Bind(Include = "Id,HouseholdId,Email,DateTimeIssued,Accept")] Invitation invitation)
         {
+            bool inviteeExists = db.Users.Any(u => u.Email == invitation.Email);
+            if (inviteeExists)
+            {
+                int? inviteeHasHousehold = db.Users.FirstOrDefault(u => u.Email == invitation.Email).HouseholdId;
+                if (inviteeHasHousehold != null)
+                {
+                    return View("InviteeHasHousehold");
+                }
+            }
+
             if (ModelState.IsValid)
             {
                 invitation.DateTimeIssued = DateTimeOffset.UtcNow;

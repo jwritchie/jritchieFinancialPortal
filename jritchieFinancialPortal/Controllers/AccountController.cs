@@ -448,7 +448,7 @@ namespace jritchieFinancialPortal.Controllers
         //
         // GET: /Account/Register
         [AllowAnonymous]
-        public ActionResult RegisterInvitee(string code, string email)
+        public async Task<ActionResult> RegisterInvitee(string code, string email)
         {
             if (code == null)
             {
@@ -472,6 +472,21 @@ namespace jritchieFinancialPortal.Controllers
                     }
                     else
                     {
+                        bool inviteeExists = db.Users.Any(u => u.Email == email);
+                        if (inviteeExists)
+                        {
+                            var invitee = db.Users.First(u => u.Email == currentInvitation.Email);
+                            invitee.HouseholdId = currentInvitation.HouseholdId;
+
+                            db.Invitations.Remove(currentInvitation);
+
+                            db.SaveChanges();
+
+                            await ControllerContext.HttpContext.RefreshAuthentication(invitee);
+
+                            return RedirectToAction("Details", "Households", new { id = currentInvitation.HouseholdId });
+                        }
+
                         ViewBag.InviteCode = code;
                         ViewBag.InviteEmail = email;
 

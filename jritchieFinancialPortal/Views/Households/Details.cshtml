@@ -29,11 +29,12 @@
         </dd>
     </dl>
 
+    <br />
 
     <table class="table">
         <tr>
             <th>Members</th>
-            @*<th></th>*@
+            <th></th>
             <th></th>
         </tr>
 
@@ -66,6 +67,8 @@
     </table>
 </div>
 
+<br>
+
 <hr />
 
 <p>Invite another person to join this Household</p>
@@ -76,8 +79,7 @@
         {
             @Html.AntiForgeryToken()
             <div>
-                <input name="Email" />
-                @*<textarea rows="5" name="Body" style="max-width:none !important; width:100%">@ViewBag.Comment</textarea>*@
+                <input name="Email" type="email" class="form-control" placeholder="Email"/>
                 <button class="btn btn-primary center-block" type="submit">Submit Invitation</button>
             </div>
         }
@@ -87,7 +89,6 @@
 @Html.ActionLink("Review Invitations", "Index", "Invitations", null, null)
 
 <hr />
-
 
 <p>
     @Html.ActionLink("Edit this Household's Details", "Edit", new { id = Model.Household.Id })

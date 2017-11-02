@@ -1866,6 +1866,7 @@
     <Content Include="Views\Invitations\Index.cshtml" />
     <Content Include="Views\Account\RegisterInvitee.cshtml" />
     <Content Include="Views\Account\RegisterInviteExpired.cshtml" />
+    <Content Include="Views\Invitations\InviteeHasHousehold.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
