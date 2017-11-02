@@ -24,6 +24,7 @@ namespace jritchieFinancialPortal.Controllers
                     ViewBag.UserTimeZone = user.TimeZone;
                     ViewBag.CurrentUserName = user.Fullname;
                     ViewBag.CurrentUserHouseholdId = user.HouseholdId;
+                    ViewBag.CurrentUserHouseholdName = user.Household.Name;
                 }
 
             }

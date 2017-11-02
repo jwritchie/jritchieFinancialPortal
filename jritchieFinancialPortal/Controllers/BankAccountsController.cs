@@ -18,24 +18,26 @@ namespace jritchieFinancialPortal.Controllers
         // GET: BankAccounts
         public ActionResult Index()
         {
-            var bankAccounts = db.BankAccounts.Include(b => b.Bank).Include(b => b.Household);
+            var currentHouseholdId = User.Identity.GetHouseholdId();
+            var bankAccounts = db.BankAccounts.Where(b => b.HouseholdId == currentHouseholdId);
+            //var bankAccounts = db.BankAccounts.Include(b => b.Bank).Include(b => b.Household);
             return View(bankAccounts.ToList());
         }
 
         // GET: BankAccounts/Details/5
-        public ActionResult Details(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            BankAccount bankAccount = db.BankAccounts.Find(id);
-            if (bankAccount == null)
-            {
-                return HttpNotFound();
-            }
-            return View(bankAccount);
-        }
+        //public ActionResult Details(int? id)
+        //{
+        //    if (id == null)
+        //    {
+        //        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+        //    }
+        //    BankAccount bankAccount = db.BankAccounts.Find(id);
+        //    if (bankAccount == null)
+        //    {
+        //        return HttpNotFound();
+        //    }
+        //    return View(bankAccount);
+        //}
 
         // GET: BankAccounts/Create
         public ActionResult Create()
@@ -54,6 +56,10 @@ namespace jritchieFinancialPortal.Controllers
         {
             if (ModelState.IsValid)
             {
+                bankAccount.Balance = 0.0M;
+                bankAccount.HouseholdId = ViewBag.CurrentUserHouseholdId;
+                bankAccount.Opened = DateTimeOffset.UtcNow;
+
                 db.BankAccounts.Add(bankAccount);
                 db.SaveChanges();
                 return RedirectToAction("Index");

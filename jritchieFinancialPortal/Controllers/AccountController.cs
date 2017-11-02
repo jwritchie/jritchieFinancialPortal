@@ -446,7 +446,7 @@ namespace jritchieFinancialPortal.Controllers
 
         // ********************************************
         //
-        // GET: /Account/Register
+        // GET: /Account/RegisterInvitee
         [AllowAnonymous]
         public async Task<ActionResult> RegisterInvitee(string code, string email)
         {
@@ -510,7 +510,7 @@ namespace jritchieFinancialPortal.Controllers
         }
 
         //
-        // POST: /Account/Register
+        // POST: /Account/RegisterInvitee
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]

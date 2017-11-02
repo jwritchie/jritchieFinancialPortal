@@ -11,5 +11,8 @@ namespace jritchieFinancialPortal.Models.CodeFirst
         public string Name { get; set; }
         public string Address { get; set; }
         public string Phone { get; set; }
+        public int HouseholdId { get; set; }
+
+        public virtual Household Household { get; set; }
     }
 }

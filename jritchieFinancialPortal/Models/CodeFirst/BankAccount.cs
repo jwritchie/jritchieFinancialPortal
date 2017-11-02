@@ -19,7 +19,7 @@ namespace jritchieFinancialPortal.Models.CodeFirst
         public string Name { get; set; }
         public DateTimeOffset Opened { get; set; }
         public DateTimeOffset? Closed { get; set; }
-        public int HouseholdId { get; set; }
+        public int? HouseholdId { get; set; }
         public int BankId { get; set; }
 
         public virtual Household Household { get; set; }

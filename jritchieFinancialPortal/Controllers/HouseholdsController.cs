@@ -193,7 +193,6 @@ namespace jritchieFinancialPortal.Controllers
         //}
 
 
-
         //public async Task<ActionResult> JoinHousehold(int householdId)
         //{
         //    // Implementation for joining a household.
@@ -211,6 +210,7 @@ namespace jritchieFinancialPortal.Controllers
         //    //return View();
         //}
 
+        // POST: LeaveHousehold
         public async Task<ActionResult> LeaveHousehold()
         {
             var user = db.Users.Find(User.Identity.GetUserId());
@@ -223,7 +223,6 @@ namespace jritchieFinancialPortal.Controllers
             await ControllerContext.HttpContext.RefreshAuthentication(user);
             return RedirectToAction("Index","Home");
         }
-
 
         
         protected override void Dispose(bool disposing)

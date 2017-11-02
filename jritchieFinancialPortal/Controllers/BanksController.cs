@@ -18,7 +18,10 @@ namespace jritchieFinancialPortal.Controllers
         // GET: Banks
         public ActionResult Index()
         {
-            return View(db.Banks.ToList());
+            var currentHouseholdId = User.Identity.GetHouseholdId();
+            var banks = db.Banks.Where(b => b.HouseholdId == currentHouseholdId);
+            return View(banks.ToList());
+            //return View(db.Banks.ToList());
         }
 
         // GET: Banks/Details/5
@@ -39,7 +42,9 @@ namespace jritchieFinancialPortal.Controllers
         // GET: Banks/Create
         public ActionResult Create()
         {
-            return View();
+            Bank bank = new Bank();
+            bank.HouseholdId = ViewBag.CurrentUserHouseholdId;
+            return View(bank);
         }
 
         // POST: Banks/Create
@@ -47,7 +52,7 @@ namespace jritchieFinancialPortal.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Name,Address,Phone")] Bank bank)
+        public ActionResult Create([Bind(Include = "Id,Name,Address,Phone,HouseholdId")] Bank bank)
         {
             if (ModelState.IsValid)
             {
@@ -79,7 +84,7 @@ namespace jritchieFinancialPortal.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Name,Address,Phone")] Bank bank)
+        public ActionResult Edit([Bind(Include = "Id,Name,Address,Phone,HouseholdId")] Bank bank)
         {
             if (ModelState.IsValid)
             {

@@ -13,7 +13,8 @@ namespace jritchieFinancialPortal.Models.CodeFirst
             // HashSet for faster access to data.
             Users = new HashSet<ApplicationUser>();     // Assign multiple users to household.
             Accounts = new HashSet<BankAccount>();      // Assign multiple accounts.
-            Budgets = new HashSet<Budget>();            // Assign multiple budgets.
+            Budgets = new HashSet<Budget>(); // Assign multiple budgets.
+            Banks = new HashSet<Bank>();
         }
 
         public int Id { get; set; }
@@ -24,5 +25,7 @@ namespace jritchieFinancialPortal.Models.CodeFirst
         public virtual ICollection<ApplicationUser> Users { get; set; }
         public virtual ICollection<BankAccount> Accounts { get; set; }
         public virtual ICollection<Budget> Budgets { get; set; }
+        public virtual ICollection<Bank> Banks { get; set; }
+
     }
 }
