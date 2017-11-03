@@ -1,18 +1,22 @@
 ﻿@model IEnumerable<jritchieFinancialPortal.Models.CodeFirst.Category>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Categories Index";
 }
 
 <h2>Categories Index</h2>
+<h4>@ViewBag.CurrentUserHouseholdName</h4>
+
 
 <p>
     @Html.ActionLink("Add new Category", "Create")
 </p>
+
 <table class="table">
     <tr>
-        <th>@Html.DisplayNameFor(model => model.HouseholdId)</th>
+        @*<th>@Html.DisplayNameFor(model => model.HouseholdId)</th>*@
         <th>
+            Category
             @Html.DisplayNameFor(model => model.Name)
         </th>
         <th>
@@ -23,7 +27,7 @@
 
 @foreach (var item in Model) {
     <tr>
-        <td>@Html.DisplayFor(model => item.HouseholdId)</td>
+        @*<td>@Html.DisplayFor(model => item.HouseholdId)</td>*@
         <td>
             @Html.DisplayFor(modelItem => item.Name)
         </td>
@@ -32,7 +36,7 @@
         </td>
         <td>
             @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
+            @*@Html.ActionLink("Details", "Details", new { id=item.Id }) |*@
             @Html.ActionLink("Delete", "Delete", new { id=item.Id })
         </td>
     </tr>

@@ -1,4 +1,5 @@
 ﻿using jritchieFinancialPortal.Models;
+using jritchieFinancialPortal.Models.CodeFirst;
 using Microsoft.AspNet.Identity;
 using System;
 using System.Collections.Generic;
@@ -32,8 +33,24 @@ namespace jritchieFinancialPortal.Controllers
 
                     ViewBag.CurrentUserBanksCount = db.Banks.Where(b => b.HouseholdId == user.HouseholdId).Count();
 
+                    List<BankAccount> accounts = new List<BankAccount>();
+                    accounts = db.BankAccounts.Where(a => a.HouseholdId == user.HouseholdId).Where(a => a.Balance < 0).ToList();
+                    if (accounts.Count > 0)
+                    {
+                        if (accounts.Count == 1)
+                        {
+                            ViewBag.OverdrawnWarning = "Warning: An account is overdrawn.";
+                        }
+                        else
+                        {
+                            ViewBag.OverdrawnWarning = "Warning: Multiple accounts are overdrawn.";
+                        }
+                    }
+                    else
+                    {
+                        ViewBag.OverdrawnWarning = "";
+                    }
                 }
-
             }
 
             base.OnActionExecuting(filterContext);

@@ -1,30 +1,38 @@
 ﻿@model IEnumerable<jritchieFinancialPortal.Models.CodeFirst.Transaction>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Transactions Index";
 }
 
-<h2>Index</h2>
+<h2>Transactions Index</h2>
+<h4>@ViewBag.CurrentUserHouseholdName</h4>
+
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @Html.ActionLink("Add new Transaction", "Create")
 </p>
+
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.Account.Name)
+            Account Name
+            @*@Html.DisplayNameFor(model => model.Account.Name)*@
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Category.Name)
+            Category
+            @*@Html.DisplayNameFor(model => model.Category.Name)*@
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.PostedBy.FirstName)
+            Posted by
+            @*@Html.DisplayNameFor(model => model.PostedBy.FirstName)*@
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.ReconciledBy.FirstName)
+            Reconciled by
+            @*@Html.DisplayNameFor(model => model.ReconciledBy.FirstName)*@
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.DatePosted)
+            Date Posted
+            @*@Html.DisplayNameFor(model => model.DatePosted)*@
         </th>
         <th>
             @Html.DisplayNameFor(model => model.Amount)
@@ -36,7 +44,8 @@
             @Html.DisplayNameFor(model => model.Reconciled)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.DateReconciled)
+            Date Reconciled
+            @*@Html.DisplayNameFor(model => model.DateReconciled)*@
         </th>
         <th>
             @Html.DisplayNameFor(model => model.Void)

@@ -42,7 +42,9 @@ namespace jritchieFinancialPortal.Controllers
         // GET: Categories/Create
         public ActionResult Create()
         {
-            return View();
+            Category category = new Category();
+            category.HouseholdId = User.Identity.GetHouseholdId();
+            return View(category);
         }
 
         // POST: Categories/Create
@@ -50,7 +52,7 @@ namespace jritchieFinancialPortal.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Name,Description")] Category category)
+        public ActionResult Create([Bind(Include = "Id,Name,Description,HouseholdId")] Category category)
         {
             if (ModelState.IsValid)
             {

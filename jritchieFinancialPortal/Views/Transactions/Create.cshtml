@@ -1,10 +1,11 @@
 ﻿@model jritchieFinancialPortal.Models.CodeFirst.Transaction
 
 @{
-    ViewBag.Title = "Create";
+    ViewBag.Title = "Create Transaction";
 }
 
-<h2>Create</h2>
+<h2>Create Transaction</h2>
+<h4>@ViewBag.CurrentUserHouseholdName</h4>
 
 
 @using (Html.BeginForm()) 
@@ -12,52 +13,64 @@
     @Html.AntiForgeryToken()
     
     <div class="form-horizontal">
-        <h4>Transaction</h4>
+        @*<h4>Transaction</h4>*@
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
         <div class="form-group">
-            @Html.LabelFor(model => model.AccountId, "AccountId", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
+            @Html.LabelFor(model => model.AccountId, "Account ", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-9">
                 @Html.DropDownList("AccountId", null, htmlAttributes: new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.AccountId, "", new { @class = "text-danger" })
             </div>
         </div>
 
-        <div class="form-group">
+        @*<div class="form-group">
             @Html.LabelFor(model => model.PostedById, "PostedById", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.DropDownList("PostedById", null, htmlAttributes: new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.PostedById, "", new { @class = "text-danger" })
             </div>
-        </div>
+        </div>*@
 
-        <div class="form-group">
+        @*<div class="form-group">
             @Html.LabelFor(model => model.DatePosted, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.DatePosted, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.DatePosted, "", new { @class = "text-danger" })
             </div>
-        </div>
+        </div>*@
 
         <div class="form-group">
             @Html.LabelFor(model => model.Amount, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
+            <div class="col-md-2">
                 @Html.EditorFor(model => model.Amount, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.Amount, "", new { @class = "text-danger" })
             </div>
         </div>
 
-        <div class="form-group">
+
+        @*********************************************@
+        @*<div class="form-group">
             @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
+            <div class="col-md-9">
                 @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
             </div>
-        </div>
+        </div>*@
 
         <div class="form-group">
-            @Html.LabelFor(model => model.CategoryId, "CategoryId", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
+            @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-9">
+                <textarea name="Description" class="form-control" rows="5"></textarea>
+            </div>
+        </div>
+        @*********************************************@
+
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.CategoryId, "Category", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-9">
                 @Html.DropDownList("CategoryId", null, htmlAttributes: new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.CategoryId, "", new { @class = "text-danger" })
             </div>
@@ -65,31 +78,69 @@
 
         <div class="form-group">
             @Html.LabelFor(model => model.Reconciled, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-9 col-md-offset-2">
+                <div class="checkbox-success checkbox-circle">
+                    @*<input name="Reconciled" type="checkbox">*@
+                    <label for= "checkbox-reconciled" >
+                         Reconciled
+                        @Html.CheckBoxFor(model => model.Reconciled)
+                     </label>
+
+
+                 </div>
+
+
+             </div>
+
+
+         </div>
+
+        @*<div class="col-md-10">
+            <div class="checkbox-circle checkbox-success">
+                @Html.ValidationMessageFor(model => model.Reconciled, "", new { @class = "text-danger" })
+            </div>
+        </div>*@
+
+
+        @*<div class="form-group">
+            @Html.LabelFor(model => model.Reconciled, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 <div class="checkbox">
+                    @Html.CheckBoxFor(model => model.Reconciled, htmlAttributes: new { @class = "checkbox checkbox-success checkbox-circle" }
                     @Html.EditorFor(model => model.Reconciled)
                     @Html.ValidationMessageFor(model => model.Reconciled, "", new { @class = "text-danger" })
                 </div>
             </div>
-        </div>
+        </div>*@
 
-        <div class="form-group">
+
+
+
+
+
+
+
+
+
+
+
+        @*<div class="form-group">
             @Html.LabelFor(model => model.ReconciledById, "ReconciledById", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.DropDownList("ReconciledById", null, htmlAttributes: new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.ReconciledById, "", new { @class = "text-danger" })
             </div>
-        </div>
+        </div>*@
 
-        <div class="form-group">
+        @*<div class="form-group">
             @Html.LabelFor(model => model.DateReconciled, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.DateReconciled, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.DateReconciled, "", new { @class = "text-danger" })
             </div>
-        </div>
+        </div>*@
 
-        <div class="form-group">
+        @*<div class="form-group">
             @Html.LabelFor(model => model.Void, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 <div class="checkbox">
@@ -97,7 +148,7 @@
                     @Html.ValidationMessageFor(model => model.Void, "", new { @class = "text-danger" })
                 </div>
             </div>
-        </div>
+        </div>*@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
@@ -108,7 +159,7 @@
 }
 
 <div>
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Back to Transaction List", "Index")
 </div>
 
 @section Scripts {

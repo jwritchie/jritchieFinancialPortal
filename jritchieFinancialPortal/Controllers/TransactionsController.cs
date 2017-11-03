@@ -9,6 +9,7 @@ using System.Web.Mvc;
 using jritchieFinancialPortal.Models;
 using jritchieFinancialPortal.Models.CodeFirst;
 using jritchieFinancialPortal.Models.Helpers;
+using Microsoft.AspNet.Identity;
 
 namespace jritchieFinancialPortal.Controllers
 {
@@ -56,6 +57,9 @@ namespace jritchieFinancialPortal.Controllers
         {
             if (ModelState.IsValid)
             {
+                transaction.DatePosted = DateTimeOffset.UtcNow;
+                transaction.PostedById = User.Identity.GetUserId();
+
                 db.Transactions.Add(transaction);
                 db.SaveChanges();
                 return RedirectToAction("Index");

@@ -1,10 +1,11 @@
 ﻿@model jritchieFinancialPortal.Models.CodeFirst.Category
 
 @{
-    ViewBag.Title = "Edit";
+    ViewBag.Title = "Edit Category";
 }
 
-<h2>Edit</h2>
+<h2>Edit Category</h2>
+<h4>@ViewBag.CurrentUserHouseholdName</h4>
 
 
 @using (Html.BeginForm())
@@ -12,7 +13,7 @@
     @Html.AntiForgeryToken()
     
     <div class="form-horizontal">
-        <h4>Category</h4>
+        @*<h4>Category</h4>*@
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 

@@ -150,7 +150,15 @@ namespace jritchieFinancialPortal.Controllers
             {
                 return View("Error");
             }
-            return View(bankAccount);
+
+            if (bankAccount.Balance == 0)
+            {
+                return View(bankAccount);
+            }
+            else
+            {
+                return RedirectToAction("Index");
+            }
         }
 
         // POST: BankAccounts/Delete/5
