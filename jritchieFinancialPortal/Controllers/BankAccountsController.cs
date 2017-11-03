@@ -42,9 +42,21 @@ namespace jritchieFinancialPortal.Controllers
         // GET: BankAccounts/Create
         public ActionResult Create()
         {
-            ViewBag.BankId = new SelectList(db.Banks, "Id", "Name");
-            ViewBag.HouseholdId = new SelectList(db.Households, "Id", "Name");
-            return View();
+            var currentHouseholdId = User.Identity.GetHouseholdId();
+            List<Bank> currentUserBank = new List<Bank>();
+            currentUserBank = db.Banks.Where(b => b.HouseholdId == currentHouseholdId).ToList();
+
+            if (currentUserBank.Count != 0)
+            {
+                //ViewBag.BankId = new SelectList(db.Banks, "Id", "Name");
+                ViewBag.BankId = new SelectList(currentUserBank, "Id", "Name");
+                ViewBag.HouseholdId = new SelectList(db.Households, "Id", "Name");
+                return View();
+            }
+            else
+            {
+                return View("Error");
+            }
         }
 
         // POST: BankAccounts/Create
@@ -65,7 +77,12 @@ namespace jritchieFinancialPortal.Controllers
                 return RedirectToAction("Index");
             }
 
-            ViewBag.BankId = new SelectList(db.Banks, "Id", "Name", bankAccount.BankId);
+            var currentHouseholdId = User.Identity.GetHouseholdId();
+            List<Bank> currentUserBank = new List<Bank>();
+            currentUserBank = db.Banks.Where(b => b.HouseholdId == currentHouseholdId).ToList();
+
+            //ViewBag.BankId = new SelectList(db.Banks, "Id", "Name", bankAccount.BankId);
+            ViewBag.BankId = new SelectList(currentUserBank, "Id", "Name", bankAccount.BankId);
             ViewBag.HouseholdId = new SelectList(db.Households, "Id", "Name", bankAccount.HouseholdId);
             return View(bankAccount);
         }
@@ -82,7 +99,13 @@ namespace jritchieFinancialPortal.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.BankId = new SelectList(db.Banks, "Id", "Name", bankAccount.BankId);
+
+            var currentHouseholdId = User.Identity.GetHouseholdId();
+            List<Bank> currentUserBank = new List<Bank>();
+            currentUserBank = db.Banks.Where(b => b.HouseholdId == currentHouseholdId).ToList();
+
+            ViewBag.BankId = new SelectList(currentUserBank, "Id", "Name", bankAccount.BankId);
+            //ViewBag.BankId = new SelectList(db.Banks, "Id", "Name", bankAccount.BankId);
             ViewBag.HouseholdId = new SelectList(db.Households, "Id", "Name", bankAccount.HouseholdId);
             return View(bankAccount);
         }
@@ -100,7 +123,13 @@ namespace jritchieFinancialPortal.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.BankId = new SelectList(db.Banks, "Id", "Name", bankAccount.BankId);
+
+            var currentHouseholdId = User.Identity.GetHouseholdId();
+            List<Bank> currentUserBank = new List<Bank>();
+            currentUserBank = db.Banks.Where(b => b.HouseholdId == currentHouseholdId).ToList();
+
+            //ViewBag.BankId = new SelectList(db.Banks, "Id", "Name", bankAccount.BankId);
+            ViewBag.BankId = new SelectList(currentUserBank, "Id", "Name", bankAccount.BankId);
             ViewBag.HouseholdId = new SelectList(db.Households, "Id", "Name", bankAccount.HouseholdId);
             return View(bankAccount);
         }
@@ -117,6 +146,10 @@ namespace jritchieFinancialPortal.Controllers
             {
                 return HttpNotFound();
             }
+            if (bankAccount.Closed != null)
+            {
+                return View("Error");
+            }
             return View(bankAccount);
         }
 
@@ -126,7 +159,8 @@ namespace jritchieFinancialPortal.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             BankAccount bankAccount = db.BankAccounts.Find(id);
-            db.BankAccounts.Remove(bankAccount);
+            bankAccount.Closed = DateTimeOffset.UtcNow;
+            //db.BankAccounts.Remove(bankAccount);
             db.SaveChanges();
             return RedirectToAction("Index");
         }

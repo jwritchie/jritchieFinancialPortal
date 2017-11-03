@@ -7,73 +7,90 @@
 <h2>Account Index</h2>
 <h4>@ViewBag.CurrentUserHouseholdName</h4>
 
-<p>
-    @Html.ActionLink("Create new Account", "Create")
-</p>
-<table class="table">
-    <tr>
-        <th>
-            Bank
-            @*@Html.DisplayNameFor(model => model.Bank.Name)*@
-        </th>
-        @*<th>
-            Household
-            @Html.DisplayNameFor(model => model.Household.Name)
-        </th>*@
-        <th>
-            Balance
-            @*@Html.DisplayNameFor(model => model.Balance)*@
-        </th>
-        <th>
-            Account Name
-            @*@Html.DisplayNameFor(model => model.Name)*@
-        </th>
-        <th>
-            Date Opened
-            @*@Html.DisplayNameFor(model => model.Opened)*@
-        </th>
-        <th>
-            Date Closed
-            @*@Html.DisplayNameFor(model => model.Closed)*@
-        </th>
-        <th></th>
-    </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Bank.Name)
-        </td>
-        @*<td>
-            @Html.DisplayFor(modelItem => item.Household.Name)
-        </td>*@
-        <td>
-            @Html.DisplayFor(modelItem => item.Balance)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Name)
-        </td>
-        <td>
-            @Html.ToUserTime(item.Opened, ViewBag.UserTimeZone as string, "MM/dd/yyyy")
-            @*@Html.DisplayFor(modelItem => item.Opened)*@
-        </td>
-        <td>
-            @if(item.Closed != null)
-            {
-                @Html.ToUserTime(item.Closed.Value, ViewBag.UserTimeZone as string, "MM/dd/yyyy")
-                @*@Html.DisplayFor(modelItem => item.Closed)*@
-            }
-            else
-            {
-                <span>-</span>
-            }
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-            @*@Html.ActionLink("Details", "Details", new { id=item.Id }) |*@
-            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
-        </td>
-    </tr>
+@if (@ViewBag.CurrentUserBanksCount == 0)
+{
+    <p>No Financial Institutions exist in the database. This information must be entered before Accounts can be established.</p>
 }
+else
+{
+    <p>
+        @Html.ActionLink("Create new Account", "Create")
+    </p>
 
-</table>
+    <table class="table">
+        <tr>
+            <th>
+                Bank
+                @*@Html.DisplayNameFor(model => model.Bank.Name)*@
+            </th>
+            @*<th>
+                    Household
+                    @Html.DisplayNameFor(model => model.Household.Name)
+                </th>*@
+            <th>
+                Balance
+                @*@Html.DisplayNameFor(model => model.Balance)*@
+            </th>
+            <th>
+                Account Name
+                @*@Html.DisplayNameFor(model => model.Name)*@
+            </th>
+            <th>
+                Date Opened
+                @*@Html.DisplayNameFor(model => model.Opened)*@
+            </th>
+            <th>
+                Date Closed
+                @*@Html.DisplayNameFor(model => model.Closed)*@
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Bank.Name)
+                </td>
+                @*<td>
+                        @Html.DisplayFor(modelItem => item.Household.Name)
+                    </td>*@
+                <td>
+                    @Html.DisplayFor(modelItem => item.Balance)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.ToUserTime(item.Opened, ViewBag.UserTimeZone as string, "MM/dd/yyyy")
+                    @*@Html.DisplayFor(modelItem => item.Opened)*@
+                </td>
+                <td>
+                    @if (item.Closed != null)
+                    {
+                        @Html.ToUserTime(item.Closed.Value, ViewBag.UserTimeZone as string, "MM/dd/yyyy")
+                        @*@Html.DisplayFor(modelItem => item.Closed)*@
+                    }
+                    else
+                    {
+                        <span>-</span>
+                    }
+                </td>
+                <td>
+
+                    @if (item.Closed == null)
+                    {
+                        @Html.ActionLink("Edit", "Edit", new { id = item.Id })
+                        @*@Html.ActionLink("Details", "Details", new { id=item.Id }) |*@
+                        <span>&nbsp;|&nbsp;</span>
+                        @Html.ActionLink("Close", "Delete", new { id = item.Id })
+                    }
+
+                </td>
+            </tr>
+        }
+
+    </table>
+
+}

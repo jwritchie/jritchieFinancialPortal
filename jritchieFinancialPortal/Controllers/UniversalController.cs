@@ -23,8 +23,15 @@ namespace jritchieFinancialPortal.Controllers
                     ViewBag.CurrentUserId = user.Id;
                     ViewBag.UserTimeZone = user.TimeZone;
                     ViewBag.CurrentUserName = user.Fullname;
+
                     ViewBag.CurrentUserHouseholdId = user.HouseholdId;
-                    ViewBag.CurrentUserHouseholdName = user.Household.Name;
+                    if (user.HouseholdId != null)
+                    {
+                        ViewBag.CurrentUserHouseholdName = user.Household.Name;
+                    }
+
+                    ViewBag.CurrentUserBanksCount = db.Banks.Where(b => b.HouseholdId == user.HouseholdId).Count();
+
                 }
 
             }

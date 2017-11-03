@@ -200,6 +200,7 @@
     <Compile Include="Controllers\InvitationsController.cs" />
     <Compile Include="Controllers\TransactionsController.cs" />
     <Compile Include="Controllers\UniversalController.cs" />
+    <Compile Include="Models\CodeFirst\CategoryGeneric.cs" />
     <Compile Include="Models\CodeFirst\Invitation.cs" />
     <Compile Include="Models\Helpers\AuthorizeHouseholdRequired.cs" />
     <Compile Include="Models\Helpers\CalculationHelper.cs" />

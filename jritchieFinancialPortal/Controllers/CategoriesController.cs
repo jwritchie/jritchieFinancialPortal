@@ -18,23 +18,26 @@ namespace jritchieFinancialPortal.Controllers
         // GET: Categories
         public ActionResult Index()
         {
-            return View(db.Categories.ToList());
+            var currentHouseholdId = User.Identity.GetHouseholdId();
+            var categories = db.Categories.Where(c => c.HouseholdId == currentHouseholdId).OrderBy(c => c.Name);
+            return View(categories.ToList());
+            //return View(db.Categories.ToList());
         }
 
         // GET: Categories/Details/5
-        public ActionResult Details(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Category category = db.Categories.Find(id);
-            if (category == null)
-            {
-                return HttpNotFound();
-            }
-            return View(category);
-        }
+        //public ActionResult Details(int? id)
+        //{
+        //    if (id == null)
+        //    {
+        //        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+        //    }
+        //    Category category = db.Categories.Find(id);
+        //    if (category == null)
+        //    {
+        //        return HttpNotFound();
+        //    }
+        //    return View(category);
+        //}
 
         // GET: Categories/Create
         public ActionResult Create()
@@ -79,7 +82,7 @@ namespace jritchieFinancialPortal.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Name,Description")] Category category)
+        public ActionResult Edit([Bind(Include = "Id,Name,Description,HouseholdId")] Category category)
         {
             if (ModelState.IsValid)
             {

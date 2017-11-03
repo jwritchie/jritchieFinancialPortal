@@ -117,6 +117,17 @@ namespace jritchieFinancialPortal.Controllers
                 db.Households.Add(household);
                 db.SaveChanges();
 
+                foreach(var category in db.CategoriesGeneric)
+                {
+                    Category seedNewHouse = new Category();
+                    seedNewHouse.Name = category.Name;
+                    seedNewHouse.Description = category.Description;
+                    seedNewHouse.HouseholdId = household.Id;
+
+                    db.Categories.Add(seedNewHouse);
+                }
+                db.SaveChanges();
+
                 var user = db.Users.Find(User.Identity.GetUserId());
                 user.HouseholdId = household.Id;
 
