@@ -49,49 +49,103 @@ else
 
         @foreach (var item in Model)
         {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Bank.Name)
-                </td>
-                @*<td>
-                        @Html.DisplayFor(modelItem => item.Household.Name)
-                    </td>*@
-                <td>
-                    @Html.DisplayFor(modelItem => item.Balance)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Name)
-                </td>
-                <td>
-                    @Html.ToUserTime(item.Opened, ViewBag.UserTimeZone as string, "MM/dd/yyyy")
-                    @*@Html.DisplayFor(modelItem => item.Opened)*@
-                </td>
-                <td>
-                    @if (item.Closed != null)
-                    {
-                        @Html.ToUserTime(item.Closed.Value, ViewBag.UserTimeZone as string, "MM/dd/yyyy")
-                        @*@Html.DisplayFor(modelItem => item.Closed)*@
-                    }
-                    else
-                    {
-                        <span>-</span>
-                    }
-                </td>
-                <td>
+            if(item.Balance < 0)
+            {
 
-                    @if (item.Closed == null)
-                    {
-                        @Html.ActionLink("Edit", "Edit", new { id = item.Id })
-                        @*@Html.ActionLink("Details", "Details", new { id=item.Id }) |*@
+                <tr style="background-color:gold; color:#382538">
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Bank.Name)
+                    </td>
+                    @*<td>
+                            @Html.DisplayFor(modelItem => item.Household.Name)
+                        </td>*@
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Balance)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </td>
+                    <td>
+                        @Html.ToUserTime(item.Opened, ViewBag.UserTimeZone as string, "MM/dd/yyyy")
+                        @*@Html.DisplayFor(modelItem => item.Opened)*@
+                    </td>
+                    <td>
+                        @if (item.Closed != null)
+                        {
+                            @Html.ToUserTime(item.Closed.Value, ViewBag.UserTimeZone as string, "MM/dd/yyyy")
+                            @*@Html.DisplayFor(modelItem => item.Closed)*@
+                        }
+                        else
+                        {
+                            <span>-</span>
+                        }
+                    </td>
+                    <td>
+
+                        @if (item.Closed == null)
+                        {
+                            @Html.ActionLink("Edit", "Edit", new { id = item.Id })
+                            @*@Html.ActionLink("Details", "Details", new { id=item.Id }) |*@
+                            if (item.Balance == 0)
+                            {
+                                <span>&nbsp;|&nbsp;</span>
+                                @Html.ActionLink("Close", "Delete", new { id = item.Id })
+                            }
+                        }
+
+                    </td>
+                </tr>
+
+            }
+            else
+            {
+
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Bank.Name)
+                    </td>
+                    @*<td>
+                            @Html.DisplayFor(modelItem => item.Household.Name)
+                        </td>*@
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Balance)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </td>
+                    <td>
+                        @Html.ToUserTime(item.Opened, ViewBag.UserTimeZone as string, "MM/dd/yyyy")
+                        @*@Html.DisplayFor(modelItem => item.Opened)*@
+                    </td>
+                    <td>
+                        @if (item.Closed != null)
+                        {
+                            @Html.ToUserTime(item.Closed.Value, ViewBag.UserTimeZone as string, "MM/dd/yyyy")
+                            @*@Html.DisplayFor(modelItem => item.Closed)*@
+                        }
+                        else
+                        {
+                            <span>-</span>
+                        }
+                    </td>
+                    <td>
+
+                        @if (item.Closed == null)
+                        {
+                            @Html.ActionLink("Edit", "Edit", new { id = item.Id })
+                            @*@Html.ActionLink("Details", "Details", new { id=item.Id }) |*@
                         if (item.Balance == 0)
                         {
                             <span>&nbsp;|&nbsp;</span>
                             @Html.ActionLink("Close", "Delete", new { id = item.Id })
+                            }
                         }
-                    }
 
-                </td>
-            </tr>
+                    </td>
+                </tr>
+
+            }
+
         }
 
     </table>
