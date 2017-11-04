@@ -19,8 +19,14 @@ namespace jritchieFinancialPortal.Controllers
         // GET: Transactions
         public ActionResult Index()
         {
-            var transactions = db.Transactions.Include(t => t.Account).Include(t => t.Category).Include(t => t.PostedBy).Include(t => t.ReconciledBy);
-            return View(transactions.ToList());
+            var currentUserHousehold = User.Identity.GetHouseholdId();
+            List<Transaction> currentUserTransactions = new List<Transaction>();
+            currentUserTransactions = db.Transactions.Where(t => t.Account.HouseholdId == currentUserHousehold).ToList();
+
+            return View(currentUserTransactions);
+
+            //var transactions = db.Transactions.Include(t => t.Account).Include(t => t.Category).Include(t => t.PostedBy).Include(t => t.ReconciledBy);
+            //return View(transactions.ToList());
         }
 
         // GET: Transactions/Details/5
@@ -41,10 +47,17 @@ namespace jritchieFinancialPortal.Controllers
         // GET: Transactions/Create
         public ActionResult Create()
         {
-            ViewBag.AccountId = new SelectList(db.BankAccounts, "Id", "Name");
-            ViewBag.CategoryId = new SelectList(db.Categories, "Id", "Name");
-            ViewBag.PostedById = new SelectList(db.Users, "Id", "FirstName");
-            ViewBag.ReconciledById = new SelectList(db.Users, "Id", "FirstName");
+            var userHouseholdId = User.Identity.GetHouseholdId();
+            List<BankAccount> currentUserBankAccounts = new List<BankAccount>();
+            currentUserBankAccounts = db.BankAccounts.Where(b => b.HouseholdId == userHouseholdId).OrderBy(b => b.Name).ToList();
+            ViewBag.AccountId = new SelectList(currentUserBankAccounts, "Id", "Name");
+
+            List<Category> currentUserCategories = new List<Category>();
+            currentUserCategories = db.Categories.Where(c => c.HouseholdId == userHouseholdId).OrderBy(c => c.Name).ToList();
+            ViewBag.CategoryId = new SelectList(currentUserCategories, "Id", "Name");
+
+            //ViewBag.PostedById = new SelectList(db.Users, "Id", "FirstName");
+            //ViewBag.ReconciledById = new SelectList(db.Users, "Id", "FirstName");
             return View();
         }
 
@@ -65,10 +78,17 @@ namespace jritchieFinancialPortal.Controllers
                 return RedirectToAction("Index");
             }
 
-            ViewBag.AccountId = new SelectList(db.BankAccounts, "Id", "Name", transaction.AccountId);
-            ViewBag.CategoryId = new SelectList(db.Categories, "Id", "Name", transaction.CategoryId);
-            ViewBag.PostedById = new SelectList(db.Users, "Id", "FirstName", transaction.PostedById);
-            ViewBag.ReconciledById = new SelectList(db.Users, "Id", "FirstName", transaction.ReconciledById);
+            var userHouseholdId = User.Identity.GetHouseholdId();
+            List<BankAccount> currentUserBankAccounts = new List<BankAccount>();
+            currentUserBankAccounts = db.BankAccounts.Where(b => b.HouseholdId == userHouseholdId).OrderBy(b => b.Name).ToList();
+            ViewBag.AccountId = new SelectList(currentUserBankAccounts, "Id", "Name", transaction.AccountId);
+
+            List<Category> currentUserCategories = new List<Category>();
+            currentUserCategories = db.Categories.Where(c => c.HouseholdId == userHouseholdId).OrderBy(c => c.Name).ToList();
+            ViewBag.CategoryId = new SelectList(currentUserCategories, "Id", "Name", transaction.CategoryId);
+
+            //ViewBag.PostedById = new SelectList(db.Users, "Id", "FirstName", transaction.PostedById);
+            //ViewBag.ReconciledById = new SelectList(db.Users, "Id", "FirstName", transaction.ReconciledById);
             return View(transaction);
         }
 
@@ -84,10 +104,18 @@ namespace jritchieFinancialPortal.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.AccountId = new SelectList(db.BankAccounts, "Id", "Name", transaction.AccountId);
-            ViewBag.CategoryId = new SelectList(db.Categories, "Id", "Name", transaction.CategoryId);
-            ViewBag.PostedById = new SelectList(db.Users, "Id", "FirstName", transaction.PostedById);
-            ViewBag.ReconciledById = new SelectList(db.Users, "Id", "FirstName", transaction.ReconciledById);
+
+            var userHouseholdId = User.Identity.GetHouseholdId();
+            List<BankAccount> currentUserBankAccounts = new List<BankAccount>();
+            currentUserBankAccounts = db.BankAccounts.Where(b => b.HouseholdId == userHouseholdId).OrderBy(b => b.Name).ToList();
+            ViewBag.AccountId = new SelectList(currentUserBankAccounts, "Id", "Name", transaction.AccountId);
+
+            List<Category> currentUserCategories = new List<Category>();
+            currentUserCategories = db.Categories.Where(c => c.HouseholdId == userHouseholdId).OrderBy(c => c.Name).ToList();
+            ViewBag.CategoryId = new SelectList(currentUserCategories, "Id", "Name", transaction.CategoryId);
+            
+            //ViewBag.PostedById = new SelectList(db.Users, "Id", "FirstName", transaction.PostedById);
+            //ViewBag.ReconciledById = new SelectList(db.Users, "Id", "FirstName", transaction.ReconciledById);
             return View(transaction);
         }
 
@@ -104,38 +132,46 @@ namespace jritchieFinancialPortal.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.AccountId = new SelectList(db.BankAccounts, "Id", "Name", transaction.AccountId);
-            ViewBag.CategoryId = new SelectList(db.Categories, "Id", "Name", transaction.CategoryId);
-            ViewBag.PostedById = new SelectList(db.Users, "Id", "FirstName", transaction.PostedById);
-            ViewBag.ReconciledById = new SelectList(db.Users, "Id", "FirstName", transaction.ReconciledById);
+
+            var userHouseholdId = User.Identity.GetHouseholdId();
+            List<BankAccount> currentUserBankAccounts = new List<BankAccount>();
+            currentUserBankAccounts = db.BankAccounts.Where(b => b.HouseholdId == userHouseholdId).OrderBy(b => b.Name).ToList();
+            ViewBag.AccountId = new SelectList(currentUserBankAccounts, "Id", "Name", transaction.AccountId);
+
+            List<Category> currentUserCategories = new List<Category>();
+            currentUserCategories = db.Categories.Where(c => c.HouseholdId == userHouseholdId).OrderBy(c => c.Name).ToList();
+            ViewBag.CategoryId = new SelectList(currentUserCategories, "Id", "Name", transaction.CategoryId);
+
+            //ViewBag.PostedById = new SelectList(db.Users, "Id", "FirstName", transaction.PostedById);
+            //ViewBag.ReconciledById = new SelectList(db.Users, "Id", "FirstName", transaction.ReconciledById);
             return View(transaction);
         }
 
         // GET: Transactions/Delete/5
-        public ActionResult Delete(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Transaction transaction = db.Transactions.Find(id);
-            if (transaction == null)
-            {
-                return HttpNotFound();
-            }
-            return View(transaction);
-        }
+        //public ActionResult Delete(int? id)
+        //{
+        //    if (id == null)
+        //    {
+        //        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+        //    }
+        //    Transaction transaction = db.Transactions.Find(id);
+        //    if (transaction == null)
+        //    {
+        //        return HttpNotFound();
+        //    }
+        //    return View(transaction);
+        //}
 
         // POST: Transactions/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
-        {
-            Transaction transaction = db.Transactions.Find(id);
-            db.Transactions.Remove(transaction);
-            db.SaveChanges();
-            return RedirectToAction("Index");
-        }
+        //[HttpPost, ActionName("Delete")]
+        //[ValidateAntiForgeryToken]
+        //public ActionResult DeleteConfirmed(int id)
+        //{
+        //    Transaction transaction = db.Transactions.Find(id);
+        //    db.Transactions.Remove(transaction);
+        //    db.SaveChanges();
+        //    return RedirectToAction("Index");
+        //}
 
         protected override void Dispose(bool disposing)
         {

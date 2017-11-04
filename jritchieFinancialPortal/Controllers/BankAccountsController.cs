@@ -102,7 +102,7 @@ namespace jritchieFinancialPortal.Controllers
 
             var currentHouseholdId = User.Identity.GetHouseholdId();
             List<Bank> currentUserBank = new List<Bank>();
-            currentUserBank = db.Banks.Where(b => b.HouseholdId == currentHouseholdId).ToList();
+            currentUserBank = db.Banks.AsNoTracking().Where(b => b.HouseholdId == currentHouseholdId).ToList();
 
             ViewBag.BankId = new SelectList(currentUserBank, "Id", "Name", bankAccount.BankId);
             //ViewBag.BankId = new SelectList(db.Banks, "Id", "Name", bankAccount.BankId);
@@ -119,17 +119,23 @@ namespace jritchieFinancialPortal.Controllers
         {
             if (ModelState.IsValid)
             {
+                var local = db.Set<BankAccount>().Local.FirstOrDefault(l => l.Id == bankAccount.Id);
+                if (local != null)
+                {
+                    db.Entry(local).State = EntityState.Detached;
+                }
+
                 db.Entry(bankAccount).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
             var currentHouseholdId = User.Identity.GetHouseholdId();
-            List<Bank> currentUserBank = new List<Bank>();
-            currentUserBank = db.Banks.Where(b => b.HouseholdId == currentHouseholdId).ToList();
+            List<Bank> currentUserBanks = new List<Bank>();
+            currentUserBanks = db.Banks.Where(b => b.HouseholdId == currentHouseholdId).ToList();
 
             //ViewBag.BankId = new SelectList(db.Banks, "Id", "Name", bankAccount.BankId);
-            ViewBag.BankId = new SelectList(currentUserBank, "Id", "Name", bankAccount.BankId);
+            ViewBag.BankId = new SelectList(currentUserBanks, "Id", "Name", bankAccount.BankId);
             ViewBag.HouseholdId = new SelectList(db.Households, "Id", "Name", bankAccount.HouseholdId);
             return View(bankAccount);
         }
