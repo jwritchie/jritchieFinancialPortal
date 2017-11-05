@@ -49,7 +49,7 @@ namespace jritchieFinancialPortal.Controllers
         {
             var userHouseholdId = User.Identity.GetHouseholdId();
             List<BankAccount> currentUserBankAccounts = new List<BankAccount>();
-            currentUserBankAccounts = db.BankAccounts.Where(b => b.HouseholdId == userHouseholdId).OrderBy(b => b.Name).ToList();
+            currentUserBankAccounts = db.BankAccounts.Where(b => b.HouseholdId == userHouseholdId && b.Closed == null).OrderBy(b => b.Name).ToList();
             ViewBag.AccountId = new SelectList(currentUserBankAccounts, "Id", "Name");
 
             List<Category> currentUserCategories = new List<Category>();
@@ -75,12 +75,18 @@ namespace jritchieFinancialPortal.Controllers
 
                 db.Transactions.Add(transaction);
                 db.SaveChanges();
+
+                var updatedBalance = db.Transactions.Where(t => t.Void == false && t.AccountId == transaction.AccountId).Sum(t => t.Amount);
+                var accountToUpdate = db.BankAccounts.Find(transaction.AccountId);
+                accountToUpdate.Balance = updatedBalance;
+                db.SaveChanges();
+
                 return RedirectToAction("Index");
             }
 
             var userHouseholdId = User.Identity.GetHouseholdId();
             List<BankAccount> currentUserBankAccounts = new List<BankAccount>();
-            currentUserBankAccounts = db.BankAccounts.Where(b => b.HouseholdId == userHouseholdId).OrderBy(b => b.Name).ToList();
+            currentUserBankAccounts = db.BankAccounts.Where(b => b.HouseholdId == userHouseholdId && b.Closed == null).OrderBy(b => b.Name).ToList();
             ViewBag.AccountId = new SelectList(currentUserBankAccounts, "Id", "Name", transaction.AccountId);
 
             List<Category> currentUserCategories = new List<Category>();
@@ -107,7 +113,7 @@ namespace jritchieFinancialPortal.Controllers
 
             var userHouseholdId = User.Identity.GetHouseholdId();
             List<BankAccount> currentUserBankAccounts = new List<BankAccount>();
-            currentUserBankAccounts = db.BankAccounts.Where(b => b.HouseholdId == userHouseholdId).OrderBy(b => b.Name).ToList();
+            currentUserBankAccounts = db.BankAccounts.Where(b => b.HouseholdId == userHouseholdId && b.Closed == null).OrderBy(b => b.Name).ToList();
             ViewBag.AccountId = new SelectList(currentUserBankAccounts, "Id", "Name", transaction.AccountId);
 
             List<Category> currentUserCategories = new List<Category>();
@@ -130,12 +136,18 @@ namespace jritchieFinancialPortal.Controllers
             {
                 db.Entry(transaction).State = EntityState.Modified;
                 db.SaveChanges();
+
+                var updatedBalance = db.Transactions.Where(t => t.Void == false && t.AccountId == transaction.AccountId).Sum(t => t.Amount);
+                var accountToUpdate = db.BankAccounts.Find(transaction.AccountId);
+                accountToUpdate.Balance = updatedBalance;
+                db.SaveChanges();
+
                 return RedirectToAction("Index");
             }
 
             var userHouseholdId = User.Identity.GetHouseholdId();
             List<BankAccount> currentUserBankAccounts = new List<BankAccount>();
-            currentUserBankAccounts = db.BankAccounts.Where(b => b.HouseholdId == userHouseholdId).OrderBy(b => b.Name).ToList();
+            currentUserBankAccounts = db.BankAccounts.Where(b => b.HouseholdId == userHouseholdId && b.Closed == null).OrderBy(b => b.Name).ToList();
             ViewBag.AccountId = new SelectList(currentUserBankAccounts, "Id", "Name", transaction.AccountId);
 
             List<Category> currentUserCategories = new List<Category>();
