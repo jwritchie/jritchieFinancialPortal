@@ -137,7 +137,7 @@ namespace jritchieFinancialPortal.Controllers
                 db.Entry(transaction).State = EntityState.Modified;
                 db.SaveChanges();
 
-                var updatedBalance = db.Transactions.Where(t => t.Void == false && t.AccountId == transaction.AccountId).Sum(t => t.Amount);
+                var updatedBalance = db.Transactions.Where(t => t.Void == false && t.AccountId == transaction.AccountId).Sum(t => (decimal?)t.Amount) ?? 0;
                 var accountToUpdate = db.BankAccounts.Find(transaction.AccountId);
                 accountToUpdate.Balance = updatedBalance;
                 db.SaveChanges();

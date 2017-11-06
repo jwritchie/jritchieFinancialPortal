@@ -18,7 +18,7 @@ namespace jritchieFinancialPortal.Controllers
         // GET: Expenses
         public ActionResult Index()
         {
-            var expenses = db.Expenses.Include(e => e.Budget);
+            var expenses = db.Expenses.Include(e => e.Budget).Include(e => e.Category);
             return View(expenses.ToList());
         }
 
@@ -41,6 +41,7 @@ namespace jritchieFinancialPortal.Controllers
         public ActionResult Create()
         {
             ViewBag.BudgetId = new SelectList(db.Budgets, "Id", "Name");
+            ViewBag.CategoryId = new SelectList(db.Categories, "Id", "Name");
             return View();
         }
 
@@ -49,7 +50,7 @@ namespace jritchieFinancialPortal.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Amount,DescriptionName,BudgetId,Frequency")] Expense expense)
+        public ActionResult Create([Bind(Include = "Id,Amount,CategoryId,BudgetId,Frequency")] Expense expense)
         {
             if (ModelState.IsValid)
             {
@@ -59,6 +60,7 @@ namespace jritchieFinancialPortal.Controllers
             }
 
             ViewBag.BudgetId = new SelectList(db.Budgets, "Id", "Name", expense.BudgetId);
+            ViewBag.CategoryId = new SelectList(db.Categories, "Id", "Name", expense.CategoryId);
             return View(expense);
         }
 
@@ -75,6 +77,7 @@ namespace jritchieFinancialPortal.Controllers
                 return HttpNotFound();
             }
             ViewBag.BudgetId = new SelectList(db.Budgets, "Id", "Name", expense.BudgetId);
+            ViewBag.CategoryId = new SelectList(db.Categories, "Id", "Name", expense.CategoryId);
             return View(expense);
         }
 
@@ -83,7 +86,7 @@ namespace jritchieFinancialPortal.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Amount,DescriptionName,BudgetId,Frequency")] Expense expense)
+        public ActionResult Edit([Bind(Include = "Id,Amount,CategoryId,BudgetId,Frequency")] Expense expense)
         {
             if (ModelState.IsValid)
             {
@@ -92,6 +95,7 @@ namespace jritchieFinancialPortal.Controllers
                 return RedirectToAction("Index");
             }
             ViewBag.BudgetId = new SelectList(db.Budgets, "Id", "Name", expense.BudgetId);
+            ViewBag.CategoryId = new SelectList(db.Categories, "Id", "Name", expense.CategoryId);
             return View(expense);
         }
 

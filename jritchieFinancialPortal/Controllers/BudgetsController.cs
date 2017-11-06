@@ -18,30 +18,30 @@ namespace jritchieFinancialPortal.Controllers
         // GET: Budgets
         public ActionResult Index()
         {
-            var budgets = db.Budgets.Include(b => b.Category).Include(b => b.Household);
+            var currentHouseholdId = User.Identity.GetHouseholdId();
+            var budgets = db.Budgets.Where(b => b.HouseholdId == currentHouseholdId);
+            //var budgets = db.Budgets.Include(b => b.Household);
             return View(budgets.ToList());
         }
 
         // GET: Budgets/Details/5
-        public ActionResult Details(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Budget budget = db.Budgets.Find(id);
-            if (budget == null)
-            {
-                return HttpNotFound();
-            }
-            return View(budget);
-        }
+        //public ActionResult Details(int? id)
+        //{
+        //    if (id == null)
+        //    {
+        //        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+        //    }
+        //    Budget budget = db.Budgets.Find(id);
+        //    if (budget == null)
+        //    {
+        //        return HttpNotFound();
+        //    }
+        //    return View(budget);
+        //}
 
         // GET: Budgets/Create
         public ActionResult Create()
         {
-            ViewBag.CategoryID = new SelectList(db.Categories, "Id", "Name");
-            ViewBag.HouseholdId = new SelectList(db.Households, "Id", "Name");
             return View();
         }
 
@@ -50,7 +50,7 @@ namespace jritchieFinancialPortal.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Name,CategoryID,HouseholdId")] Budget budget)
+        public ActionResult Create([Bind(Include = "Id,Name,HouseholdId")] Budget budget)
         {
             if (ModelState.IsValid)
             {
@@ -59,7 +59,6 @@ namespace jritchieFinancialPortal.Controllers
                 return RedirectToAction("Index");
             }
 
-            ViewBag.CategoryID = new SelectList(db.Categories, "Id", "Name", budget.CategoryID);
             ViewBag.HouseholdId = new SelectList(db.Households, "Id", "Name", budget.HouseholdId);
             return View(budget);
         }
@@ -76,7 +75,6 @@ namespace jritchieFinancialPortal.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.CategoryID = new SelectList(db.Categories, "Id", "Name", budget.CategoryID);
             ViewBag.HouseholdId = new SelectList(db.Households, "Id", "Name", budget.HouseholdId);
             return View(budget);
         }
@@ -86,7 +84,7 @@ namespace jritchieFinancialPortal.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Name,CategoryID,HouseholdId")] Budget budget)
+        public ActionResult Edit([Bind(Include = "Id,Name,HouseholdId")] Budget budget)
         {
             if (ModelState.IsValid)
             {
@@ -94,7 +92,6 @@ namespace jritchieFinancialPortal.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.CategoryID = new SelectList(db.Categories, "Id", "Name", budget.CategoryID);
             ViewBag.HouseholdId = new SelectList(db.Households, "Id", "Name", budget.HouseholdId);
             return View(budget);
         }

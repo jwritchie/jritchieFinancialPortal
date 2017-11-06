@@ -57,27 +57,101 @@
 
         <hr />
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.Reconciled, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-1">
-                @{
-                    if (Model.Reconciled)
-                    {
-                        <div style="background-color:lawngreen; text-align:center">
-                            @Html.CheckBoxFor(model => model.Reconciled, new { style = "height:20px; width: 20px; transform: scale(1.4); margin-top:8px" })
-                        </div>
+        @*<div class="form-group">
+                @Html.LabelFor(model => model.Reconciled, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-1">
+                    @{
+                        if (Model.Reconciled)
+                        {
+                            <div style="background-color:lawngreen; text-align:center">
+                                @Html.CheckBoxFor(model => model.Reconciled, new { style = "height:20px; width: 20px; transform: scale(1.4); margin-top:8px" })
+                            </div>
+                        }
+                        else
+                        {
+                            <div style="text-align:center">
+                                @Html.CheckBoxFor(model => model.Reconciled, new { style = "height:20px; width: 20px; transform: scale(1.4); margin-top:8px" })
+                            </div>
+                        }
                     }
-                    else
-                    {
-                        <div style="text-align:center">
-                            @Html.CheckBoxFor(model => model.Reconciled, new { style = "height:20px; width: 20px; transform: scale(1.4); margin-top:8px" })
-                        </div>
-                    }
-                }
-            </div>
-        </div>
+                </div>
+            </div>*@
 
-        <div class=" form-group">
+        @*<label class="radio-inline">
+            @Html.RadioButtonFor(model => model.Reconciled, true) Reconciled
+        </label>
+        <label class="radio-inline">
+            @Html.RadioButtonFor(model => model.Reconciled, false) UnReconciled
+        </label>*@
+
+
+        <!-- ***** -->
+        @if(Model.Reconciled)
+        {
+            @*<input type="checkbox" class="checkbox checkbox-success checkbox-circle" id="Reconciled" name="Reconciled" value="true" checked />*@
+            <div class="form-group">
+                @Html.LabelFor(model => model.Reconciled, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    <div class="checkbox checkbox-success checkbox-circle">
+                        <input id="checkbox-Reconciled" type="checkbox" name="Reconciled" value="true" checked>
+                        <label for="checkbox-Reconciled">
+                            &nbsp;
+                        </label>
+                    </div>
+                </div>
+            </div>
+        }
+        @if (!Model.Reconciled)
+        {
+            @*<input type="checkbox" class="checkbox checkbox-success checkbox-circle" id="Reconciled" name="Reconciled" value="true" />*@
+            <div class="form-group">
+                @Html.LabelFor(model => model.Reconciled, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    <div class="checkbox checkbox-success checkbox-circle">
+                        <input id="checkbox-Reconciled" type="checkbox" name="Reconciled" value="true" >
+                        <label for="checkbox-Reconciled">
+                            &nbsp;
+                        </label>
+                    </div>
+                </div>
+            </div>
+        }
+        <!-- ***** -->
+
+        <!-- ***** -->
+        @if (Model.Void)
+        {
+            @*<input type="checkbox" class="checkbox checkbox-success checkbox-circle" id="Reconciled" name="Reconciled" value="true" checked />*@
+            <div class="form-group">
+                @Html.LabelFor(model => model.Void, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    <div class="checkbox checkbox-danger checkbox-circle">
+                        <input id="checkbox-Void" type="checkbox" name="Void" value="true" checked>
+                        <label for="checkbox-Void">
+                            &nbsp;
+                        </label>
+                    </div>
+                </div>
+            </div>
+        }
+        @if (!Model.Void)
+        {
+            @*<input type="checkbox" class="checkbox checkbox-success checkbox-circle" id="Reconciled" name="Reconciled" value="true" />*@
+            <div class="form-group">
+                @Html.LabelFor(model => model.Void, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    <div class="checkbox checkbox-danger checkbox-circle">
+                        <input id="checkbox-Void" type="checkbox" name="Void" value="true">
+                        <label for="checkbox-Void">
+                            &nbsp;
+                        </label>
+                    </div>
+                </div>
+            </div>
+        }
+        <!-- ***** -->
+         
+        @*<div class=" form-group">
             @Html.LabelFor(model => model.Void, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-1">
                 @{
@@ -95,7 +169,7 @@
                     }
                 }
             </div>
-        </div>
+        </div>*@
 
         <hr />
 
