@@ -16,9 +16,16 @@
 
     <dl class="dl-horizontal">
         <dt>
+            Type
+            @*@Html.DisplayNameFor(model => model.TransactionType.Name)*@
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.TransactionType.Name)
+        </dd>
+
+        <dt>
             @Html.DisplayNameFor(model => model.Name)
         </dt>
-
         <dd>
             @Html.DisplayFor(model => model.Name)
         </dd>
@@ -26,7 +33,6 @@
         <dt>
             @Html.DisplayNameFor(model => model.Description)
         </dt>
-
         <dd>
             @Html.DisplayFor(model => model.Description)
         </dd>

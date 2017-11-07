@@ -122,6 +122,7 @@ namespace jritchieFinancialPortal.Controllers
                     Category seedNewHouse = new Category();
                     seedNewHouse.Name = category.Name;
                     seedNewHouse.Description = category.Description;
+                    seedNewHouse.TransactionTypeId = category.TransactionTypeId;
                     seedNewHouse.HouseholdId = household.Id;
 
                     db.Categories.Add(seedNewHouse);

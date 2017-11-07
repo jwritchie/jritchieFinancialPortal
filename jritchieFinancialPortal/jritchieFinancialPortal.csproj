@@ -195,13 +195,13 @@
     <Compile Include="Controllers\BanksController.cs" />
     <Compile Include="Controllers\BudgetsController.cs" />
     <Compile Include="Controllers\CategoriesController.cs" />
-    <Compile Include="Controllers\ExpensesController.cs" />
-    <Compile Include="Controllers\IncomesController.cs" />
     <Compile Include="Controllers\InvitationsController.cs" />
     <Compile Include="Controllers\TransactionsController.cs" />
     <Compile Include="Controllers\UniversalController.cs" />
     <Compile Include="Models\CodeFirst\CategoryGeneric.cs" />
+    <Compile Include="Models\CodeFirst\Frequency.cs" />
     <Compile Include="Models\CodeFirst\Invitation.cs" />
+    <Compile Include="Models\CodeFirst\TransactionType.cs" />
     <Compile Include="Models\Helpers\AuthorizeHouseholdRequired.cs" />
     <Compile Include="Models\Helpers\CalculationHelper.cs" />
     <Compile Include="Controllers\HomeController.cs" />

@@ -19,7 +19,7 @@ namespace jritchieFinancialPortal.Controllers
         public ActionResult Index()
         {
             var currentHouseholdId = User.Identity.GetHouseholdId();
-            var categories = db.Categories.Where(c => c.HouseholdId == currentHouseholdId).OrderBy(c => c.Name);
+            var categories = db.Categories.Where(c => c.HouseholdId == currentHouseholdId).OrderBy(c => c.TransactionTypeId).ThenBy(c => c.Name);
             return View(categories.ToList());
             //return View(db.Categories.ToList());
         }
@@ -44,6 +44,8 @@ namespace jritchieFinancialPortal.Controllers
         {
             Category category = new Category();
             category.HouseholdId = User.Identity.GetHouseholdId();
+
+            ViewBag.TransactionTypeId = new SelectList(db.TransactionTypes, "Id", "Name", category.TransactionTypeId);
             return View(category);
         }
 
@@ -52,7 +54,7 @@ namespace jritchieFinancialPortal.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Name,Description,HouseholdId")] Category category)
+        public ActionResult Create([Bind(Include = "Id,Name,Description,TransactionTypeId,HouseholdId")] Category category)
         {
             if (ModelState.IsValid)
             {
@@ -61,6 +63,7 @@ namespace jritchieFinancialPortal.Controllers
                 return RedirectToAction("Index");
             }
 
+            ViewBag.TransactionTypeId = new SelectList(db.TransactionTypes, "Id", "Name", category.TransactionTypeId);
             return View(category);
         }
 
@@ -76,6 +79,8 @@ namespace jritchieFinancialPortal.Controllers
             {
                 return HttpNotFound();
             }
+
+            ViewBag.TransactionTypeId = new SelectList(db.TransactionTypes, "Id", "Name", category.TransactionTypeId);
             return View(category);
         }
 
@@ -84,7 +89,7 @@ namespace jritchieFinancialPortal.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Name,Description,HouseholdId")] Category category)
+        public ActionResult Edit([Bind(Include = "Id,Name,Description,TransactionTypeId,HouseholdId")] Category category)
         {
             if (ModelState.IsValid)
             {
@@ -92,6 +97,8 @@ namespace jritchieFinancialPortal.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
+
+            ViewBag.TransactionTypeId = new SelectList(db.TransactionTypes, "Id", "Name", category.TransactionTypeId);
             return View(category);
         }
 

@@ -15,33 +15,38 @@ namespace jritchieFinancialPortal.Controllers
     [AuthorizeHouseholdRequired]
     public class BudgetsController : UniversalController
     {
+
         // GET: Budgets
         public ActionResult Index()
         {
             var currentHouseholdId = User.Identity.GetHouseholdId();
             var budgets = db.Budgets.Where(b => b.HouseholdId == currentHouseholdId);
-            //var budgets = db.Budgets.Include(b => b.Household);
+            //var budgets = db.Budgets.Include(b => b.Category).Include(b => b.Frequency).Include(b => b.Household).Include(b => b.TransactionType);
             return View(budgets.ToList());
         }
 
         // GET: Budgets/Details/5
-        //public ActionResult Details(int? id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-        //    }
-        //    Budget budget = db.Budgets.Find(id);
-        //    if (budget == null)
-        //    {
-        //        return HttpNotFound();
-        //    }
-        //    return View(budget);
-        //}
+        public ActionResult Details(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Budget budget = db.Budgets.Find(id);
+            if (budget == null)
+            {
+                return HttpNotFound();
+            }
+            return View(budget);
+        }
 
         // GET: Budgets/Create
         public ActionResult Create()
         {
+            ViewBag.CategoryId = new SelectList(db.Categories, "Id", "Name");
+            ViewBag.FrequencyId = new SelectList(db.Frequencies, "Id", "Name");
+            ViewBag.HouseholdId = new SelectList(db.Households, "Id", "Name");
+            ViewBag.TransactionTypeId = new SelectList(db.TransactionTypes, "Id", "Name");
             return View();
         }
 
@@ -50,7 +55,7 @@ namespace jritchieFinancialPortal.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Name,HouseholdId")] Budget budget)
+        public ActionResult Create([Bind(Include = "Id,Name,Amount,DateCreated,DateUpdated,CategoryId,HouseholdId,TransactionTypeId,FrequencyId")] Budget budget)
         {
             if (ModelState.IsValid)
             {
@@ -59,7 +64,10 @@ namespace jritchieFinancialPortal.Controllers
                 return RedirectToAction("Index");
             }
 
+            ViewBag.CategoryId = new SelectList(db.Categories, "Id", "Name", budget.CategoryId);
+            ViewBag.FrequencyId = new SelectList(db.Frequencies, "Id", "Name", budget.FrequencyId);
             ViewBag.HouseholdId = new SelectList(db.Households, "Id", "Name", budget.HouseholdId);
+            ViewBag.TransactionTypeId = new SelectList(db.TransactionTypes, "Id", "Name", budget.TransactionTypeId);
             return View(budget);
         }
 
@@ -75,7 +83,10 @@ namespace jritchieFinancialPortal.Controllers
             {
                 return HttpNotFound();
             }
+            ViewBag.CategoryId = new SelectList(db.Categories, "Id", "Name", budget.CategoryId);
+            ViewBag.FrequencyId = new SelectList(db.Frequencies, "Id", "Name", budget.FrequencyId);
             ViewBag.HouseholdId = new SelectList(db.Households, "Id", "Name", budget.HouseholdId);
+            ViewBag.TransactionTypeId = new SelectList(db.TransactionTypes, "Id", "Name", budget.TransactionTypeId);
             return View(budget);
         }
 
@@ -84,7 +95,7 @@ namespace jritchieFinancialPortal.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Name,HouseholdId")] Budget budget)
+        public ActionResult Edit([Bind(Include = "Id,Name,Amount,DateCreated,DateUpdated,CategoryId,HouseholdId,TransactionTypeId,FrequencyId")] Budget budget)
         {
             if (ModelState.IsValid)
             {
@@ -92,7 +103,10 @@ namespace jritchieFinancialPortal.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
+            ViewBag.CategoryId = new SelectList(db.Categories, "Id", "Name", budget.CategoryId);
+            ViewBag.FrequencyId = new SelectList(db.Frequencies, "Id", "Name", budget.FrequencyId);
             ViewBag.HouseholdId = new SelectList(db.Households, "Id", "Name", budget.HouseholdId);
+            ViewBag.TransactionTypeId = new SelectList(db.TransactionTypes, "Id", "Name", budget.TransactionTypeId);
             return View(budget);
         }
 

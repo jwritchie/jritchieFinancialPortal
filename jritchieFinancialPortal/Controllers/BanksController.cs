@@ -19,7 +19,7 @@ namespace jritchieFinancialPortal.Controllers
         public ActionResult Index()
         {
             var currentHouseholdId = User.Identity.GetHouseholdId();
-            var banks = db.Banks.Where(b => b.HouseholdId == currentHouseholdId);
+            var banks = db.Banks.Where(b => b.HouseholdId == currentHouseholdId).OrderBy(b => b.Name).ThenBy(b => b.Address);
             return View(banks.ToList());
             //return View(db.Banks.ToList());
         }

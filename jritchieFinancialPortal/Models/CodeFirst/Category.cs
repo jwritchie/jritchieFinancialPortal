@@ -11,8 +11,10 @@ namespace jritchieFinancialPortal.Models.CodeFirst
         public int Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
+        public int? TransactionTypeId { get; set; }
         public int? HouseholdId { get; set; }
 
+        public virtual TransactionType TransactionType { get; set; }
         public virtual Household Household {get; set;}
     }
 }
