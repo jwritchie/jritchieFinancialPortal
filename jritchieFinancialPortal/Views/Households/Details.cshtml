@@ -29,6 +29,18 @@
         </dd>
     </dl>
 
+    <p>
+        @Html.ActionLink("Edit this Household's Name", "Edit", new { id = Model.Household.Id })
+
+        @{
+            if (User.IsInRole("Admin"))
+            {
+                <span>&nbsp;|&nbsp;</span>
+                @Html.ActionLink("Back to List of Households", "Index")
+            }
+        }
+    </p>
+
     <br />
 
     <table class="table">
@@ -67,9 +79,9 @@
     </table>
 </div>
 
-<br>
-
 <hr />
+
+<br>
 
 <p>Invite another person to join this Household</p>
 
@@ -78,26 +90,19 @@
         using (Html.BeginForm("Create", "Invitations", new { HouseholdId = Model.Household.Id }, FormMethod.Post, null))
         {
             @Html.AntiForgeryToken()
-            <div>
-                <input name="Email" type="email" class="form-control" placeholder="Email"/>
-                <button class="btn btn-primary center-block" type="submit">Submit Invitation</button>
+
+            <div class="row">
+                <div class="col-md-4" style="text-align:center">
+                    <input name="Email" type="email" class="form-control" placeholder="Email" />
+                    <button class="btn btn-primary center-block" style="margin-top:10px" type="submit">Submit Invitation</button>
+                    <br />
+                    @Html.ActionLink("Review Invitations", "Index", "Invitations", null, null)
+                </div>
             </div>
+            @*<div>
+                <input name="Email" type="email" class="form-control" placeholder="Email" />
+                <button class="btn btn-primary center-block" type="submit">Submit Invitation</button>
+            </div>*@
         }
     }
 }
-
-@Html.ActionLink("Review Invitations", "Index", "Invitations", null, null)
-
-<hr />
-
-<p>
-    @Html.ActionLink("Edit this Household's Details", "Edit", new { id = Model.Household.Id })
-    
-    @{ 
-        if (User.IsInRole("Admin"))
-        {
-            <span>&nbsp;|&nbsp;</span>
-            @Html.ActionLink("Back to List", "Index")
-        }
-    }
-</p>

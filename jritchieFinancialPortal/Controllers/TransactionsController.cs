@@ -119,6 +119,8 @@ namespace jritchieFinancialPortal.Controllers
             List<Category> currentUserCategories = new List<Category>();
             currentUserCategories = db.Categories.Where(c => c.HouseholdId == userHouseholdId).OrderBy(c => c.Name).ToList();
             ViewBag.CategoryId = new SelectList(currentUserCategories, "Id", "Name", transaction.CategoryId);
+
+            ViewBag.TransactionsAccountId = transaction.AccountId;
             
             //ViewBag.PostedById = new SelectList(db.Users, "Id", "FirstName", transaction.PostedById);
             //ViewBag.ReconciledById = new SelectList(db.Users, "Id", "FirstName", transaction.ReconciledById);
@@ -130,7 +132,7 @@ namespace jritchieFinancialPortal.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,AccountId,PostedById,DatePosted,Amount,Description,CategoryId,Reconciled,ReconciledById,DateReconciled,Void")] Transaction transaction)
+        public ActionResult Edit([Bind(Include = "Id,AccountId,PostedById,DatePosted,Amount,Description,CategoryId,Reconciled,ReconciledById,DateReconciled,Void")] Transaction transaction, int PriorAccountId)
         {
             if (ModelState.IsValid)
             {
@@ -141,6 +143,14 @@ namespace jritchieFinancialPortal.Controllers
                 var accountToUpdate = db.BankAccounts.Find(transaction.AccountId);
                 accountToUpdate.Balance = updatedBalance;
                 db.SaveChanges();
+
+                if (PriorAccountId != transaction.AccountId)
+                {
+                    var priorAccountUpdatedBalance = db.Transactions.Where(t => t.Void == false && t.AccountId == PriorAccountId).Sum(t => (decimal?)t.Amount) ?? 0;
+                    var priorAccountAccountToUpdate = db.BankAccounts.Find(PriorAccountId);
+                    priorAccountAccountToUpdate.Balance = priorAccountUpdatedBalance;
+                    db.SaveChanges();
+                }
 
                 return RedirectToAction("Index");
             }
