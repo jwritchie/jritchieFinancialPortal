@@ -68,9 +68,79 @@
             @Html.DisplayFor(model => model.Amount)
         </dd>
 
-        <br />
+    </dl>
 
-        <dt>
+    @*<br />*@
+
+    <!-- *** Void checkbox. *** -->
+    @if (Model.Void)
+    {
+        @*<input type="checkbox" class="checkbox checkbox-success checkbox-circle" id="Reconciled" name="Reconciled" value="true" checked />*@
+        <div class="form-group">
+            @Html.LabelFor(model => model.Void, htmlAttributes: new { @class = "control-label col-md-1 col-md-offset-1" })
+            <div class="col-md-10">
+                <div class="checkbox checkbox-danger checkbox-circle">
+                    <input id="checkbox-Void" type="checkbox" name="Void" value="true" checked disabled>
+                    <label for="checkbox-Void">
+                        &nbsp;
+                    </label>
+                </div>
+            </div>
+        </div>
+    }
+    @if (!Model.Void)
+            {
+        @*<input type="checkbox" class="checkbox checkbox-success checkbox-circle" id="Reconciled" name="Reconciled" value="true" />*@
+        <div class="form-group">
+            @Html.LabelFor(model => model.Void, htmlAttributes: new { @class = "control-label col-md-1 col-md-offset-1" })
+            <div class="col-md-10">
+                <div class="checkbox checkbox-danger checkbox-circle">
+                    <input id="checkbox-Void" type="checkbox" name="Void" value="true" disabled>
+                    <label for="checkbox-Void">
+                        &nbsp;
+                    </label>
+                </div>
+            </div>
+        </div>
+    }
+    <!-- ****** -->
+
+    <hr />
+
+    <!-- *** Reconciled checkbox. *** -->
+    @if (Model.Reconciled)
+            {
+        @*<input type="checkbox" class="checkbox checkbox-success checkbox-circle" id="Reconciled" name="Reconciled" value="true" checked />*@
+        <div class="form-group">
+            @Html.LabelFor(model => model.Reconciled, htmlAttributes: new { @class = "control-label col-md-1 col-md-offset-1" })
+            <div class="col-md-10">
+                <div class="checkbox checkbox-success checkbox-circle">
+                    <input id="checkbox-Reconciled" type="checkbox" name="Reconciled" value="true" checked disabled>
+                    <label for="checkbox-Reconciled">
+                        &nbsp;
+                    </label>
+                </div>
+            </div>
+        </div>
+    }
+    @if (!Model.Reconciled)
+            {
+        @*<input type="checkbox" class="checkbox checkbox-success checkbox-circle" id="Reconciled" name="Reconciled" value="true" />*@
+        <div class="form-group">
+            @Html.LabelFor(model => model.Reconciled, htmlAttributes: new { @class = "control-label col-md-1 col-md-offset-1" })
+            <div class="col-md-10">
+                <div class="checkbox checkbox-success checkbox-circle">
+                    <input id="checkbox-Reconciled" type="checkbox" name="Reconciled" value="true" disabled>
+                    <label for="checkbox-Reconciled">
+                        &nbsp;
+                    </label>
+                </div>
+            </div>
+        </div>
+    }
+    <!-- ****** -->
+
+    @*<dt>
             @Html.DisplayNameFor(model => model.Void)
         </dt>
 
@@ -84,7 +154,9 @@
 
         <dd>
             @Html.DisplayFor(model => model.Reconciled)
-        </dd>
+        </dd>*@
+
+    <dl class="dl-horizontal">
 
         @{
             if (Model.Reconciled)
@@ -114,7 +186,11 @@
         }
 
     </dl>
+
 </div>
+
+<hr />
+
 <p>
     @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
     @Html.ActionLink("Back to Transactions", "Index")

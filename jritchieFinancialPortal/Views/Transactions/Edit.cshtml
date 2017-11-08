@@ -8,6 +8,46 @@
 <h4>@ViewBag.CurrentUserHouseholdName</h4>
 
 
+<script type="text/javascript">
+    function gettoken() {
+        var token = '@Html.AntiForgeryToken()';
+        token = $(token).val();
+        return token;
+   }
+</script>
+
+<script language="javascript" type="text/javascript">
+    function GetCategory(_typeId) {
+        var procemessage = "<option value='0'> Please wait...</option>";
+        $("#CategoryId").html(procemessage).show();
+        //var url = "Url.Action(GetCategoryByType)";
+        var url = "/Transactions/GetCategoryByType/";
+
+        $.ajax({
+            url: url,
+            data: {
+                typeid: _typeId,
+                __RequestVerificationToken: gettoken(),
+            },
+            cache: false,
+            type: "POST",
+            success: function (data) {
+                var markup = "<option value='0'>--  Select  --</option>";
+                for (var x = 0; x < data.length; x++) {
+                    markup += "<option value=" + data[x].Value + ">" + data[x].Text + "</option>";
+                }
+                $("#CategoryId").html(markup).show();
+            },
+            error: function (reponse) {
+                alert("error : " + reponse);
+            }
+        });
+
+    }
+</script>
+
+
+
 @using (Html.BeginForm("Edit","Transactions", new { PriorAccountId = ViewBag.TransactionsAccountId }, FormMethod.Post))
 {
     @Html.AntiForgeryToken()
@@ -22,6 +62,14 @@
         @Html.HiddenFor(model => model.DatePosted)
         @Html.HiddenFor(model => model.DateReconciled)
         @Html.HiddenFor(model => model.ReconciledById)
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.DateOfTransaction, "Transaction Date", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-9">
+                @Html.EditorFor(model => model.DateOfTransaction, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.DateOfTransaction, "", new { @class = "text-danger" })
+            </div>
+        </div>
 
         <div class="form-group">
             @Html.LabelFor(model => model.AccountId, "Account Name", htmlAttributes: new { @class = "control-label col-md-2" })
@@ -39,13 +87,48 @@
             </div>
         </div>
 
-        <div class="form-group">
+
+        <!-- *** *** -->
+        @using (Html.BeginForm())
+        {
+            @*@Html.AntiForgeryToken()*@
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Category.TransactionTypeId, "Transaction Type", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-9">
+                    @Html.DropDownListFor(model => model.Category.TransactionTypeId, (SelectList)ViewBag.TransactionTypeId, "--  Select  --", new { @class = "form-control", id = "transactionType", @onchange = "javascript:GetCategory(this.value);" })
+                    @Html.ValidationMessageFor(model => model.Category.TransactionTypeId, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.CategoryId, "Category", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-9">
+                    @Html.DropDownList("CategoryId", null, htmlAttributes: new { @class = "form-control", id = "CategoryId" })
+                    @*<select class="form-control" id="CategoryId" name="CategoryId"></select>*@
+                </div>
+            </div>
+
+            @*<div class="form-group">
+                @Html.LabelFor(model => model.CategoryId, "Category", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-9">
+                    @Html.DropDownListFor(model => model.CategoryId, (SelectList)ViewBag.CategoryId, "--  Select  --", new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.CategoryId, "", new { @class = "text-danger" })
+                </div>
+            </div>*@
+
+        }
+        <!-- *** *** -->
+
+        @*<div class="form-group">
             @Html.LabelFor(model => model.CategoryId, "Category", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-9">
                 @Html.DropDownList("CategoryId", null, htmlAttributes: new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.CategoryId, "", new { @class = "text-danger" })
             </div>
-        </div>
+        </div>*@
+
+
 
         <div class="form-group">
             @Html.LabelFor(model => model.Amount, htmlAttributes: new { @class = "control-label col-md-2" })
@@ -64,39 +147,6 @@
             <label class="radio-inline">
                 @Html.RadioButtonFor(model => model.Reconciled, false) UnReconciled
             </label>*@
-        <!-- ****** -->
-
-        <!-- *** Reconciled checkbox. *** -->
-        @if (Model.Reconciled)
-        {
-            @*<input type="checkbox" class="checkbox checkbox-success checkbox-circle" id="Reconciled" name="Reconciled" value="true" checked />*@
-            <div class="form-group">
-                @Html.LabelFor(model => model.Reconciled, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    <div class="checkbox checkbox-success checkbox-circle">
-                        <input id="checkbox-Reconciled" type="checkbox" name="Reconciled" value="true" checked>
-                        <label for="checkbox-Reconciled">
-                            &nbsp;
-                        </label>
-                    </div>
-                </div>
-            </div>
-        }
-        @if (!Model.Reconciled)
-        {
-            @*<input type="checkbox" class="checkbox checkbox-success checkbox-circle" id="Reconciled" name="Reconciled" value="true" />*@
-            <div class="form-group">
-                @Html.LabelFor(model => model.Reconciled, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    <div class="checkbox checkbox-success checkbox-circle">
-                        <input id="checkbox-Reconciled" type="checkbox" name="Reconciled" value="true">
-                        <label for="checkbox-Reconciled">
-                            &nbsp;
-                        </label>
-                    </div>
-                </div>
-            </div>
-        }
         <!-- ****** -->
 
         <!-- *** Void checkbox. *** -->
@@ -124,6 +174,39 @@
                     <div class="checkbox checkbox-danger checkbox-circle">
                         <input id="checkbox-Void" type="checkbox" name="Void" value="true">
                         <label for="checkbox-Void">
+                            &nbsp;
+                        </label>
+                    </div>
+                </div>
+            </div>
+        }
+        <!-- ****** -->
+
+        <!-- *** Reconciled checkbox. *** -->
+        @if (Model.Reconciled)
+        {
+            @*<input type="checkbox" class="checkbox checkbox-success checkbox-circle" id="Reconciled" name="Reconciled" value="true" checked />*@
+            <div class="form-group">
+                @Html.LabelFor(model => model.Reconciled, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    <div class="checkbox checkbox-success checkbox-circle">
+                        <input id="checkbox-Reconciled" type="checkbox" name="Reconciled" value="true" checked>
+                        <label for="checkbox-Reconciled">
+                            &nbsp;
+                        </label>
+                    </div>
+                </div>
+            </div>
+        }
+        @if (!Model.Reconciled)
+        {
+            @*<input type="checkbox" class="checkbox checkbox-success checkbox-circle" id="Reconciled" name="Reconciled" value="true" />*@
+            <div class="form-group">
+                @Html.LabelFor(model => model.Reconciled, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    <div class="checkbox checkbox-success checkbox-circle">
+                        <input id="checkbox-Reconciled" type="checkbox" name="Reconciled" value="true">
+                        <label for="checkbox-Reconciled">
                             &nbsp;
                         </label>
                     </div>

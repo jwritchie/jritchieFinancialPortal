@@ -40,85 +40,115 @@
         </th>
         <th></th>
         @*<th>
-            Posted by
-            @Html.DisplayNameFor(model => model.PostedBy.FirstName)
-        </th>*@
+                Posted by
+                @Html.DisplayNameFor(model => model.PostedBy.FirstName)
+            </th>*@
         @*<th>
-            Reconciled by
-            @Html.DisplayNameFor(model => model.ReconciledBy.FirstName)
-        </th>*@
+                Reconciled by
+                @Html.DisplayNameFor(model => model.ReconciledBy.FirstName)
+            </th>*@
         @*<th>
-            Date Reconciled
-            @Html.DisplayNameFor(model => model.DateReconciled)
-        </th>*@
+                Date Reconciled
+                @Html.DisplayNameFor(model => model.DateReconciled)
+            </th>*@
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Account.Name)
-        </td>
-        <td>
-            @Html.ToUserTime(item.DatePosted, ViewBag.UserTimeZone as string, "MM/dd/yyyy")
-            @*@Html.DisplayFor(modelItem => item.DatePosted)*@
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Description)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Category.Name)
-        </td>
-        <td>
-            @if (item.Amount < 0)
-            {
-                <span style="color:orangered">@Html.DisplayFor(modelItem => item.Amount)</span>
-            }
-            else
-            {
-                <span style="color:forestgreen">@Html.DisplayFor(modelItem => item.Amount)</span>
-            }
-        </td>
-        <td>
-            <div class="checkbox checkbox-success checkbox-circle">
-                <input id="checkbox-Reconciled" type="checkbox" name=@Html.DisplayFor(modelItem => item.Reconciled)
-                <label for="checkbox-Reconciled">
-                    &nbsp;
-                </label>
-            </div>
-            @*@Html.DisplayFor(modelItem => item.Reconciled)*@
-        </td>
-        <td>
-            <div class="checkbox checkbox-danger checkbox-circle">
-                <input id="checkbox-Void" type="checkbox" name=@Html.DisplayFor(modelItem => item.Void)
-                <label for="checkbox-Void">
-                    &nbsp;
-                </label>
-            </div>
-            @*@Html.DisplayFor(modelItem => item.Void)*@
-        </td>
-        @*<td>
-            @Html.DisplayFor(modelItem => item.PostedBy.FirstName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ReconciledBy.FirstName)
-        </td>
-        <td>
-            @if(item.DateReconciled != null)
-            {
-                @Html.ToUserTime(item.DateReconciled.Value, ViewBag.UserTimeZone as string, "MM/dd/yyyy")
-                @Html.DisplayFor(modelItem => item.DateReconciled)
-            }
-            else
-            {
-                <span>-</span>
-            }
-        </td>*@
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.Id })
-            @*@Html.ActionLink("Void", "Delete", new { id=item.Id })*@
-        </td>
-    </tr>
-}
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Account.Name)
+            </td>
+            <td>
+                @Html.ToUserTime(item.DatePosted, ViewBag.UserTimeZone as string, "MM/dd/yyyy")
+                @*@Html.DisplayFor(modelItem => item.DatePosted)*@
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Category.Name)
+            </td>
+            <td style="text-align:right; padding-right:25px">
+                @if (item.Amount < 0)
+                {
+                    <span style="color:orangered">@Html.DisplayFor(modelItem => item.Amount)</span>
+                }
+                else
+                {
+                    <span style="color:forestgreen">@Html.DisplayFor(modelItem => item.Amount)</span>
+                }
+            </td>
+
+            <td style="text-align:center">
+                <!-- *** Reconciled checkbox. *** -->
+                @if (item.Reconciled)
+                {
+                    <div class="checkbox checkbox-success checkbox-circle">
+                        <input id="checkbox-Reconciled" type="checkbox" name="Reconciled" value="true" checked disabled>
+                        <label for="checkbox-Reconciled">
+                            &nbsp;
+                        </label>
+                    </div>
+                }
+                @if (!item.Reconciled)
+                {
+                    <div class="checkbox checkbox-success checkbox-circle">
+                        <input id="checkbox-Reconciled" type="checkbox" name="Reconciled" value="true" disabled>
+                        <label for="checkbox-Reconciled">
+                            &nbsp;
+                        </label>
+                    </div>
+                }
+            </td>
+
+            <td style="text-align:center">
+                <!-- *** Void checkbox. *** -->
+                @if (item.Void)
+                {
+                    <div class="checkbox checkbox-danger checkbox-circle">
+                        <input id="checkbox-Void" type="checkbox" name="Void" value="true" checked disabled>
+                        <label for="checkbox-Void">
+                            &nbsp;
+                        </label>
+                    </div>
+                }
+                @if (!item.Void)
+                {
+                    <div class="checkbox checkbox-danger checkbox-circle">
+                        <input id="checkbox-Void" type="checkbox" name="Void" value="true" disabled>
+                        <label for="checkbox-Void">
+                            &nbsp;
+                        </label>
+                    </div>
+                }
+            </td>
+
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                @Html.ActionLink("Details", "Details", new { id = item.Id })
+                @*@Html.ActionLink("Void", "Delete", new { id=item.Id })*@
+            </td>
+        </tr>
+    }
 
 </table>
+
+
+@*<td>
+        @Html.DisplayFor(modelItem => item.PostedBy.FirstName)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.ReconciledBy.FirstName)
+    </td>
+    <td>
+        @if(item.DateReconciled != null)
+        {
+            @Html.ToUserTime(item.DateReconciled.Value, ViewBag.UserTimeZone as string, "MM/dd/yyyy")
+            @Html.DisplayFor(modelItem => item.DateReconciled)
+        }
+        else
+        {
+            <span>-</span>
+        }
+    </td>*@

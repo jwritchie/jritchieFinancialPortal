@@ -56,11 +56,9 @@ namespace jritchieFinancialPortal.Controllers
             transactionTypes = db.TransactionTypes.ToList();
             ViewBag.TransactionTypeId = new SelectList(transactionTypes, "Id", "Name");
 
-
             //List<Category> currentUserCategories = new List<Category>();
             //currentUserCategories = db.Categories.Where(c => c.HouseholdId == userHouseholdId).OrderBy(c => c.Name).ToList();
             //ViewBag.CategoryId = new SelectList(currentUserCategories, "Id", "Name");
-
 
             //ViewBag.PostedById = new SelectList(db.Users, "Id", "FirstName");
             //ViewBag.ReconciledById = new SelectList(db.Users, "Id", "FirstName");
@@ -95,9 +93,13 @@ namespace jritchieFinancialPortal.Controllers
             currentUserBankAccounts = db.BankAccounts.Where(b => b.HouseholdId == userHouseholdId && b.Closed == null).OrderBy(b => b.Name).ToList();
             ViewBag.AccountId = new SelectList(currentUserBankAccounts, "Id", "Name", transaction.AccountId);
 
-            List<Category> currentUserCategories = new List<Category>();
-            currentUserCategories = db.Categories.Where(c => c.HouseholdId == userHouseholdId).OrderBy(c => c.Name).ToList();
-            ViewBag.CategoryId = new SelectList(currentUserCategories, "Id", "Name", transaction.CategoryId);
+            List<TransactionType> transactionTypes = new List<TransactionType>();
+            transactionTypes = db.TransactionTypes.ToList();
+            ViewBag.TransactionTypeId = new SelectList(transactionTypes, "Id", "Name");
+
+            //List<Category> currentUserCategories = new List<Category>();
+            //currentUserCategories = db.Categories.Where(c => c.HouseholdId == userHouseholdId).OrderBy(c => c.Name).ToList();
+            //ViewBag.CategoryId = new SelectList(currentUserCategories, "Id", "Name", transaction.CategoryId);
 
             //ViewBag.PostedById = new SelectList(db.Users, "Id", "FirstName", transaction.PostedById);
             //ViewBag.ReconciledById = new SelectList(db.Users, "Id", "FirstName", transaction.ReconciledById);
@@ -122,8 +124,13 @@ namespace jritchieFinancialPortal.Controllers
             currentUserBankAccounts = db.BankAccounts.Where(b => b.HouseholdId == userHouseholdId && b.Closed == null).OrderBy(b => b.Name).ToList();
             ViewBag.AccountId = new SelectList(currentUserBankAccounts, "Id", "Name", transaction.AccountId);
 
+            List<TransactionType> transactionTypes = new List<TransactionType>();
+            transactionTypes = db.TransactionTypes.ToList();
+            ViewBag.TransactionTypeId = new SelectList(transactionTypes, "Id", "Name");
+
+
             List<Category> currentUserCategories = new List<Category>();
-            currentUserCategories = db.Categories.Where(c => c.HouseholdId == userHouseholdId).OrderBy(c => c.Name).ToList();
+            currentUserCategories = db.Categories.Where(c => c.HouseholdId == userHouseholdId).Where(c => c.TransactionTypeId == transaction.Category.TransactionTypeId).OrderBy(c => c.Name).ToList();
             ViewBag.CategoryId = new SelectList(currentUserCategories, "Id", "Name", transaction.CategoryId);
 
             ViewBag.TransactionsAccountId = transaction.AccountId;
@@ -166,9 +173,13 @@ namespace jritchieFinancialPortal.Controllers
             currentUserBankAccounts = db.BankAccounts.Where(b => b.HouseholdId == userHouseholdId && b.Closed == null).OrderBy(b => b.Name).ToList();
             ViewBag.AccountId = new SelectList(currentUserBankAccounts, "Id", "Name", transaction.AccountId);
 
-            List<Category> currentUserCategories = new List<Category>();
-            currentUserCategories = db.Categories.Where(c => c.HouseholdId == userHouseholdId).OrderBy(c => c.Name).ToList();
-            ViewBag.CategoryId = new SelectList(currentUserCategories, "Id", "Name", transaction.CategoryId);
+            List<TransactionType> transactionTypes = new List<TransactionType>();
+            transactionTypes = db.TransactionTypes.ToList();
+            ViewBag.TransactionTypeId = new SelectList(transactionTypes, "Id", "Name");
+
+            //List<Category> currentUserCategories = new List<Category>();
+            //currentUserCategories = db.Categories.Where(c => c.HouseholdId == userHouseholdId).OrderBy(c => c.Name).ToList();
+            //ViewBag.CategoryId = new SelectList(currentUserCategories, "Id", "Name", transaction.CategoryId);
 
             //ViewBag.PostedById = new SelectList(db.Users, "Id", "FirstName", transaction.PostedById);
             //ViewBag.ReconciledById = new SelectList(db.Users, "Id", "FirstName", transaction.ReconciledById);
