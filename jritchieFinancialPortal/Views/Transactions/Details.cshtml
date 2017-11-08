@@ -10,8 +10,35 @@
     <h4>Transaction</h4>
     <hr />
     <dl class="dl-horizontal">
+
         <dt>
-            @Html.DisplayNameFor(model => model.Account.Name)
+            Posted
+        </dt>
+
+        <dd>
+            @Html.ToUserTime(Model.DatePosted, ViewBag.UserTimeZone as string, "MM/dd/yyyy")
+        </dd>
+
+        <dt>
+            Posted by
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PostedBy.Fullname)
+        </dd>
+
+        <br />
+
+
+        <dt>
+            Transaction Date
+        </dt>
+        <dd>
+            @Html.ToUserTime(Model.DateOfTransaction, ViewBag.UserTimeZone as string, "MM/dd/yyyy")
+        </dd>
+
+        <dt>
+            Account
         </dt>
 
         <dd>
@@ -19,43 +46,11 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Category.Name)
+            Category
         </dt>
 
         <dd>
             @Html.DisplayFor(model => model.Category.Name)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.PostedBy.FirstName)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.PostedBy.FirstName)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.ReconciledBy.FirstName)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.ReconciledBy.FirstName)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.DatePosted)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.DatePosted)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Amount)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Amount)
         </dd>
 
         <dt>
@@ -64,6 +59,23 @@
 
         <dd>
             @Html.DisplayFor(model => model.Description)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Amount)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Amount)
+        </dd>
+
+        <br />
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Void)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Void)
         </dd>
 
         <dt>
@@ -74,25 +86,36 @@
             @Html.DisplayFor(model => model.Reconciled)
         </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.DateReconciled)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.DateReconciled)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Void)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Void)
-        </dd>
+        @{
+            if (Model.Reconciled)
+            {
+                <dt>
+                    Reconciled
+                </dt>
+                <dd>
+                    @{
+                        if (Model.DateReconciled != null)
+                        {
+                            @Html.ToUserTime(Model.DateReconciled.Value, ViewBag.UserTimeZone as string, "MM/dd/yyyy")
+                        }
+                        else
+                        {
+                            <span>-</span>
+                        }
+                    }
+                </dd>
+                <dt>
+                    Reconciled by
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.ReconciledBy.Fullname)
+                </dd>
+            }
+        }
 
     </dl>
 </div>
 <p>
     @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Back to Transactions", "Index")
 </p>

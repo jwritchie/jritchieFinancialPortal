@@ -69,7 +69,14 @@
             @Html.DisplayFor(modelItem => item.Category.Name)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.Amount)
+            @if (item.Amount < 0)
+            {
+                <span style="color:orangered">@Html.DisplayFor(modelItem => item.Amount)</span>
+            }
+            else
+            {
+                <span style="color:forestgreen">@Html.DisplayFor(modelItem => item.Amount)</span>
+            }
         </td>
         <td>
             <div class="checkbox checkbox-success checkbox-circle">

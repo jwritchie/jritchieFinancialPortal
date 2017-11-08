@@ -52,9 +52,15 @@ namespace jritchieFinancialPortal.Controllers
             currentUserBankAccounts = db.BankAccounts.Where(b => b.HouseholdId == userHouseholdId && b.Closed == null).OrderBy(b => b.Name).ToList();
             ViewBag.AccountId = new SelectList(currentUserBankAccounts, "Id", "Name");
 
-            List<Category> currentUserCategories = new List<Category>();
-            currentUserCategories = db.Categories.Where(c => c.HouseholdId == userHouseholdId).OrderBy(c => c.Name).ToList();
-            ViewBag.CategoryId = new SelectList(currentUserCategories, "Id", "Name");
+            List<TransactionType> transactionTypes = new List<TransactionType>();
+            transactionTypes = db.TransactionTypes.ToList();
+            ViewBag.TransactionTypeId = new SelectList(transactionTypes, "Id", "Name");
+
+
+            //List<Category> currentUserCategories = new List<Category>();
+            //currentUserCategories = db.Categories.Where(c => c.HouseholdId == userHouseholdId).OrderBy(c => c.Name).ToList();
+            //ViewBag.CategoryId = new SelectList(currentUserCategories, "Id", "Name");
+
 
             //ViewBag.PostedById = new SelectList(db.Users, "Id", "FirstName");
             //ViewBag.ReconciledById = new SelectList(db.Users, "Id", "FirstName");
@@ -66,7 +72,7 @@ namespace jritchieFinancialPortal.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,AccountId,PostedById,DatePosted,Amount,Description,CategoryId,Reconciled,ReconciledById,DateReconciled,Void")] Transaction transaction)
+        public ActionResult Create([Bind(Include = "Id,AccountId,PostedById,DatePosted,Amount,Description,CategoryId,Reconciled,ReconciledById,DateReconciled,Void,DateOfTransaction")] Transaction transaction)
         {
             if (ModelState.IsValid)
             {
@@ -132,7 +138,7 @@ namespace jritchieFinancialPortal.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,AccountId,PostedById,DatePosted,Amount,Description,CategoryId,Reconciled,ReconciledById,DateReconciled,Void")] Transaction transaction, int PriorAccountId)
+        public ActionResult Edit([Bind(Include = "Id,AccountId,PostedById,DatePosted,Amount,Description,CategoryId,Reconciled,ReconciledById,DateReconciled,Void,DateOfTransaction")] Transaction transaction, int PriorAccountId)
         {
             if (ModelState.IsValid)
             {
@@ -194,6 +200,23 @@ namespace jritchieFinancialPortal.Controllers
         //    db.SaveChanges();
         //    return RedirectToAction("Index");
         //}
+
+
+
+        // ActionResult for Ajax call
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult GetCategoryByType(int typeId)
+        {
+            var userHouseholdId = User.Identity.GetHouseholdId();
+            List<Category> currentUserCategories = new List<Category>();
+            currentUserCategories = db.Categories.Where(c => c.HouseholdId == userHouseholdId).Where(c => c.TransactionTypeId == typeId).OrderBy(c => c.Name).ToList();
+            //ViewBag.CategoryId = new SelectList(currentUserCategories, "Id", "Name");
+            SelectList selectedCategories = new SelectList(currentUserCategories, "Id", "Name", 0);
+            return Json(selectedCategories);
+        }
+
+
 
         protected override void Dispose(bool disposing)
         {

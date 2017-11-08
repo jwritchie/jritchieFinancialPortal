@@ -59,8 +59,16 @@ else
                     @*<td>
                             @Html.DisplayFor(modelItem => item.Household.Name)
                         </td>*@
+
                     <td>
-                        @Html.DisplayFor(modelItem => item.Balance)
+                        @if (item.Balance < 0)
+                        {
+                            <span style="color:mediumvioletred">@Html.DisplayFor(modelItem => item.Balance)</span>
+                        }
+                        else
+                        {
+                            <span style="color:#382538">@Html.DisplayFor(modelItem => item.Balance)</span>
+                        }
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.Name)

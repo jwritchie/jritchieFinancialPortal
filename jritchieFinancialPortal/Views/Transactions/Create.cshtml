@@ -8,6 +8,50 @@
 <h4>@ViewBag.CurrentUserHouseholdName</h4>
 
 
+@*<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>*@
+@*<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js"></script>*@
+@*<script src="~/Assets/plugins/jquery-ui/jquery-ui.min.js"></script>*@
+
+<script type="text/javascript">
+    function gettoken() {
+        var token = '@Html.AntiForgeryToken()';
+        token = $(token).val();
+        return token;
+   }
+</script>
+
+<script language="javascript" type="text/javascript">
+    function GetCategory(_typeId) {
+        var procemessage = "<option value='0'> Please wait...</option>";
+        $("#CategoryId").html(procemessage).show();
+        //var url = "Url.Action(GetCategoryByType)";
+        var url = "/Transactions/GetCategoryByType/";
+
+        $.ajax({
+            url: url,
+            data: {
+                typeid: _typeId,
+                __RequestVerificationToken: gettoken(),
+            },
+            cache: false,
+            type: "POST",
+            success: function (data) {
+                var markup = "<option value='0'>--  Select  --</option>";
+                for (var x = 0; x < data.length; x++) {
+                    markup += "<option value=" + data[x].Value + ">" + data[x].Text + "</option>";
+                }
+                $("#CategoryId").html(markup).show();
+            },
+            error: function (reponse) {
+                alert("error : " + reponse);
+            }
+        });
+
+    }
+</script>
+
+
+
 @using (Html.BeginForm()) 
 {
     @Html.AntiForgeryToken()
@@ -17,6 +61,16 @@
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.DateOfTransaction, "Transaction Date", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-9">
+                @Html.EditorFor(model => model.DateOfTransaction, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.DateOfTransaction, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+
         <div class="form-group">
             @Html.LabelFor(model => model.AccountId, "Account ", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-9">
@@ -25,21 +79,6 @@
             </div>
         </div>
 
-        @*<div class="form-group">
-            @Html.LabelFor(model => model.PostedById, "PostedById", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DropDownList("PostedById", null, htmlAttributes: new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.PostedById, "", new { @class = "text-danger" })
-            </div>
-        </div>*@
-
-        @*<div class="form-group">
-            @Html.LabelFor(model => model.DatePosted, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.DatePosted, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.DatePosted, "", new { @class = "text-danger" })
-            </div>
-        </div>*@
 
         <div class="form-group">
             @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-2" })
@@ -48,13 +87,38 @@
             </div>
         </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.CategoryId, "Category", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-9">
-                @Html.DropDownListFor(model => model.CategoryId, (SelectList)ViewBag.CategoryId, "--  Select  --", new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.CategoryId, "", new { @class = "text-danger" })
+
+        <!-- *** *** -->
+        @using (Html.BeginForm())
+        {
+            @*@Html.AntiForgeryToken()*@
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Category.TransactionTypeId, "Transaction Type", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-9">
+                    @Html.DropDownListFor(model => model.Category.TransactionTypeId, (SelectList)ViewBag.TransactionTypeId, "--  Select  --", new { @class = "form-control", id = "transactionType", @onchange = "javascript:GetCategory(this.value);" })
+                    @Html.ValidationMessageFor(model => model.Category.TransactionTypeId, "", new { @class = "text-danger" })
+                </div>
             </div>
-        </div>
+
+            <div class="form-group">
+                    @Html.LabelFor(model => model.CategoryId, "Category", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-9">
+                    <select class="form-control" id="CategoryId" name="CategoryId"></select>
+                </div>
+            </div>
+
+                @*<div class="form-group">
+                    @Html.LabelFor(model => model.CategoryId, "Category", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-9">
+                        @Html.DropDownListFor(model => model.CategoryId, (SelectList)ViewBag.CategoryId, "--  Select  --", new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.CategoryId, "", new { @class = "text-danger" })
+                    </div>
+                </div>*@
+
+        }
+        <!-- *** *** -->
+
 
         <div class="form-group">
             @Html.LabelFor(model => model.Amount, htmlAttributes: new { @class = "control-label col-md-2" })
@@ -100,23 +164,6 @@
         </div>*@
         @*********************************************@
 
-
-        @*<div class="form-group">
-            @Html.LabelFor(model => model.ReconciledById, "ReconciledById", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DropDownList("ReconciledById", null, htmlAttributes: new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.ReconciledById, "", new { @class = "text-danger" })
-            </div>
-        </div>*@
-
-        @*<div class="form-group">
-            @Html.LabelFor(model => model.DateReconciled, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.DateReconciled, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.DateReconciled, "", new { @class = "text-danger" })
-            </div>
-        </div>*@
-
         @*<div class="form-group">
             @Html.LabelFor(model => model.Void, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
@@ -142,3 +189,36 @@
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
 }
+
+
+@*<div class="form-group">
+        @Html.LabelFor(model => model.PostedById, "PostedById", htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DropDownList("PostedById", null, htmlAttributes: new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.PostedById, "", new { @class = "text-danger" })
+        </div>
+    </div>*@
+
+@*<div class="form-group">
+        @Html.LabelFor(model => model.DatePosted, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.DatePosted, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.DatePosted, "", new { @class = "text-danger" })
+        </div>
+    </div>*@
+
+@*<div class="form-group">
+        @Html.LabelFor(model => model.ReconciledById, "ReconciledById", htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DropDownList("ReconciledById", null, htmlAttributes: new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.ReconciledById, "", new { @class = "text-danger" })
+        </div>
+    </div>*@
+
+@*<div class="form-group">
+        @Html.LabelFor(model => model.DateReconciled, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.DateReconciled, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.DateReconciled, "", new { @class = "text-danger" })
+        </div>
+    </div>*@
