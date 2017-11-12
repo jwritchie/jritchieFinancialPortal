@@ -44,6 +44,89 @@ namespace jritchieFinancialPortal.Controllers
             return View(transaction);
         }
 
+
+
+        // GET: Transactions/Create
+        public PartialViewResult _Create()
+        {
+            var userHouseholdId = User.Identity.GetHouseholdId();
+            List<BankAccount> currentUserBankAccounts = new List<BankAccount>();
+            currentUserBankAccounts = db.BankAccounts.Where(b => b.HouseholdId == userHouseholdId && b.Closed == null).OrderBy(b => b.Name).ToList();
+            ViewBag.AccountId = new SelectList(currentUserBankAccounts, "Id", "Name");
+
+            List<TransactionType> transactionTypes = new List<TransactionType>();
+            transactionTypes = db.TransactionTypes.ToList();
+            ViewBag.TransactionTypeId = new SelectList(transactionTypes, "Id", "Name");
+
+            //List<Category> currentUserCategories = new List<Category>();
+            //currentUserCategories = db.Categories.Where(c => c.HouseholdId == userHouseholdId).OrderBy(c => c.Name).ToList();
+            //ViewBag.CategoryId = new SelectList(currentUserCategories, "Id", "Name");
+
+            //ViewBag.PostedById = new SelectList(db.Users, "Id", "FirstName");
+            //ViewBag.ReconciledById = new SelectList(db.Users, "Id", "FirstName");
+            return PartialView();
+        }
+
+        // POST: Transactions/Create
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public PartialViewResult _Create([Bind(Include = "Id,AccountId,PostedById,DatePosted,Amount,Description,CategoryId,Reconciled,ReconciledById,DateReconciled,Void,DateOfTransaction")] Transaction transaction)
+        {
+            if (ModelState.IsValid)
+            {
+                transaction.DatePosted = DateTimeOffset.UtcNow;
+                transaction.PostedById = User.Identity.GetUserId();
+
+                db.Transactions.Add(transaction);
+                db.SaveChanges();
+
+                var updatedBalance = db.Transactions.Where(t => t.Void == false && t.AccountId == transaction.AccountId).Sum(t => t.Amount);
+                var accountToUpdate = db.BankAccounts.Find(transaction.AccountId);
+                accountToUpdate.Balance = updatedBalance;
+                db.SaveChanges();
+
+
+                var userHouseholdId = User.Identity.GetHouseholdId();
+                List<BankAccount> currentUserBankAccounts = new List<BankAccount>();
+                currentUserBankAccounts = db.BankAccounts.Where(b => b.HouseholdId == userHouseholdId && b.Closed == null).OrderBy(b => b.Name).ToList();
+                ViewBag.AccountId = new SelectList(currentUserBankAccounts, "Id", "Name");
+
+                List<TransactionType> transactionTypes = new List<TransactionType>();
+                transactionTypes = db.TransactionTypes.ToList();
+                ViewBag.TransactionTypeId = new SelectList(transactionTypes, "Id", "Name");
+
+                //return PartialView();
+                RedirectToAction("Index");      /* Skips over this and continues below ... */
+            }
+
+            var userHouseholdId2 = User.Identity.GetHouseholdId();
+            List<BankAccount> currentUserBankAccounts2 = new List<BankAccount>();
+            currentUserBankAccounts2 = db.BankAccounts.Where(b => b.HouseholdId == userHouseholdId2 && b.Closed == null).OrderBy(b => b.Name).ToList();
+            ViewBag.AccountId = new SelectList(currentUserBankAccounts2, "Id", "Name", transaction.AccountId);
+
+            List<TransactionType> transactionTypes2 = new List<TransactionType>();
+            transactionTypes2 = db.TransactionTypes.ToList();
+            ViewBag.TransactionTypeId = new SelectList(transactionTypes2, "Id", "Name");
+
+            //List<Category> currentUserCategories = new List<Category>();
+            //currentUserCategories = db.Categories.Where(c => c.HouseholdId == userHouseholdId).OrderBy(c => c.Name).ToList();
+            //ViewBag.CategoryId = new SelectList(currentUserCategories, "Id", "Name", transaction.CategoryId);
+
+            //ViewBag.PostedById = new SelectList(db.Users, "Id", "FirstName", transaction.PostedById);
+            //ViewBag.ReconciledById = new SelectList(db.Users, "Id", "FirstName", transaction.ReconciledById);
+
+            return PartialView(transaction);
+        }
+
+
+
+
+
+
+
+
         // GET: Transactions/Create
         public ActionResult Create()
         {

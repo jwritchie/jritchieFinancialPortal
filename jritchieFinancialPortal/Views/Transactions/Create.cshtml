@@ -67,12 +67,23 @@
                             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
                             <div class="form-group">
+                                <label class="control-label col-md-2">Transaction Date</label>
+                                <div class="col-md-9">
+                                    <div class="input-group">
+                                        @Html.EditorFor(model => model.DateOfTransaction, new { htmlAttributes = new { @class = "form-control", id = "datepicker-autoclose" } })
+                                        @*<input name="DateOfTransaction" type="text" class="form-control" placeholder="mm/dd/yyyy" id="datepicker-autoclose">*@
+                                        <span class="input-group-addon bg-primary b-0 text-white"><i class="ti-calendar"></i></span>
+                                    </div><!-- input-group -->
+                                </div>
+                            </div>
+
+                            @*<div class="form-group">
                                 @Html.LabelFor(model => model.DateOfTransaction, "Transaction Date", htmlAttributes: new { @class = "control-label col-md-2" })
                                 <div class="col-md-9">
                                     @Html.EditorFor(model => model.DateOfTransaction, new { htmlAttributes = new { @class = "form-control" } })
                                     @Html.ValidationMessageFor(model => model.DateOfTransaction, "", new { @class = "text-danger" })
                                 </div>
-                            </div>
+                            </div>*@
 
 
                             <div class="form-group">
@@ -143,4 +154,13 @@
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
+
+    <script>
+        // Date Picker
+        jQuery('#datepicker-autoclose').datepicker({
+            autoclose: true,
+            todayHighlight: true,
+            format: "mm/dd/yyyy"
+        });
+    </script>
 }

@@ -23,7 +23,10 @@ File: Core
    Common
 ============= */
 body {
-    background: #cc0052;
+    background:transparent;
+    /*background: linear-gradient(to top, #382538 0%, #cc0052 100%);*/
+    /*background: #cc0052;*/
+
     /*background: #382538;*/
     /*background: #253138;*/
     font-family: 'Roboto', sans-serif;
@@ -36,7 +39,8 @@ body {
 html {
     position: relative;
     min-height: 100%;
-    background: #cc0052;
+    background: linear-gradient(to top, #382538 0%, #cc0052 90%);
+    /*background: #cc0052;*/
     /*background: #382538;*/
     /*background: #253138;*/
 }

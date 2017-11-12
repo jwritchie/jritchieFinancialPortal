@@ -29,6 +29,7 @@
         <h2>Get more libraries</h2>
         <p>NuGet is a free Visual Studio extension that makes it easy to add, remove, and update libraries and tools in Visual Studio projects.</p>
         <p><a class="btn btn-default" href="@Url.Action("_Contact")" data-target="#contactModal" data-toggle="modal">Contact Modal &raquo;</a></p>
+        <p><a class="btn btn-default" href="@Url.Action("_Create", "Transactions")" data-target="#createModal" data-toggle="modal">Transaction Modal &raquo;</a></p>
     </div>
 
     <div class="col-md-3">
@@ -45,6 +46,14 @@
 
 @*regular modal here*@
 <div class="modal fade" id="contactModal" role="dialog" aria-labelledby="displayModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="createModal" role="dialog" aria-labelledby="displayModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
 

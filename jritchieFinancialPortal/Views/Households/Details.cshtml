@@ -5,104 +5,127 @@
     ViewBag.Title = "Household Details";
 }
 
-<h2>Household Details</h2>
+<div class="container">
 
-<div>
-    @*<h4>Household</h4>*@
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Household.Name)
-        </dt>
+    <div class="row" style="margin-top:10px">
+        <div class="col-sm-12">
+            <div class="card-box table-responsive">
 
-        <dd>
-            @Html.DisplayFor(model => model.Household.Name)
-        </dd>
+                <div class="row">
+                    <h4 class="header-title m-t-0 m-b-30">Household Details</h4>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Household.Established)
-        </dt>
+                    <hr />
 
-        <dd>
-            @Html.ToUserTime(Model.Household.Established, ViewBag.UserTimeZone as string, "MM/dd/yyyy")
-            @*@Html.DisplayFor(model => model.Established)*@
-        </dd>
-    </dl>
+                    <div class="col-md-12">
+                        <dl class="dl-horizontal">
+                            <dt>
+                                @Html.DisplayNameFor(model => model.Household.Name)
+                            </dt>
 
-    <p>
-        @Html.ActionLink("Edit this Household's Name", "Edit", new { id = Model.Household.Id })
+                            <dd>
+                                @Html.DisplayFor(model => model.Household.Name)
+                            </dd>
 
-        @{
-            if (User.IsInRole("Admin"))
-            {
-                <span>&nbsp;|&nbsp;</span>
-                @Html.ActionLink("Back to List of Households", "Index")
-            }
-        }
-    </p>
+                            <dt>
+                                @Html.DisplayNameFor(model => model.Household.Established)
+                            </dt>
 
-    <br />
+                            <dd>
+                                @Html.ToUserTime(Model.Household.Established, ViewBag.UserTimeZone as string, "MM/dd/yyyy")
+                                @*@Html.DisplayFor(model => model.Established)*@
+                            </dd>
 
-    <table class="table">
-        <tr>
-            <th>Members</th>
-            <th></th>
-            <th></th>
-        </tr>
+                            <dt></dt>
+                            <dd>&nbsp;</dd>
 
-        @foreach (var member in Model.SelectedUsers)
-        {
-            <tr>
-                <td>
-                    @member.Fullname
-                </td>
+                            <dt></dt>
+                            <dd>
+                                @Html.ActionLink("Edit this Household's Name", "Edit", new { id = Model.Household.Id }, new { style = "color:#ebe0eb" })
+                            </dd>
 
-                @if (member.Id == ViewBag.CurrentUserId)
-                {
-                    <td>
-                        @Html.ActionLink("Update Profile", "Index", "Manage")
-                    </td>
+                            <dt></dt>
+                            <dd>
+                                @{
+                                    if (User.IsInRole("Admin"))
+                                    {
+                                        <span>&nbsp;|&nbsp;</span>
+                                        @Html.ActionLink("Back to List of Households", "Index", null, new { style = "color:#ebe0eb" })
+                                    }
+                                }
+                            </dd>
+                        </dl>
 
-                    <td>
-                        @Html.ActionLink("Leave this Household", "LeaveHousehold", "Households")
-                    </td>
-                }
-                else
-                {
-                    <td></td>
-                    <td></td>
-                }
+                        <br />
 
-            </tr>
-        }
+                        <table class="table">
+                            <tr>
+                                <th>Members</th>
+                                <th></th>
+                                <th></th>
+                            </tr>
 
-    </table>
-</div>
+                            @foreach (var member in Model.SelectedUsers)
+                            {
+                                <tr>
+                                    <td>
+                                        @member.Fullname
+                                    </td>
 
-<hr />
+                                    @if (member.Id == ViewBag.CurrentUserId)
+                                    {
+                                        <td>
+                                            @Html.ActionLink("Update Profile", "Index", "Manage", new { style = "color:#ebe0eb" })
+                                        </td>
 
-<br>
+                                        <td>
+                                            @Html.ActionLink("Leave this Household", "LeaveHousehold", "Households", new { style = "color:#ebe0eb" })
+                                        </td>
+                                    }
+                                    else
+                                    {
+                                        <td></td>
+                                        <td></td>
+                                    }
 
-<p>Invite another person to join this Household</p>
+                                </tr>
+                            }
 
-@{if (Request.IsAuthenticated)    // Confirm user is logged in before allowing Invitation creation.
-    {
-        using (Html.BeginForm("Create", "Invitations", new { HouseholdId = Model.Household.Id }, FormMethod.Post, null))
-        {
-            @Html.AntiForgeryToken()
+                        </table>
+                    </div>
 
-            <div class="row">
-                <div class="col-md-4" style="text-align:center">
-                    <input name="Email" type="email" class="form-control" placeholder="Email" />
-                    <button class="btn btn-primary center-block" style="margin-top:10px" type="submit">Submit Invitation</button>
-                    <br />
-                    @Html.ActionLink("Review Invitations", "Index", "Invitations", null, null)
+                    <div class="col-md-12">
+
+                        <hr />
+
+                        <br>
+
+                        <p>Invite another person to join this Household</p>
+
+                        @{if (Request.IsAuthenticated)    // Confirm user is logged in before allowing Invitation creation.
+                            {
+                                using (Html.BeginForm("Create", "Invitations", new { HouseholdId = Model.Household.Id }, FormMethod.Post, null))
+                                {
+                                    @Html.AntiForgeryToken()
+
+                                    <div class="row">
+                                        <div class="col-md-4" style="text-align:center">
+                                            <input name="Email" type="email" class="form-control" placeholder="Email" />
+                                            <button class="btn btn-primary center-block" style="margin-top:10px" type="submit">Submit Invitation</button>
+                                            <br />
+                                            @Html.ActionLink("Review Invitations", "Index", "Invitations", null, new { style = "color:#ebe0eb" })
+                                        </div>
+                                    </div>
+                                    @*<div>
+                                            <input name="Email" type="email" class="form-control" placeholder="Email" />
+                                            <button class="btn btn-primary center-block" type="submit">Submit Invitation</button>
+                                        </div>*@
+                                }
+                            }
+                        }
+                    </div>
+
                 </div>
             </div>
-            @*<div>
-                <input name="Email" type="email" class="form-control" placeholder="Email" />
-                <button class="btn btn-primary center-block" type="submit">Submit Invitation</button>
-            </div>*@
-        }
-    }
-}
+        </div>
+    </div>
+</div>

@@ -1868,6 +1868,7 @@
     <Content Include="Views\Incomes\Details.cshtml" />
     <Content Include="Views\Incomes\Edit.cshtml" />
     <Content Include="Views\Incomes\Index.cshtml" />
+    <Content Include="Views\Transactions\_Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
