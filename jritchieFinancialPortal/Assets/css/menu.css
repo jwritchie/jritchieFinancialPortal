@@ -12,7 +12,8 @@ File: Menu
   z-index: 999;
 }
 .topbar .topbar-left {
-  background: #ffffff;
+    background: transparent;
+  /*background: #ffffff;*/
   float: left;
   text-align: center;
   height: 70px;
@@ -41,7 +42,7 @@ File: Menu
 }
 .logo {
   /*color: #188ae2 !important;*/
-  color: #382538 !important;
+  color: #cc0052 !important;
   font-size: 26px;
   /*font-family: 'Rancho', cursive;*/
   font-family: "Courgette";
@@ -50,7 +51,7 @@ File: Menu
   display: none;
 }
 .logo span span {
-    color: #382538;
+    color: #cc0052;
   /*color: #10c469;*/
 }
 .user-box {
@@ -187,7 +188,8 @@ File: Menu
   top: 70px;
   width: 250px;
   z-index: 10;
-  background: #ffffff;
+  background: linear-gradient(to bottom, #382538 0%, #cc0052 100%);
+  /*background: #ffffff;*/
   bottom: 50px;
   height: 100%;
   margin-bottom: -70px;

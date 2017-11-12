@@ -4,7 +4,185 @@
     ViewBag.Title = "Transactions Index";
 }
 
-<h2>Transactions Index</h2>
+
+<div class="container">
+
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card-box table-responsive">
+
+                <div class="dropdown pull-right">
+
+                    <a href="@Url.Action("Create")" class="btn btn-default"><span> New Transaction </span><i class="fa fa-plus-circle text-custom"></i></a>
+                    @*@Html.ActionLink("Add new Transaction", "Create")*@
+
+                    @*<a href="#" class="dropdown-toggle card-drop" data-toggle="dropdown" aria-expanded="false">
+                            <i class="zmdi zmdi-more-vert"></i>
+                        </a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li><a href="#">Action</a></li>
+                            <li><a href="#">Another action</a></li>
+                            <li><a href="#">Something else here</a></li>
+                            <li class="divider"></li>
+                            <li><a href="#">Separated link</a></li>
+                        </ul>*@
+                </div>
+
+                <h4 class="header-title m-t-0 m-b-30">Transactions</h4>
+
+                <table id="datatable-buttons" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
+
+                    <thead>
+                        <tr>
+                            <th>
+                                Date Posted
+                            </th>
+                           <th>
+                                Account Name
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Description)
+                            </th>
+                            <th>
+                                Category
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Amount)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Reconciled)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Void)
+                            </th>
+                            <th></th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.ToUserTime(item.DatePosted, ViewBag.UserTimeZone as string, "MM/dd/yyyy")
+                                    @*@Html.DisplayFor(modelItem => item.DatePosted)*@
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Account.Name)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Description)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Category.Name)
+                                </td>
+                                <td style="text-align:right; padding-right:25px">
+                                    @if (item.Amount < 0)
+                                    {
+                                        <span style="color:#ff99c2">@Html.DisplayFor(modelItem => item.Amount)</span>
+                                    }
+                                    else
+                                    {
+                                        <span style="color:#99ffeb">@Html.DisplayFor(modelItem => item.Amount)</span>
+                                    }
+                                </td>
+
+                                <td style="text-align:center">
+                                    <!-- *** Reconciled checkbox. *** -->
+                                    @if (item.Reconciled)
+                                    {
+                                        <div class="checkbox checkbox-success checkbox-circle">
+                                            <input id="checkbox-Reconciled" type="checkbox" name="Reconciled" value="true" checked disabled>
+                                            <label for="checkbox-Reconciled">
+                                                &nbsp;
+                                            </label>
+                                        </div>
+                                    }
+                                    @if (!item.Reconciled)
+                                    {
+                                        <div class="checkbox checkbox-success checkbox-circle">
+                                            <input id="checkbox-Reconciled" type="checkbox" name="Reconciled" value="true" disabled>
+                                            <label for="checkbox-Reconciled">
+                                                &nbsp;
+                                            </label>
+                                        </div>
+                                    }
+                                </td>
+
+                                <td style="text-align:center">
+                                    <!-- *** Void checkbox. *** -->
+                                    @if (item.Void)
+                {
+                                        <div class="checkbox checkbox-danger checkbox-circle">
+                                            <input id="checkbox-Void" type="checkbox" name="Void" value="true" checked disabled>
+                                            <label for="checkbox-Void">
+                                                &nbsp;
+                                            </label>
+                                        </div>
+                                    }
+                                    @if (!item.Void)
+                {
+                                        <div class="checkbox checkbox-danger checkbox-circle">
+                                            <input id="checkbox-Void" type="checkbox" name="Void" value="true" disabled>
+                                            <label for="checkbox-Void">
+                                                &nbsp;
+                                            </label>
+                                        </div>
+                                    }
+                                </td>
+
+                                <td>
+                                    @Html.ActionLink("Edit", "Edit", new { id = item.Id }, new { style = "color:#ebe0eb" } ) |
+                                    @Html.ActionLink("Details", "Details", new { id = item.Id }, new { style = "color:#ebe0eb" })
+                                    @*@Html.ActionLink("Void", "Delete", new { id=item.Id })*@
+                                </td>
+                            </tr>
+
+                        }
+
+                    </tbody>
+                </table>
+            </div>
+        </div><!-- end col -->
+    </div>
+    <!-- end row -->
+
+</div>
+<!-- end container -->
+
+
+@section scripts
+{
+    <!-- Datatables-->
+    <script src="~/Assets/plugins/datatables/jquery.dataTables.min.js"></script>
+    <script src="~/Assets/plugins/datatables/dataTables.bootstrap.js"></script>
+    <script src="~/Assets/plugins/datatables/dataTables.buttons.min.js"></script>
+    <script src="~/Assets/plugins/datatables/buttons.bootstrap.min.js"></script>
+    <script src="~/Assets/plugins/datatables/jszip.min.js"></script>
+    <script src="~/Assets/plugins/datatables/pdfmake.min.js"></script>
+    <script src="~/Assets/plugins/datatables/vfs_fonts.js"></script>
+    <script src="~/Assets/plugins/datatables/buttons.html5.min.js"></script>
+    <script src="~/Assets/plugins/datatables/buttons.print.min.js"></script>
+    <script src="~/Assets/plugins/datatables/dataTables.fixedHeader.min.js"></script>
+    <script src="~/Assets/plugins/datatables/dataTables.keyTable.min.js"></script>
+    <script src="~/Assets/plugins/datatables/dataTables.responsive.min.js"></script>
+    <script src="~/Assets/plugins/datatables/responsive.bootstrap.min.js"></script>
+    <script src="~/Assets/plugins/datatables/dataTables.scroller.min.js"></script>
+
+    <!-- Datatable init js -->
+    <script src="~/Assets/pages/datatables.init.js"></script>
+
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#datatable-responsive').DataTable();
+        });
+        TableManageButtons.init();
+    </script>
+}
+
+
+@*<h2>Transactions Index</h2>
 <h4>@ViewBag.CurrentUserHouseholdName</h4>
 
 
@@ -16,18 +194,15 @@
     <tr>
         <th>
             Account Name
-            @*@Html.DisplayNameFor(model => model.Account.Name)*@
         </th>
         <th>
             Date Posted
-            @*@Html.DisplayNameFor(model => model.DatePosted)*@
         </th>
         <th>
             @Html.DisplayNameFor(model => model.Description)
         </th>
         <th>
             Category
-            @*@Html.DisplayNameFor(model => model.Category.Name)*@
         </th>
         <th>
             @Html.DisplayNameFor(model => model.Amount)
@@ -39,18 +214,6 @@
             @Html.DisplayNameFor(model => model.Void)
         </th>
         <th></th>
-        @*<th>
-                Posted by
-                @Html.DisplayNameFor(model => model.PostedBy.FirstName)
-            </th>*@
-        @*<th>
-                Reconciled by
-                @Html.DisplayNameFor(model => model.ReconciledBy.FirstName)
-            </th>*@
-        @*<th>
-                Date Reconciled
-                @Html.DisplayNameFor(model => model.DateReconciled)
-            </th>*@
     </tr>
 
     @foreach (var item in Model)
@@ -61,7 +224,6 @@
             </td>
             <td>
                 @Html.ToUserTime(item.DatePosted, ViewBag.UserTimeZone as string, "MM/dd/yyyy")
-                @*@Html.DisplayFor(modelItem => item.DatePosted)*@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Description)
@@ -127,28 +289,8 @@
             <td>
                 @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
                 @Html.ActionLink("Details", "Details", new { id = item.Id })
-                @*@Html.ActionLink("Void", "Delete", new { id=item.Id })*@
             </td>
         </tr>
     }
 
-</table>
-
-
-@*<td>
-        @Html.DisplayFor(modelItem => item.PostedBy.FirstName)
-    </td>
-    <td>
-        @Html.DisplayFor(modelItem => item.ReconciledBy.FirstName)
-    </td>
-    <td>
-        @if(item.DateReconciled != null)
-        {
-            @Html.ToUserTime(item.DateReconciled.Value, ViewBag.UserTimeZone as string, "MM/dd/yyyy")
-            @Html.DisplayFor(modelItem => item.DateReconciled)
-        }
-        else
-        {
-            <span>-</span>
-        }
-    </td>*@
+</table>*@

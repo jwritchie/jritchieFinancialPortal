@@ -43,11 +43,15 @@ namespace jritchieFinancialPortal.Controllers
         // GET: Budgets/Create
         public ActionResult Create()
         {
-            ViewBag.CategoryId = new SelectList(db.Categories, "Id", "Name");
-            ViewBag.FrequencyId = new SelectList(db.Frequencies, "Id", "Name");
-            ViewBag.HouseholdId = new SelectList(db.Households, "Id", "Name");
+            //ViewBag.CategoryId = new SelectList(db.Categories, "Id", "Name");
+            //ViewBag.HouseholdId = new SelectList(db.Households, "Id", "Name");
             ViewBag.TransactionTypeId = new SelectList(db.TransactionTypes, "Id", "Name");
+            ViewBag.FrequencyId = new SelectList(db.Frequencies, "Id", "Name");
             return View();
+
+            //Budget budget = new Budget();
+            //budget.HouseholdId = ViewBag.CurrentUserHouseholdId;
+            //return View(budget);
         }
 
         // POST: Budgets/Create
@@ -55,16 +59,30 @@ namespace jritchieFinancialPortal.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Name,Amount,DateCreated,DateUpdated,CategoryId,HouseholdId,TransactionTypeId,FrequencyId")] Budget budget)
+        public ActionResult Create([Bind(Include = "Id,Name,Amount,CategoryId,TransactionTypeId,FrequencyId")] Budget budget)
+        //public ActionResult Create([Bind(Include = "Id,Name,Amount,DateCreated,DateUpdated,CategoryId,HouseholdId,TransactionTypeId,FrequencyId")] Budget budget)
         {
+            //budget.TransactionTypeId = db.TransactionTypes.First(t => t.Id == budget.Category.TransactionTypeId );
+
             if (ModelState.IsValid)
             {
+                //var currentHouseholdId = User.Identity.GetHouseholdId();
+                //budget.HouseholdId = currentHouseholdId.GetValueOrDefault();
+
+                budget.HouseholdId = ViewBag.CurrentUserHouseholdId;
+                budget.DateCreated = DateTimeOffset.UtcNow;
+
+                //int currentTransactionType = db.Categories.Find(budget.CategoryId).TransactionTypeId.Value;
+                budget.TransactionTypeId = db.Categories.Find(budget.CategoryId).TransactionTypeId.Value;
+
+                //int currentTransactionType = db.TransactionTypes.FirstOrDefault(t => t.Name == budget.Category.Name).Id;
+
                 db.Budgets.Add(budget);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            ViewBag.CategoryId = new SelectList(db.Categories, "Id", "Name", budget.CategoryId);
+            //ViewBag.CategoryId = new SelectList(db.Categories, "Id", "Name", budget.CategoryId);
             ViewBag.FrequencyId = new SelectList(db.Frequencies, "Id", "Name", budget.FrequencyId);
             ViewBag.HouseholdId = new SelectList(db.Households, "Id", "Name", budget.HouseholdId);
             ViewBag.TransactionTypeId = new SelectList(db.TransactionTypes, "Id", "Name", budget.TransactionTypeId);
@@ -83,7 +101,13 @@ namespace jritchieFinancialPortal.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.CategoryId = new SelectList(db.Categories, "Id", "Name", budget.CategoryId);
+
+            var userHouseholdId = User.Identity.GetHouseholdId();
+            List<Category> currentUserCategories = new List<Category>();
+            currentUserCategories = db.Categories.Where(c => c.HouseholdId == userHouseholdId).Where(c => c.TransactionTypeId == budget.Category.TransactionTypeId).OrderBy(c => c.Name).ToList();
+            ViewBag.CategoryId = new SelectList(currentUserCategories, "Id", "Name", budget.CategoryId);
+
+            //ViewBag.CategoryId = new SelectList(db.Categories, "Id", "Name", budget.CategoryId);
             ViewBag.FrequencyId = new SelectList(db.Frequencies, "Id", "Name", budget.FrequencyId);
             ViewBag.HouseholdId = new SelectList(db.Households, "Id", "Name", budget.HouseholdId);
             ViewBag.TransactionTypeId = new SelectList(db.TransactionTypes, "Id", "Name", budget.TransactionTypeId);
@@ -99,11 +123,20 @@ namespace jritchieFinancialPortal.Controllers
         {
             if (ModelState.IsValid)
             {
+                budget.TransactionTypeId = db.Categories.Find(budget.CategoryId).TransactionTypeId.Value;
+                budget.DateUpdated = DateTimeOffset.UtcNow;
+
                 db.Entry(budget).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.CategoryId = new SelectList(db.Categories, "Id", "Name", budget.CategoryId);
+
+            var userHouseholdId = User.Identity.GetHouseholdId();
+            List<Category> currentUserCategories = new List<Category>();
+            currentUserCategories = db.Categories.Where(c => c.HouseholdId == userHouseholdId).Where(c => c.TransactionTypeId == budget.Category.TransactionTypeId).OrderBy(c => c.Name).ToList();
+            ViewBag.CategoryId = new SelectList(currentUserCategories, "Id", "Name", budget.CategoryId);
+
+            //ViewBag.CategoryId = new SelectList(db.Categories, "Id", "Name", budget.CategoryId);
             ViewBag.FrequencyId = new SelectList(db.Frequencies, "Id", "Name", budget.FrequencyId);
             ViewBag.HouseholdId = new SelectList(db.Households, "Id", "Name", budget.HouseholdId);
             ViewBag.TransactionTypeId = new SelectList(db.TransactionTypes, "Id", "Name", budget.TransactionTypeId);

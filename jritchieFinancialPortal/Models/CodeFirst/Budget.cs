@@ -11,7 +11,7 @@ namespace jritchieFinancialPortal.Models.CodeFirst
         public string Name { get; set; }
         public decimal Amount { get; set; }
         public DateTimeOffset DateCreated { get; set; }
-        public DateTimeOffset DateUpdated { get; set; }
+        public DateTimeOffset? DateUpdated { get; set; }
 
         public int CategoryId { get; set; }
         public int HouseholdId { get; set; }

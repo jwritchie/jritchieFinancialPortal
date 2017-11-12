@@ -4,194 +4,181 @@
     ViewBag.Title = "Details";
 }
 
-<h2>Details</h2>
 
-<div>
-    <h4>Transaction</h4>
-    <hr />
-    <dl class="dl-horizontal">
+<div class="container">
 
-        <dt>
-            Posted
-        </dt>
+    <div class="row" style="margin-top:10px">
+        <div class="col-sm-12">
+            <div class="card-box table-responsive">
 
-        <dd>
-            @Html.ToUserTime(Model.DatePosted, ViewBag.UserTimeZone as string, "MM/dd/yyyy")
-        </dd>
+                <div class="row">
+                    <h4 class="header-title m-t-0 m-b-30">Ticket Details</h4>
 
-        <dt>
-            Posted by
-        </dt>
+                    <hr />
 
-        <dd>
-            @Html.DisplayFor(model => model.PostedBy.Fullname)
-        </dd>
+                    <div class="col-md-12">
+                        <dl class="dl-horizontal">
+                            <dt>
+                                Posted
+                            </dt>
+                            <dd>
+                                @Html.ToUserTime(Model.DatePosted, ViewBag.UserTimeZone as string, "MM/dd/yyyy")
+                            </dd>
 
-        <br />
+                            <dt>
+                                Posted by
+                            </dt>
+                            <dd>
+                                @Html.DisplayFor(model => model.PostedBy.Fullname)
+                            </dd>
 
+                            <br />
 
-        <dt>
-            Transaction Date
-        </dt>
-        <dd>
-            @Html.ToUserTime(Model.DateOfTransaction, ViewBag.UserTimeZone as string, "MM/dd/yyyy")
-        </dd>
+                            <dt>
+                                Transaction Date
+                            </dt>
+                            <dd>
+                                @Html.ToUserTime(Model.DateOfTransaction, ViewBag.UserTimeZone as string, "MM/dd/yyyy")
+                            </dd>
 
-        <dt>
-            Account
-        </dt>
+                            <dt>
+                                Account
+                            </dt>
+                            <dd>
+                                @Html.DisplayFor(model => model.Account.Name)
+                            </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.Account.Name)
-        </dd>
+                            <dt>
+                                Category
+                            </dt>
+                            <dd>
+                                @Html.DisplayFor(model => model.Category.Name)
+                            </dd>
 
-        <dt>
-            Category
-        </dt>
+                            <dt>
+                                @Html.DisplayNameFor(model => model.Description)
+                            </dt>
+                            <dd>
+                                @Html.DisplayFor(model => model.Description)
+                            </dd>
+                            <dt>
+                                @Html.DisplayNameFor(model => model.Amount)
+                            </dt>
+                            <dd>
+                                @Html.DisplayFor(model => model.Amount)
+                            </dd>
+                        </dl>
 
-        <dd>
-            @Html.DisplayFor(model => model.Category.Name)
-        </dd>
+                        <hr />
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Description)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Description)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Amount)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Amount)
-        </dd>
-
-    </dl>
-
-    @*<br />*@
-
-    <!-- *** Void checkbox. *** -->
-    @if (Model.Void)
-    {
-        @*<input type="checkbox" class="checkbox checkbox-success checkbox-circle" id="Reconciled" name="Reconciled" value="true" checked />*@
-        <div class="form-group">
-            @Html.LabelFor(model => model.Void, htmlAttributes: new { @class = "control-label col-md-1 col-md-offset-1" })
-            <div class="col-md-10">
-                <div class="checkbox checkbox-danger checkbox-circle">
-                    <input id="checkbox-Void" type="checkbox" name="Void" value="true" checked disabled>
-                    <label for="checkbox-Void">
-                        &nbsp;
-                    </label>
-                </div>
-            </div>
-        </div>
-    }
-    @if (!Model.Void)
-            {
-        @*<input type="checkbox" class="checkbox checkbox-success checkbox-circle" id="Reconciled" name="Reconciled" value="true" />*@
-        <div class="form-group">
-            @Html.LabelFor(model => model.Void, htmlAttributes: new { @class = "control-label col-md-1 col-md-offset-1" })
-            <div class="col-md-10">
-                <div class="checkbox checkbox-danger checkbox-circle">
-                    <input id="checkbox-Void" type="checkbox" name="Void" value="true" disabled>
-                    <label for="checkbox-Void">
-                        &nbsp;
-                    </label>
-                </div>
-            </div>
-        </div>
-    }
-    <!-- ****** -->
-
-    <hr />
-
-    <!-- *** Reconciled checkbox. *** -->
-    @if (Model.Reconciled)
-            {
-        @*<input type="checkbox" class="checkbox checkbox-success checkbox-circle" id="Reconciled" name="Reconciled" value="true" checked />*@
-        <div class="form-group">
-            @Html.LabelFor(model => model.Reconciled, htmlAttributes: new { @class = "control-label col-md-1 col-md-offset-1" })
-            <div class="col-md-10">
-                <div class="checkbox checkbox-success checkbox-circle">
-                    <input id="checkbox-Reconciled" type="checkbox" name="Reconciled" value="true" checked disabled>
-                    <label for="checkbox-Reconciled">
-                        &nbsp;
-                    </label>
-                </div>
-            </div>
-        </div>
-    }
-    @if (!Model.Reconciled)
-            {
-        @*<input type="checkbox" class="checkbox checkbox-success checkbox-circle" id="Reconciled" name="Reconciled" value="true" />*@
-        <div class="form-group">
-            @Html.LabelFor(model => model.Reconciled, htmlAttributes: new { @class = "control-label col-md-1 col-md-offset-1" })
-            <div class="col-md-10">
-                <div class="checkbox checkbox-success checkbox-circle">
-                    <input id="checkbox-Reconciled" type="checkbox" name="Reconciled" value="true" disabled>
-                    <label for="checkbox-Reconciled">
-                        &nbsp;
-                    </label>
-                </div>
-            </div>
-        </div>
-    }
-    <!-- ****** -->
-
-    @*<dt>
-            @Html.DisplayNameFor(model => model.Void)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Void)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Reconciled)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Reconciled)
-        </dd>*@
-
-    <dl class="dl-horizontal">
-
-        @{
-            if (Model.Reconciled)
-            {
-                <dt>
-                    Reconciled
-                </dt>
-                <dd>
-                    @{
-                        if (Model.DateReconciled != null)
+                        <!-- *** Void checkbox. *** -->
+                        @if (Model.Void)
                         {
-                            @Html.ToUserTime(Model.DateReconciled.Value, ViewBag.UserTimeZone as string, "MM/dd/yyyy")
+                            @*<input type="checkbox" class="checkbox checkbox-success checkbox-circle" id="Reconciled" name="Reconciled" value="true" checked />*@
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Void, htmlAttributes: new { @class = "control-label col-md-1 col-md-offset-1" })
+                                <div class="col-md-10">
+                                    <div class="checkbox checkbox-danger checkbox-circle">
+                                        <input id="checkbox-Void" type="checkbox" name="Void" value="true" checked disabled>
+                                        <label for="checkbox-Void">
+                                            &nbsp;
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
                         }
-                        else
+                        @if (!Model.Void)
                         {
-                            <span>-</span>
+                            @*<input type="checkbox" class="checkbox checkbox-success checkbox-circle" id="Reconciled" name="Reconciled" value="true" />*@
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Void, htmlAttributes: new { @class = "control-label col-md-1 col-md-offset-1" })
+                                <div class="col-md-10">
+                                    <div class="checkbox checkbox-danger checkbox-circle">
+                                        <input id="checkbox-Void" type="checkbox" name="Void" value="true" disabled>
+                                        <label for="checkbox-Void">
+                                            &nbsp;
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
                         }
-                    }
-                </dd>
-                <dt>
-                    Reconciled by
-                </dt>
-                <dd>
-                    @Html.DisplayFor(model => model.ReconciledBy.Fullname)
-                </dd>
-            }
-        }
 
-    </dl>
+                        <hr />
 
+                        <!-- *** Reconciled checkbox. *** -->
+                        @if (Model.Reconciled)
+                        {
+                            @*<input type="checkbox" class="checkbox checkbox-success checkbox-circle" id="Reconciled" name="Reconciled" value="true" checked />*@
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Reconciled, htmlAttributes: new { @class = "control-label col-md-1 col-md-offset-1" })
+                                <div class="col-md-10">
+                                    <div class="checkbox checkbox-success checkbox-circle">
+                                        <input id="checkbox-Reconciled" type="checkbox" name="Reconciled" value="true" checked disabled>
+                                        <label for="checkbox-Reconciled">
+                                            &nbsp;
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                        @if (!Model.Reconciled)
+                        {
+                            @*<input type="checkbox" class="checkbox checkbox-success checkbox-circle" id="Reconciled" name="Reconciled" value="true" />*@
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Reconciled, htmlAttributes: new { @class = "control-label col-md-1 col-md-offset-1" })
+                                <div class="col-md-10">
+                                    <div class="checkbox checkbox-success checkbox-circle">
+                                        <input id="checkbox-Reconciled" type="checkbox" name="Reconciled" value="true" disabled>
+                                        <label for="checkbox-Reconciled">
+                                            &nbsp;
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+
+                        <dl class="dl-horizontal">
+                            @if (Model.Reconciled)
+                            {
+                                <dt>
+                                    Reconciled
+                                </dt>
+                                <dd>
+                                    @{
+                                        if (Model.DateReconciled != null)
+                                        {
+                                            @Html.ToUserTime(Model.DateReconciled.Value, ViewBag.UserTimeZone as string, "MM/dd/yyyy")
+                                        }
+                                        else
+                                        {
+                                            <span>-</span>
+                                        }
+                                    }
+                                </dd>
+                                <dt>
+                                    Reconciled by
+                                </dt>
+                                <dd>
+                                    @Html.DisplayFor(model => model.ReconciledBy.Fullname)
+                                </dd>
+                            }
+                        </dl>
+
+                    <hr />
+
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-12" style="text-align:center">
+                            <p>
+                                @Html.ActionLink("Edit", "Edit", new { id = Model.Id }, new { style = "color:#ebe0eb" }) |
+                                @Html.ActionLink("Back to Transactions", "Index", null, new { style = "color:#ebe0eb" })
+                            </p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
-
-<hr />
-
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
-    @Html.ActionLink("Back to Transactions", "Index")
-</p>

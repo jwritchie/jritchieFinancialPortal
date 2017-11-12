@@ -25,11 +25,12 @@ namespace jritchieFinancialPortal.Controllers
             return View();
         }
 
-        public ActionResult Contact()
+        // underscore denotes a partial view.
+        public PartialViewResult _Contact(string id)
         {
-            ViewBag.Message = "Your contact page.";
+            ViewBag.Message = id;
 
-            return View();
+            return PartialView();
         }
     }
 }

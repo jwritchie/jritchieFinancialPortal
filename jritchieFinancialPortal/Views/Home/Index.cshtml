@@ -7,27 +7,106 @@
 <div class="jumbotron">
     <h1>ASP.NET</h1>
     <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS and JavaScript.</p>
-    <p><a href="https://asp.net" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>
+    @*<p><a href="https://asp.net" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>*@
 </div>
 
 <div class="row">
-    <div class="col-md-4">
+
+    <div class="col-md-3">
+        <a href="" data-id="Ryan" class="clickHere">Click here.... !!!</a>
+    </div>
+    
+    @*<div class="col-md-3">
         <h2>Getting started</h2>
         <p>
             ASP.NET MVC gives you a powerful, patterns-based way to build dynamic websites that
             enables a clean separation of concerns and gives you full control over markup
             for enjoyable, agile development.
         </p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301865">Learn more &raquo;</a></p>
-    </div>
-    <div class="col-md-4">
+    </div>*@
+
+    <div class="col-md-3">
         <h2>Get more libraries</h2>
         <p>NuGet is a free Visual Studio extension that makes it easy to add, remove, and update libraries and tools in Visual Studio projects.</p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301866">Learn more &raquo;</a></p>
+        <p><a class="btn btn-default" href="@Url.Action("_Contact")" data-target="#contactModal" data-toggle="modal">Contact Modal &raquo;</a></p>
     </div>
-    <div class="col-md-4">
+
+    <div class="col-md-3">
         <h2>Web Hosting</h2>
         <p>You can easily find a web hosting company that offers the right mix of features and price for your applications.</p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301867">Learn more &raquo;</a></p>
+    </div>
+
+    <div class="col-md-3">
+        <div id="renderHere">
+
+        </div>
     </div>
 </div>
+
+@*regular modal here*@
+<div class="modal fade" id="contactModal" role="dialog" aria-labelledby="displayModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+        </div>
+    </div>
+</div>
+
+
+
+@section scripts{
+    <script>
+        $('.clickHere').click(function () {
+            $('#renderHere').load('/Home/_Contact/' + $(this).data('id'))
+        })
+
+    </script>
+}
+
+
+
+
+
+
+
+@*
+    
+Inside a dropdown list:
+=======================
+<li>
+    <a class="AcctDetails" style="cursor:pointer" data-id="@item.Id">@item.Name</a>
+</li>
+
+
+Set up an empty div:
+====================
+<div id="acctdetails-partial">
+    </div>
+
+
+Scripts:
+========
+<script>
+    $(document).ready(function() {
+        $("#acctdetails-partial").load('/FinancialAccounts/_AcctDetails/' + @ViewBag.AcctId);
+    })
+</script>
+<script>
+    $(".AcctDetails").click(function () {
+        $("#acctdetails-partial").load
+    })
+</script>
+
+
+In the Controller, set ActionResult to:
+======================================= 
+public PartialViewResult _AcctDetails(int? id)
+{
+    controller body
+
+    return PartialView();
+}
+    
+*@
+
+
