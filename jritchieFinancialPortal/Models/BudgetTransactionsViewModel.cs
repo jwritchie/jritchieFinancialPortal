@@ -9,6 +9,7 @@ namespace jritchieFinancialPortal.Models
     public class BudgetTransactionsViewModel
     {
         public Budget Budget { get; set; }
-        public List<Transaction> Transaction { get; set; }
+        public List<Transaction> Transactions { get; set; }
+        public decimal TotalTransactions { get; set; }
     }
 }

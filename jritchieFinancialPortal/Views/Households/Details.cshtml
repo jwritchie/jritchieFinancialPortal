@@ -74,11 +74,11 @@
                                     @if (member.Id == ViewBag.CurrentUserId)
                                     {
                                         <td>
-                                            @Html.ActionLink("Update Profile", "Index", "Manage", new { style = "color:#ebe0eb" })
+                                            @Html.ActionLink("Update Profile", "Index", "Manage", null, new { style = "color:#ebe0eb" })
                                         </td>
 
                                         <td>
-                                            @Html.ActionLink("Leave this Household", "LeaveHousehold", "Households", new { style = "color:#ebe0eb" })
+                                            @Html.ActionLink("Leave this Household", "LeaveHousehold", "Households", null, new { style = "color:#ebe0eb" })
                                         </td>
                                     }
                                     else

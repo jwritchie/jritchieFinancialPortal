@@ -1872,6 +1872,7 @@
     <Content Include="Views\Transactions\_Create.cshtml" />
     <Content Include="Views\Transactions\Reconcile.cshtml" />
     <Content Include="Views\Transactions\ReconcileIndex.cshtml" />
+    <Content Include="Views\Budgets\_Details.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
