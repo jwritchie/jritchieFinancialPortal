@@ -328,9 +328,34 @@ namespace jritchieFinancialPortal.Controllers
         {
             if (ModelState.IsValid)
             {
+                // Determine whether reconciliation is really occurring.
                 if (transaction.Reconciled && transaction.AmountReconciled != null)
                 {
-                    bool letsDoStuff = true;
+                    // Create an adjusting entry if bank's amount does not match user's amount.
+                    if (transaction.Amount != transaction.AmountReconciled)
+                    {
+                        decimal banksAmount = transaction.AmountReconciled.GetValueOrDefault();
+                        decimal difference = banksAmount - transaction.Amount;
+
+                        Transaction adjustingEntry = new Transaction();
+                        adjustingEntry.AccountId = transaction.AccountId;
+                        adjustingEntry.PostedById = User.Identity.GetUserId();
+                        adjustingEntry.DatePosted = DateTimeOffset.UtcNow;
+                        adjustingEntry.Amount = difference;
+                        adjustingEntry.Description = "Adjusting Entry: " + transaction.Description;
+                        adjustingEntry.CategoryId = transaction.CategoryId;
+                        adjustingEntry.Reconciled = true;
+                        adjustingEntry.ReconciledById = User.Identity.GetUserId();
+                        adjustingEntry.DateReconciled = DateTimeOffset.UtcNow;
+                        adjustingEntry.Void = transaction.Void;
+                        adjustingEntry.DateOfTransaction = DateTimeOffset.UtcNow;
+                        adjustingEntry.AmountReconciled = difference;
+                        db.Transactions.Add(adjustingEntry);
+                        db.SaveChanges();
+                    }
+
+                    transaction.ReconciledById = User.Identity.GetUserId();
+                    transaction.DateReconciled = DateTimeOffset.UtcNow;
 
                     db.Entry(transaction).State = EntityState.Modified;
                     db.SaveChanges();
@@ -348,9 +373,16 @@ namespace jritchieFinancialPortal.Controllers
                         db.SaveChanges();
                     }
 
-                    return RedirectToAction("ReconcileIndex", new { id = transaction.AccountId});
+                    var updatedReconciledBalance = db.Transactions.Where(t => t.Void == false).Where(t => t.Reconciled == true && t.AccountId == transaction.AccountId).Sum(t => (decimal?)t.Amount) ?? 0;
+                    var reconciledAccountToUpdate = db.BankAccounts.Find(transaction.AccountId);
+                    reconciledAccountToUpdate.BalanceReconciled = updatedReconciledBalance;
+                    db.SaveChanges();
+
+                    return RedirectToAction("ReconcileIndex", new { id = transaction.AccountId });
                 }
             }
+
+            Transaction retryTransaction = db.Transactions.Find(transaction.Id);
 
             var userHouseholdId = User.Identity.GetHouseholdId();
             List<BankAccount> currentUserBankAccounts = new List<BankAccount>();
@@ -372,7 +404,7 @@ namespace jritchieFinancialPortal.Controllers
 
             //ViewBag.PostedById = new SelectList(db.Users, "Id", "FirstName", transaction.PostedById);
             //ViewBag.ReconciledById = new SelectList(db.Users, "Id", "FirstName", transaction.ReconciledById);
-            return View(transaction);
+            return View(retryTransaction);
         }
 
 

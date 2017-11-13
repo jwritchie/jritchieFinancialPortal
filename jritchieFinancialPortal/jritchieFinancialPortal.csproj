@@ -198,6 +198,7 @@
     <Compile Include="Controllers\InvitationsController.cs" />
     <Compile Include="Controllers\TransactionsController.cs" />
     <Compile Include="Controllers\UniversalController.cs" />
+    <Compile Include="Models\BudgetTransactionsViewModel.cs" />
     <Compile Include="Models\CodeFirst\CategoryGeneric.cs" />
     <Compile Include="Models\CodeFirst\Frequency.cs" />
     <Compile Include="Models\CodeFirst\Invitation.cs" />

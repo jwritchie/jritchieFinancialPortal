@@ -37,7 +37,14 @@ namespace jritchieFinancialPortal.Controllers
             {
                 return HttpNotFound();
             }
-            return View(budget);
+
+            // Build & populate BudgetTransactionsViewModel
+            BudgetTransactionsViewModel btViewModel = new BudgetTransactionsViewModel();
+
+
+            return View(btViewModel);
+
+            //return View(budget);
         }
 
         // GET: Budgets/Create

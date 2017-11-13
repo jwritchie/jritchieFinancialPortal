@@ -143,14 +143,6 @@
                                 </div>
                             </div>
 
-                            <div class="form-group">
-                                @Html.LabelFor(model => model.AmountReconciled, "Reconcile Amount", htmlAttributes: new { @class = "control-label col-md-2" })
-                                <div class="col-md-2">
-                                    @Html.EditorFor(model => model.AmountReconciled, new { htmlAttributes = new { @class = "form-control" } })
-                                    @Html.ValidationMessageFor(model => model.AmountReconciled, "", new { @class = "text-danger" })
-                                </div>
-                            </div>
-
                             <hr />
 
                             <!-- *** Radio Button test. *** -->
@@ -192,6 +184,7 @@
                                 </div>
                             }
                             <!-- ****** -->
+
                             <!-- *** Reconciled checkbox. *** -->
                             @if (Model.Reconciled)
                             {
@@ -222,6 +215,14 @@
                                 </div>
                             }
                             <!-- ****** -->
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.AmountReconciled, "Reconcile Amount", htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-2">
+                                    @Html.EditorFor(model => model.AmountReconciled, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.AmountReconciled, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
 
                             <hr />
 
