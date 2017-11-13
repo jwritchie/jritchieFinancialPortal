@@ -16,6 +16,7 @@ namespace jritchieFinancialPortal.Models.CodeFirst
 
         public int Id { get; set; }
         public decimal Balance { get; set; }
+        public decimal BalanceReconciled { get; set; }
         public string Name { get; set; }
         public DateTimeOffset Opened { get; set; }
         public DateTimeOffset? Closed { get; set; }

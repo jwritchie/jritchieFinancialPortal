@@ -269,6 +269,122 @@ namespace jritchieFinancialPortal.Controllers
             return View(transaction);
         }
 
+
+        // GET: Transactions
+        public ActionResult ReconcileIndex(int? id)
+        {
+            var currentUserHousehold = User.Identity.GetHouseholdId();
+            List<Transaction> currentUserTransactions = new List<Transaction>();
+            currentUserTransactions = db.Transactions.Where(t => t.Account.HouseholdId == currentUserHousehold).Where(t => t.AccountId == id).Where(t => t.Reconciled == false).ToList();
+
+            ViewBag.ReconciledBalance = db.BankAccounts.Find(id).BalanceReconciled;
+
+            return View(currentUserTransactions);
+
+            //var transactions = db.Transactions.Include(t => t.Account).Include(t => t.Category).Include(t => t.PostedBy).Include(t => t.ReconciledBy);
+            //return View(transactions.ToList());
+        }
+
+        // GET: Transactions/Reconcile/5
+        public ActionResult Reconcile(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Transaction transaction = db.Transactions.Find(id);
+            if (transaction == null)
+            {
+                return HttpNotFound();
+            }
+
+            var userHouseholdId = User.Identity.GetHouseholdId();
+            List<BankAccount> currentUserBankAccounts = new List<BankAccount>();
+            currentUserBankAccounts = db.BankAccounts.Where(b => b.HouseholdId == userHouseholdId && b.Closed == null).OrderBy(b => b.Name).ToList();
+            ViewBag.AccountId = new SelectList(currentUserBankAccounts, "Id", "Name", transaction.AccountId);
+
+            List<TransactionType> transactionTypes = new List<TransactionType>();
+            transactionTypes = db.TransactionTypes.ToList();
+            ViewBag.TransactionTypeId = new SelectList(transactionTypes, "Id", "Name");
+
+
+            List<Category> currentUserCategories = new List<Category>();
+            currentUserCategories = db.Categories.Where(c => c.HouseholdId == userHouseholdId).Where(c => c.TransactionTypeId == transaction.Category.TransactionTypeId).OrderBy(c => c.Name).ToList();
+            ViewBag.CategoryId = new SelectList(currentUserCategories, "Id", "Name", transaction.CategoryId);
+
+            ViewBag.TransactionsAccountId = transaction.AccountId;
+
+            //ViewBag.PostedById = new SelectList(db.Users, "Id", "FirstName", transaction.PostedById);
+            //ViewBag.ReconciledById = new SelectList(db.Users, "Id", "FirstName", transaction.ReconciledById);
+            return View(transaction);
+        }
+
+        // POST: Transactions/Reconcile/5
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Reconcile([Bind(Include = "Id,AccountId,PostedById,DatePosted,Amount,Description,CategoryId,Reconciled,ReconciledById,DateReconciled,Void,DateOfTransaction,AmountReconciled")] Transaction transaction, int PriorAccountId)
+        {
+            if (ModelState.IsValid)
+            {
+                if (transaction.Reconciled && transaction.AmountReconciled != null)
+                {
+                    bool letsDoStuff = true;
+
+                    db.Entry(transaction).State = EntityState.Modified;
+                    db.SaveChanges();
+
+                    var updatedBalance = db.Transactions.Where(t => t.Void == false && t.AccountId == transaction.AccountId).Sum(t => (decimal?)t.Amount) ?? 0;
+                    var accountToUpdate = db.BankAccounts.Find(transaction.AccountId);
+                    accountToUpdate.Balance = updatedBalance;
+                    db.SaveChanges();
+
+                    if (PriorAccountId != transaction.AccountId)
+                    {
+                        var priorAccountUpdatedBalance = db.Transactions.Where(t => t.Void == false && t.AccountId == PriorAccountId).Sum(t => (decimal?)t.Amount) ?? 0;
+                        var priorAccountAccountToUpdate = db.BankAccounts.Find(PriorAccountId);
+                        priorAccountAccountToUpdate.Balance = priorAccountUpdatedBalance;
+                        db.SaveChanges();
+                    }
+
+                    return RedirectToAction("ReconcileIndex", new { id = transaction.AccountId});
+                }
+            }
+
+            var userHouseholdId = User.Identity.GetHouseholdId();
+            List<BankAccount> currentUserBankAccounts = new List<BankAccount>();
+            currentUserBankAccounts = db.BankAccounts.Where(b => b.HouseholdId == userHouseholdId && b.Closed == null).OrderBy(b => b.Name).ToList();
+            ViewBag.AccountId = new SelectList(currentUserBankAccounts, "Id", "Name", transaction.AccountId);
+
+            List<TransactionType> transactionTypes = new List<TransactionType>();
+            transactionTypes = db.TransactionTypes.ToList();
+            ViewBag.TransactionTypeId = new SelectList(transactionTypes, "Id", "Name");
+
+            int transactionTypeId = db.Categories.Find(transaction.CategoryId).TransactionTypeId.Value;
+            List<Category> currentUserCategories = new List<Category>();
+            currentUserCategories = db.Categories.Where(c => c.HouseholdId == userHouseholdId).Where(c => c.TransactionTypeId == transactionTypeId).OrderBy(c => c.Name).ToList();
+            ViewBag.CategoryId = new SelectList(currentUserCategories, "Id", "Name", transaction.CategoryId);
+
+            //List<Category> currentUserCategories = new List<Category>();
+            //currentUserCategories = db.Categories.Where(c => c.HouseholdId == userHouseholdId).OrderBy(c => c.Name).ToList();
+            //ViewBag.CategoryId = new SelectList(currentUserCategories, "Id", "Name", transaction.CategoryId);
+
+            //ViewBag.PostedById = new SelectList(db.Users, "Id", "FirstName", transaction.PostedById);
+            //ViewBag.ReconciledById = new SelectList(db.Users, "Id", "FirstName", transaction.ReconciledById);
+            return View(transaction);
+        }
+
+
+
+
+
+
+
+
+
+
+
         // GET: Transactions/Delete/5
         //public ActionResult Delete(int? id)
         //{

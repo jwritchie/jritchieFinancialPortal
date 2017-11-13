@@ -41,11 +41,11 @@ File: Menu
   display: none;
 }
 .logo {
-  /*color: #188ae2 !important;*/
-  color: #cc0052 !important;
-  font-size: 26px;
-  /*font-family: 'Rancho', cursive;*/
-  font-family: "Courgette";
+    /*color: #188ae2 !important;*/
+    color: #cc0052 !important;
+    font-size: 26px;
+    /*font-family: 'Rancho', cursive;*/
+    font-family: "Courgette";
 }
 .logo i {
   display: none;

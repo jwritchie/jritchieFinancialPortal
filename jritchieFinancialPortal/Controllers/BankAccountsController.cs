@@ -69,6 +69,7 @@ namespace jritchieFinancialPortal.Controllers
             if (ModelState.IsValid)
             {
                 bankAccount.Balance = 0.0M;
+                bankAccount.BalanceReconciled = 0.0M;
                 bankAccount.HouseholdId = ViewBag.CurrentUserHouseholdId;
                 bankAccount.Opened = DateTimeOffset.UtcNow;
 

@@ -1,7 +1,7 @@
 ﻿@model jritchieFinancialPortal.Models.CodeFirst.Transaction
 
 @{
-    ViewBag.Title = "Edit Transaction";
+    ViewBag.Title = "Reconcile Transaction";
 }
 
 
@@ -50,7 +50,7 @@
         <div class="col-sm-12">
             <div class="card-box table-responsive">
 
-                <h4 class="header-title m-t-0 m-b-30">Edit Transaction</h4>
+                <h4 class="header-title m-t-0 m-b-30">Reconcile Transaction</h4>
 
                 @*<div class="form-horizontal">
                         <div class="form-group">
@@ -64,7 +64,7 @@
                 <hr />
 
                 <div class="row">
-                    @using (Html.BeginForm("Edit", "Transactions", new { PriorAccountId = ViewBag.TransactionsAccountId }, FormMethod.Post))
+                    @using (Html.BeginForm("Reconcile", "Transactions", new { PriorAccountId = ViewBag.TransactionsAccountId }, FormMethod.Post))
                     {
                         @Html.AntiForgeryToken()
 
@@ -83,9 +83,9 @@
                                 <label class="control-label col-md-2">Transaction Date</label>
                                 <div class="col-md-9">
                                     <div class="input-group">
-                                        @{
+                                        @{ 
                                             var transactionDate = @Html.ToUserTime(Model.DateOfTransaction, ViewBag.UserTimeZone as string, "MM/dd/yyyy");
-                                            <input value="@transactionDate" name="DateOfTransaction" type="text" class="form-control" placeholder="mm/dd/yyyy" id="datepicker-autoclose">
+                                            <input value ="@transactionDate" name = "DateOfTransaction" type = "text" class="form-control" placeholder="mm/dd/yyyy" id="datepicker-autoclose">
                                         }
                                         @*@Html.EditorFor(model => model.DateOfTransaction, new { htmlAttributes = new { @class = "form-control", id = "datepicker-autoclose" } })*@
                                         @*<input name="DateOfTransaction" type="text" class="form-control" placeholder="mm/dd/yyyy" id="datepicker-autoclose">*@
@@ -133,6 +133,8 @@
                                 </div>
                             }
 
+                            <hr />
+
                             <div class="form-group">
                                 @Html.LabelFor(model => model.Amount, htmlAttributes: new { @class = "control-label col-md-2" })
                                 <div class="col-md-2">
@@ -141,16 +143,25 @@
                                 </div>
                             </div>
 
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.AmountReconciled, "Reconcile Amount", htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-2">
+                                    @Html.EditorFor(model => model.AmountReconciled, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.AmountReconciled, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
                             <hr />
 
                             <!-- *** Radio Button test. *** -->
                             @*<label class="radio-inline">
-                        @Html.RadioButtonFor(model => model.Reconciled, true) Reconciled
-                    </label>
-                    <label class="radio-inline">
-                        @Html.RadioButtonFor(model => model.Reconciled, false) UnReconciled
-                    </label>*@
+                                    @Html.RadioButtonFor(model => model.Reconciled, true) Reconciled
+                                </label>
+                                <label class="radio-inline">
+                                    @Html.RadioButtonFor(model => model.Reconciled, false) UnReconciled
+                                </label>*@
                             <!-- ****** -->
+
                             <!-- *** Void checkbox. *** -->
                             @if (Model.Void)
                             {
@@ -182,7 +193,7 @@
                             }
                             <!-- ****** -->
                             <!-- *** Reconciled checkbox. *** -->
-                            @*@if (Model.Reconciled)
+                            @if (Model.Reconciled)
                             {
                                 <div class="form-group">
                                     @Html.LabelFor(model => model.Reconciled, htmlAttributes: new { @class = "control-label col-md-2" })
@@ -209,24 +220,25 @@
                                         </div>
                                     </div>
                                 </div>
-                            }*@
+                            }
                             <!-- ****** -->
 
                             <hr />
 
                             <div class="form-group">
                                 <div class="col-md-offset-2 col-md-10">
-                                    <input type="submit" value="Update record" class="btn btn-default" />
+                                    <input type="submit" value="Save" class="btn btn-default" />
                                 </div>
                             </div>
                         </div>
                     }
+
                 </div>
 
                 <hr />
 
                 <div class="row" style="text-align:center">
-                    <a href="@Url.Action("Index")" style="color:#ebe0eb"><i class="fa fa-ticket"></i><span> Return to Transactions </span></a>
+                    <a href="@Url.Action("ReconcileIndex", new { id = Model.AccountId })" style="color:#ebe0eb"><i class="fa fa-ticket"></i><span> Return to Transactions </span></a>
                 </div>
 
             </div>

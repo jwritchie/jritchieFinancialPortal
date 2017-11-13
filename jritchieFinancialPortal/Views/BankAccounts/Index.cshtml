@@ -45,14 +45,15 @@
                                     Account Name
                                     @*@Html.DisplayNameFor(model => model.Name)*@
                                 </th>
-                                <th>
+                                <th style="text-align:center">
                                     Date Opened
                                     @*@Html.DisplayNameFor(model => model.Opened)*@
                                 </th>
-                                <th>
+                                <th style="text-align:center">
                                     Date Closed
                                     @*@Html.DisplayNameFor(model => model.Closed)*@
                                 </th>
+                                <th></th>
                                 <th></th>
                             </tr>
                         </thead>
@@ -73,11 +74,11 @@
                                         <td>
                                             @Html.DisplayFor(modelItem => item.Name)
                                         </td>
-                                        <td>
+                                        <td style="text-align:center">
                                             @Html.ToUserTime(item.Opened, ViewBag.UserTimeZone as string, "MM/dd/yyyy")
                                             @*@Html.DisplayFor(modelItem => item.Opened)*@
                                         </td>
-                                        <td>
+                                        <td style="text-align:center">
                                             @if (item.Closed != null)
                                             {
                                                 @Html.ToUserTime(item.Closed.Value, ViewBag.UserTimeZone as string, "MM/dd/yyyy")
@@ -100,6 +101,12 @@
                                                 }
                                             }
                                         </td>
+                                        <td style="text-align:center">
+                                            @if(item.Closed == null)
+                                            {
+                                                @Html.ActionLink("Reconcile", "ReconcileIndex", "Transactions", new { id = item.Id }, null)
+                                            }
+                                        </td>
                                     </tr>
                                 }
                                 else
@@ -117,11 +124,11 @@
                                         <td>
                                             @Html.DisplayFor(modelItem => item.Name)
                                         </td>
-                                        <td>
+                                        <td style="text-align:center">
                                             @Html.ToUserTime(item.Opened, ViewBag.UserTimeZone as string, "MM/dd/yyyy")
                                             @*@Html.DisplayFor(modelItem => item.Opened)*@
                                         </td>
-                                        <td>
+                                        <td style="text-align:center">
                                             @if (item.Closed != null)
                                             {
                                                 @Html.ToUserTime(item.Closed.Value, ViewBag.UserTimeZone as string, "MM/dd/yyyy")
@@ -142,6 +149,12 @@
                                                     <span>&nbsp;|&nbsp;</span>
                                                     @Html.ActionLink("Close", "Delete", new { id = item.Id }, new { style = "color:#ebe0eb" })
                                                 }
+                                            }
+                                        </td>
+                                        <td style="text-align:center">
+                                            @if (item.Closed == null)
+                                            {
+                                                @Html.ActionLink("Reconcile", "ReconcileIndex", "Transactions", new { id = item.Id }, new { style = "color:#ebe0eb" })
                                             }
                                         </td>
                                     </tr>

@@ -19,6 +19,7 @@ namespace jritchieFinancialPortal.Models.CodeFirst
         public DateTimeOffset? DateReconciled { get; set; }
         public bool Void { get; set; }
         public DateTimeOffset DateOfTransaction { get; set; }
+        public decimal? AmountReconciled { get; set; }
 
         public virtual BankAccount Account { get; set; }
         public virtual ApplicationUser PostedBy { get; set; }
