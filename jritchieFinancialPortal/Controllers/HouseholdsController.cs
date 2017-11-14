@@ -16,6 +16,7 @@ namespace jritchieFinancialPortal.Controllers
 {
     public class HouseholdsController : UniversalController
     {
+        [RequireHttps]
         [AuthorizeHouseholdRequired]
         // GET: Households ... Is in a household?
         public ActionResult IsInHousehold()

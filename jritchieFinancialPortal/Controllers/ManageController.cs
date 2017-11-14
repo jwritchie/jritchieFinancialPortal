@@ -11,6 +11,7 @@ using jritchieFinancialPortal.Models.Helpers;
 
 namespace jritchieFinancialPortal.Controllers
 {
+    [RequireHttps]
     [Authorize]
     public class ManageController : UniversalController
     {

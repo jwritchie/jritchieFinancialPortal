@@ -1,8 +1,6 @@
-﻿@using jritchieFinancialPortal.Models
-@model LoginViewModel
-@{
+﻿@{
     Layout = null;
-    ViewBag.Title = "Log in";
+    ViewBag.Title = "Landing Page";
 }
 
 
@@ -187,125 +185,92 @@
         <!-- Start Content here -->
         <!-- ============================================================== -->
 
-        <div class="wrapper-page">
-            <div class="card-box" style="margin-top:120px !important">
 
-                <div class="text-center">
-                    <a class="logo"><span style="color:gold">Financial <span style="color:gold">Portal</span></span></a>
-                    <h5 class="text-muted m-t-0 font-600">Money Management</h5>
-                </div>
-                <hr />
-                <div class="text-center">
-                    <h4 class="text-uppercase font-bold m-b-0">Sign In</h4>
-                </div>
+        <div class="wrapper" style="padding-top:120px">
+            <div class="container">
 
-                <div class="panel-body">
+                <div class="row" style="padding: 20px;
+                                    box-shadow: 0 0px 8px 0 rgba(0,0,0,0.06), 0 1px 0px 0 rgba(0,0,0,0.02);
+                                    border-radius: 5px;
+                                    background-color: #6b476b;
+                                    max-width: 385px;
+                                    margin:0 auto">
 
-                    <section id="loginForm">
+                    <div class="text-center">
+                        <div class="row">
+                            <a class="logo" style="float:none"><span style="color:gold">Financial <span style="color:gold">Portal</span></span></a>
+                        </div>
+                        <div class="row">
+                            <h4 class="text-muted m-t-0 m-b-10 font-600">Money Management</h4>
+                        </div>
+                        <hr />
+                        <div class="text-center">
+                            <h4 class="font-bold m-b-4">Sign in using a demo User account:</h4>
+                        </div>
 
-                        @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
-            {
-                            @Html.AntiForgeryToken()
-
-                            @*<h4>Use a local account to log in.</h4>*@
-                            @*<hr />*@
-
-                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-
-                            <div class="form-group ">
-                                <div class="col-xs-12">
-                                    @Html.TextBoxFor(m => m.Email, new { @class = "form-control", @placeholder = "Email" })
-                                    @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
-                                </div>
+                        <div class="row">
+                            <div class="col-sm-12 text-center">
+                                <a class="btn btn-default" style="width:135px; margin-bottom:4px" href="@Url.Action("DemoLogin", "Account", new { userType = "Demo" } )">Demo User</a>
                             </div>
+                        </div>
 
-                            <div class="form-group ">
-                                <div class="col-xs-12">
-                                    @Html.PasswordFor(m => m.Password, new { @class = "form-control", @placeholder = "Password" })
-                                    @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
-                                </div>
+                        <div class="text-center" style="margin-top:14px">
+                            <h4 class="font-bold">OR</h4>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-sm-12 text-center">
+                                <a class="btn btn-default" style="width:135px" href="@Url.Action("Login", "Account")">Login</a>
                             </div>
-
-
-
-                            @*<div class="form-group">
-                        @Html.LabelFor(m => m.Email, new { @class = "col-md-2 control-label" })
-                        <div class="col-md-10">
-                            @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
-                            @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
                         </div>
                     </div>
-                    <div class="form-group">
-                        @Html.LabelFor(m => m.Password, new { @class = "col-md-2 control-label" })
-                        <div class="col-md-10">
-                            @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
-                            @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
-                        </div>
-                    </div>*@
+                </div>
 
-                            <div class="form-group ">
-                                <div class="col-xs-12">
-                                    <div class="checkbox checkbox-custom">
-                                        <input id="checkbox-signup" type="checkbox">
-                                        <label for="checkbox-signup">
-                                            Remember me
-                                        </label>
-                                    </div>
-                                </div>
-                            </div>
+                <div class="row" style="padding: 20px;
+                                    box-shadow: 0 0px 8px 0 rgba(0,0,0,0.06), 0 1px 0px 0 rgba(0,0,0,0.02);
+                                    border-radius: 5px;
+                                    background-color: #6b476b;
+                                    max-width: 700px;
+                                    margin:20px auto">
 
-                            <div class="form-group text-center m-t-30">
-                                <div class="col-xs-12">
-                                    <button class="btn btn-custom btn-bordred btn-block waves-effect waves-light" type="submit">Log In</button>
-                                </div>
-                            </div>
+                    <div class="text-center">
+                        <h4>
+                            <span style="font-family:Courgette; color:gold">Financial </span><span style="font-family:Courgette; color:gold">Portal</span> is a Web-based, consumer-oriented financial management application built with ASP.NET MVC using C#
+                        </h4>
+                    </div>
 
-                            <div class="form-group m-t-30 m-b-0">
-                                <div class="col-sm-12">
-                                    <a href="@Url.Action("ForgotPassword")" class="text-muted"><i class="fa fa-lock m-r-5"></i> Forgot your password?</a>
-                                </div>
-                            </div>
-                        }
-                    </section>
-
-                    <div class="col-xs-12">
-                        <section id="socialLoginForm">
-                            @Html.Partial("_ExternalLoginsListPartial", new ExternalLoginListViewModel { ReturnUrl = ViewBag.ReturnUrl })
-                        </section>
+                    <div style="margin:0px 20px 0px 7px">
+                        <ul>
+                            <li>
+                                Code-First SQL Server database implementation using Entity Framework with Authentication and Authorization for user- and role-level security.
+                            </li>
+                            <li>
+                                LINQ server-side database queries to prevent SQL injection attacks.
+                            </li>
+                            <li>
+                                Front-end Web pages built with HTML5, CSS, Bootstrap, model binding with Razor, JavaScript, jQuery, and AJAX.
+                            </li>
+                        </ul>
                     </div>
 
                 </div>
-
             </div>
-            <!-- end card-box-->
-
-            <div class="row">
-                <div class="col-sm-12 text-center">
-                    <p class="text-muted">Don't have an account? <a href="@Url.Action("Register")" class="text-primary m-l-5"><b>Sign Up</b></a></p>
-                </div>
-            </div>
-
         </div>
+
+        <!-- Footer -->
+        <footer class="footer text-right">
+            <div class="container">
+                <div class="row" style="text-align:right">
+                    <div class="col-xs-6" style="float:right">
+                        © 2017 — John Ritchie
+                    </div>
+                </div>
+            </div>
+        </footer>
 
     </div>
     <!-- END wrapper -->
 
-
-    <footer class="footer text-right">
-        <div class="container">
-            <div class="row" style="text-align:right">
-                <div class="col-xs-6" style="float:right">
-                    © 2017 — John Ritchie
-                </div>
-            </div>
-        </div>
-    </footer>
-
-
-
-    <script>
-        var resizefunc = [];
-    </script>
 
     <!-- jQuery  -->
     <script src="~/assets/js/jquery.min.js"></script>
@@ -325,7 +290,3 @@
 
 </body>
 </html>
-
-
-
-

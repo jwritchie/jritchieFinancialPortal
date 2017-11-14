@@ -16,6 +16,7 @@ using jritchieFinancialPortal.Models.Helpers;
 
 namespace jritchieFinancialPortal.Controllers
 {
+    [RequireHttps]
     [AuthorizeHouseholdRequired]
     public class InvitationsController : UniversalController
     {

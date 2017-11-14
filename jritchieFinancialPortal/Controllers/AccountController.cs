@@ -14,6 +14,7 @@ using jritchieFinancialPortal.Models.CodeFirst;
 
 namespace jritchieFinancialPortal.Controllers
 {
+    [RequireHttps]
     [Authorize]
     public class AccountController : UniversalController
     {
@@ -432,7 +433,8 @@ namespace jritchieFinancialPortal.Controllers
         public ActionResult LogOff()
         {
             AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("LandingPage", "Home");
+            //return RedirectToAction("Index", "Home");
         }
 
         //
@@ -563,6 +565,29 @@ namespace jritchieFinancialPortal.Controllers
 
 
         // ********************************************
+
+
+        // POST: DemoUserLogin
+        [AllowAnonymous]
+        public async Task<ActionResult> DemoLogin(string userType)
+        {
+            var dLogins = DemoLoginsHelper.DemoLogins(userType);
+
+            var result = await SignInManager.PasswordSignInAsync(dLogins.Email, dLogins.Password, dLogins.RememberMe, shouldLockout: false);
+            switch (result)
+            {
+                case SignInStatus.Success:
+                    return RedirectToAction("Index", "Households");
+                case SignInStatus.Failure:
+                default:
+                    ModelState.AddModelError("", "Invalid login attempt.");
+                    return View(dLogins);
+            }
+        }
+
+
+
+
 
 
         protected override void Dispose(bool disposing)

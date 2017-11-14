@@ -9,15 +9,24 @@ using System.Web.Mvc;
 
 namespace jritchieFinancialPortal.Controllers
 {
+    [RequireHttps]
     [Authorize]
     public class HomeController : UniversalController
     {
-        //[AuthorizeHouseholdRequired]
+        [AllowAnonymous]
+        public ActionResult LandingPage()
+        {
+            return View();
+        }
+
+
+        [AuthorizeHouseholdRequired]
         public ActionResult Index()
         {
             return View();
         }
 
+        [AuthorizeHouseholdRequired]
         public ActionResult About()
         {
             ViewBag.Message = "Your application description page.";
@@ -25,6 +34,7 @@ namespace jritchieFinancialPortal.Controllers
             return View();
         }
 
+        [AuthorizeHouseholdRequired]
         // underscore denotes a partial view.
         public PartialViewResult _Contact(string id)
         {

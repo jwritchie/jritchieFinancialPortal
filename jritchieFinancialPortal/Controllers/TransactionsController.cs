@@ -13,6 +13,7 @@ using Microsoft.AspNet.Identity;
 
 namespace jritchieFinancialPortal.Controllers
 {
+    [RequireHttps]
     [AuthorizeHouseholdRequired]
     public class TransactionsController : UniversalController
     {
@@ -29,6 +30,8 @@ namespace jritchieFinancialPortal.Controllers
             //return View(transactions.ToList());
         }
 
+
+
         // GET: Transactions/Details/5
         public ActionResult Details(int? id)
         {
@@ -42,6 +45,21 @@ namespace jritchieFinancialPortal.Controllers
                 return HttpNotFound();
             }
             return View(transaction);
+        }
+
+        // GET: Transactions/_Details/5
+        public ActionResult _Details(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Transaction transaction = db.Transactions.Find(id);
+            if (transaction == null)
+            {
+                return HttpNotFound();
+            }
+            return PartialView(transaction);
         }
 
 

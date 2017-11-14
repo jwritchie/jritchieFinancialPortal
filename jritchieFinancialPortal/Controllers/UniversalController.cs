@@ -9,6 +9,7 @@ using System.Web.Mvc;
 
 namespace jritchieFinancialPortal.Controllers
 {
+    [RequireHttps]
     [Authorize]
     public class UniversalController : Controller
     {
