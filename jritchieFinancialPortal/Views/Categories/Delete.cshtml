@@ -4,47 +4,59 @@
     ViewBag.Title = "Delete Category";
 }
 
-<h2>Delete Category</h2>
-<h4>@ViewBag.CurrentUserHouseholdName</h4>
 
 
-<div>
-    @*<h4>Category</h4>*@
 
-    <hr />
-    <h5>Are you sure you want to delete this?</h5>
+<div class="container">
 
-    <dl class="dl-horizontal">
-        <dt>
-            Type
-            @*@Html.DisplayNameFor(model => model.TransactionType.Name)*@
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.TransactionType.Name)
-        </dd>
+    <div class="row" style="margin-top:10px">
+        <div class="col-sm-12">
+            <div class="card-box table-responsive">
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Name)
-        </dd>
+                <h4 class="header-title m-t-0 m-b-30">Delete Category</h4>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Description)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Description)
-        </dd>
+                <hr />
 
-    </dl>
+                <div class="row">
 
-    @using (Html.BeginForm()) {
-        @Html.AntiForgeryToken()
+                    <h5>Are you sure you want to delete this?</h5>
 
-        <div class="form-actions no-color">
-            <input type="submit" value="Delete" class="btn btn-default" /> |
-            @Html.ActionLink("Back to List", "Index")
+                    <dl class="dl-horizontal">
+                        <dt>
+                            Type
+                            @*@Html.DisplayNameFor(model => model.TransactionType.Name)*@
+                        </dt>
+                        <dd>
+                            @Html.DisplayFor(model => model.TransactionType.Name)
+                        </dd>
+
+                        <dt>
+                            @Html.DisplayNameFor(model => model.Name)
+                        </dt>
+                        <dd>
+                            @Html.DisplayFor(model => model.Name)
+                        </dd>
+
+                        <dt>
+                            @Html.DisplayNameFor(model => model.Description)
+                        </dt>
+                        <dd>
+                            @Html.DisplayFor(model => model.Description)
+                        </dd>
+
+                    </dl>
+
+                    @using (Html.BeginForm())
+                    {
+                        @Html.AntiForgeryToken()
+
+                        <div class="form-actions no-color">
+                            <input type="submit" value="Delete" class="btn btn-default" /> |
+                            @Html.ActionLink("Back to List", "Index", null, new { style = "color:#ebe0eb" })
+                        </div>
+                    }
+                </div>
+            </div>
         </div>
-    }
+    </div>
 </div>

@@ -4,83 +4,95 @@
     ViewBag.Title = "Delete";
 }
 
-<h2>Close Account</h2>
-<h4>@ViewBag.CurrentUserHouseholdName</h4>
 
 
-<div>
-    @*<h4>BankAccount</h4>*@
 
-    <hr />
-    <h5>Are you sure you want to close this Account?</h5>
+<div class="container">
 
-    <dl class="dl-horizontal">
-        <dt>
-            Bank
-            @*@Html.DisplayNameFor(model => model.Bank.Name)*@
-        </dt>
+    <div class="row" style="margin-top:10px">
+        <div class="col-sm-12">
+            <div class="card-box table-responsive">
 
-        <dd>
-            @Html.DisplayFor(model => model.Bank.Name)
-        </dd>
+                <h4 class="header-title m-t-0 m-b-30">Close Account</h4>
 
-        <dt>&nbsp;</dt>
-        <dd>&nbsp;</dd>
-        <dt>
-            Household
-            @*@Html.DisplayNameFor(model => model.Household.Name)*@
-        </dt>
+                <hr />
 
-        <dd>
-            @Html.DisplayFor(model => model.Household.Name)
-        </dd>
+                <div class="row">
 
-        <dt>
-            Account Name
-            @*@Html.DisplayNameFor(model => model.Name)*@
-        </dt>
+                    <h5>Are you sure you want to close this Account?</h5>
 
-        <dd>
-            @Html.DisplayFor(model => model.Name)
-        </dd>
+                    <dl class="dl-horizontal">
+                        <dt>
+                            Bank
+                            @*@Html.DisplayNameFor(model => model.Bank.Name)*@
+                        </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Balance)
-        </dt>
+                        <dd>
+                            @Html.DisplayFor(model => model.Bank.Name)
+                        </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.Balance)
-        </dd>
+                        <dt>&nbsp;</dt>
+                        <dd>&nbsp;</dd>
+                        <dt>
+                            Household
+                            @*@Html.DisplayNameFor(model => model.Household.Name)*@
+                        </dt>
 
-        <dt>&nbsp;</dt>
-        <dd>&nbsp;</dd>
+                        <dd>
+                            @Html.DisplayFor(model => model.Household.Name)
+                        </dd>
 
-        <dt>
-            Account Opened
-            @*@Html.DisplayNameFor(model => model.Opened)*@
-        </dt>
+                        <dt>
+                            Account Name
+                            @*@Html.DisplayNameFor(model => model.Name)*@
+                        </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Opened)
-        </dd>
+                        <dd>
+                            @Html.DisplayFor(model => model.Name)
+                        </dd>
 
-        <dt>
-            Account Closed
-            @*@Html.DisplayNameFor(model => model.Closed)*@
-        </dt>
+                        <dt>
+                            @Html.DisplayNameFor(model => model.Balance)
+                        </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Closed)
-        </dd>
+                        <dd>
+                            @Html.DisplayFor(model => model.Balance)
+                        </dd>
 
-    </dl>
+                        <dt>&nbsp;</dt>
+                        <dd>&nbsp;</dd>
 
-    @using (Html.BeginForm()) {
-        @Html.AntiForgeryToken()
+                        <dt>
+                            Account Opened
+                            @*@Html.DisplayNameFor(model => model.Opened)*@
+                        </dt>
 
-        <div class="form-actions no-color">
-            <input type="submit" value="Close Account" class="btn btn-default" /> |
-            @Html.ActionLink("Back to List", "Index")
+                        <dd>
+                            @Html.DisplayFor(model => model.Opened)
+                        </dd>
+
+                        <dt>
+                            Account Closed
+                            @*@Html.DisplayNameFor(model => model.Closed)*@
+                        </dt>
+
+                        <dd>
+                            @Html.DisplayFor(model => model.Closed)
+                        </dd>
+
+                    </dl>
+
+                    @using (Html.BeginForm())
+                    {
+                        @Html.AntiForgeryToken()
+
+                        <div class="form-actions no-color">
+                            <input type="submit" value="Close Account" class="btn btn-default" /> |
+                            @Html.ActionLink("Back to List", "Index", null, new { style = "color:#ebe0eb" })
+                        </div>
+                    }
+                </div>
+            </div>
         </div>
-    }
+    </div>
 </div>

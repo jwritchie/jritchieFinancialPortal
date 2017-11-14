@@ -1192,7 +1192,8 @@ button.list-group-item .list-group-item-heading {
     border-radius: 2px;
     box-shadow: none;
     padding: 30px;
-    background-color: #435966;
+    background-color: #cc0052;
+    /*background-color: #435966;*/
 }
 
     .modal .modal-dialog .modal-content .modal-header {

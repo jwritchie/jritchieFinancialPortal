@@ -1,0 +1,44 @@
+﻿@model jritchieFinancialPortal.Models.CodeFirst.Household
+
+@{
+    ViewBag.Title = "Leave Household";
+}
+
+
+
+
+<div class="container">
+
+    <div class="row" style="margin-top:10px">
+        <div class="col-sm-12">
+            <div class="card-box table-responsive">
+
+                <h4 class="header-title m-t-0 m-b-30">Leave Household</h4>
+
+                <hr />
+
+                <div class="row">
+
+                    <div class="row" style="text-align:center">
+
+                        <a href="@Html.Action("LeaveHousehold")" class="btn btn-default">Leave this Household</a>
+
+                        @Html.ActionLink("Leave this Household", "LeaveHousehold", "Households", null, new { style = "color:#ebe0eb" })
+
+
+
+
+
+                        <a href="@Url.Action("Details", "Households", new { id = Model.Id } )" style="color:#ebe0eb"><i class="fa fa-ticket"></i><span> Back to Details </span></a>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

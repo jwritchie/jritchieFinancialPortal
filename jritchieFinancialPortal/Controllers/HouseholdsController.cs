@@ -14,9 +14,9 @@ using jritchieFinancialPortal.Models.Helpers;
 
 namespace jritchieFinancialPortal.Controllers
 {
+    [RequireHttps]
     public class HouseholdsController : UniversalController
     {
-        [RequireHttps]
         [AuthorizeHouseholdRequired]
         // GET: Households ... Is in a household?
         public ActionResult IsInHousehold()
@@ -177,21 +177,23 @@ namespace jritchieFinancialPortal.Controllers
             return View(household);
         }
 
+
         //[AuthorizeHouseholdRequired]
-        //// GET: Households/Delete/5
+        // GET: Households/Delete/5
         //public ActionResult Delete(int? id)
         //{
-        //    if (id == null)
-        //    {
-        //        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-        //    }
-        //    Household household = db.Households.Find(id);
-        //    if (household == null)
-        //    {
-        //        return HttpNotFound();
-        //    }
-        //    return View(household);
+            //if (id == null)
+            //{
+            //    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            //}
+            //Household household = db.Households.Find(id);
+            //if (household == null)
+            //{
+            //    return HttpNotFound();
+            //}
+            //return View(household);
         //}
+
 
         //[AuthorizeHouseholdRequired]
         //// POST: Households/Delete/5
@@ -222,6 +224,7 @@ namespace jritchieFinancialPortal.Controllers
         //    return RedirectToAction("Details", "Households", new { id = user.HouseholdId });
         //    //return View();
         //}
+
 
         // POST: LeaveHousehold
         public async Task<ActionResult> LeaveHousehold()

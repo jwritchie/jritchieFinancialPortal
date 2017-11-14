@@ -4,49 +4,60 @@
     ViewBag.Title = "Edit Household";
 }
 
-<h2>Edit Household</h2>
-<h4>@ViewBag.CurrentUserHouseholdName</h4>
 
 
-@using (Html.BeginForm())
-{
-    @Html.AntiForgeryToken()
-    
-    <div class="form-horizontal">
-        @*<h4>Household</h4>*@
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
-        @Html.HiddenFor(model => model.Id)
-        @Html.HiddenFor(model => model.Established)
+<div class="container">
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-9">
-                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
-            </div>
-        </div>
+    <div class="row" style="margin-top:10px">
+        <div class="col-sm-12">
+            <div class="card-box table-responsive">
 
-        @*<div class="form-group">
-            @Html.LabelFor(model => model.Established, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Established, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Established, "", new { @class = "text-danger" })
-            </div>
-        </div>*@
+                <h4 class="header-title m-t-0 m-b-30">Edit Household Name</h4>
 
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Update" class="btn btn-default" />
+                <hr />
+
+                <div class="row">
+                    @using (Html.BeginForm())
+                    {
+                        @Html.AntiForgeryToken()
+
+                        <div class="form-horizontal">
+                            @*<h4>Household</h4>*@
+                            @*<hr />*@
+                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                            @Html.HiddenFor(model => model.Id)
+                            @Html.HiddenFor(model => model.Established)
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-9">
+                                    @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="col-md-offset-2 col-md-10">
+                                    <input type="submit" value="Update" class="btn btn-default" />
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+
+                <hr />
+
+                <div class="row" style="text-align:center">
+                    <a href="@Url.Action("Details", "Households", new { id = Model.Id } )" style="color:#ebe0eb"><i class="fa fa-ticket"></i><span> Back to Details </span></a>
+                </div>
+
             </div>
         </div>
     </div>
-}
-
-<div>
-    @Html.ActionLink("Back to Details", "Details", "Households", new { id = Model.Id}, null )
 </div>
+
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
