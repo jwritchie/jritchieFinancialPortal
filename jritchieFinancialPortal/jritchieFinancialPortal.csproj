@@ -198,6 +198,7 @@
     <Compile Include="Controllers\InvitationsController.cs" />
     <Compile Include="Controllers\TransactionsController.cs" />
     <Compile Include="Controllers\UniversalController.cs" />
+    <Compile Include="Models\DashTransactionsViewModel.cs" />
     <Compile Include="Models\BudgetTransactionsViewModel.cs" />
     <Compile Include="Models\CodeFirst\CategoryGeneric.cs" />
     <Compile Include="Models\CodeFirst\Frequency.cs" />
@@ -1875,6 +1876,7 @@
     <Content Include="Views\Budgets\_Details.cshtml" />
     <Content Include="Views\Transactions\_Details.cshtml" />
     <Content Include="Views\Home\LandingPage.cshtml" />
+    <Content Include="Views\Home\Index - Hold.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

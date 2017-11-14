@@ -1,121 +1,142 @@
-﻿@{
-    ViewBag.Title = "Home Page";
+﻿@*@model jritchieFinancialPortal.Models.CodeFirst.Budget*@
+@*@model jritchieFinancialPortal.Models.DashTransactionsViewModel*@
+
+@model IEnumerable<jritchieFinancialPortal.Models.DashTransactionsViewModel>
+
+
+
+
+@{
+    ViewBag.Title = "Dashboard";
 }
 
 
+<div class="container">
 
-<div class="jumbotron">
-    <h1>ASP.NET</h1>
-    <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS and JavaScript.</p>
-    @*<p><a href="https://asp.net" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>*@
-</div>
+    <div class="row" style="margin-top:10px">
+        <div class="col-sm-12">
 
-<div class="row">
+            <div class="card-box table-responsive">
 
-    <div class="col-md-3">
-        <a href="" data-id="Ryan" class="clickHere">Click here.... !!!</a>
-    </div>
-    
-    @*<div class="col-md-3">
-        <h2>Getting started</h2>
-        <p>
-            ASP.NET MVC gives you a powerful, patterns-based way to build dynamic websites that
-            enables a clean separation of concerns and gives you full control over markup
-            for enjoyable, agile development.
-        </p>
-    </div>*@
+                <div class="row">
 
-    <div class="col-md-3">
-        <h2>Get more libraries</h2>
-        <p>NuGet is a free Visual Studio extension that makes it easy to add, remove, and update libraries and tools in Visual Studio projects.</p>
-        <p><a class="btn btn-default" href="@Url.Action("_Contact")" data-target="#contactModal" data-toggle="modal">Contact Modal &raquo;</a></p>
-        <p><a class="btn btn-default" href="@Url.Action("_Create", "Transactions")" data-target="#createModal" data-toggle="modal">Transaction Modal &raquo;</a></p>
-    </div>
+                    @foreach (var bankAccount in Model)
+                    {
+                        <div class="col-xs-4">
 
-    <div class="col-md-3">
-        <h2>Web Hosting</h2>
-        <p>You can easily find a web hosting company that offers the right mix of features and price for your applications.</p>
-    </div>
+                            <div class="text-center">
+                                <h4 class="header-title m-t-0 m-b-30">@bankAccount.AccountName</h4>
 
-    <div class="col-md-3">
-        <div id="renderHere">
+                                <hr />
+
+                                <ul class="list-inline chart-detail-list">
+                                    <li>
+                                        <h5 style="color: #eed391;"><i class="fa fa-circle m-r-5"></i>Total Expenses</h5>
+                                    </li>
+                                    <li>
+                                        <h5 style="color: #b8860b;"><i class="fa fa-circle m-r-5"></i>Total Income</h5>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div id="bar-example" style="height: 200px;"></div>
+
+                        </div>
+                    }
+
+
+                </div>
+            </div>
+
+            @*@{
+                var myChart = new Chart(width: 600, height: 400)
+                    .AddTitle("Chart Title")
+                    .AddSeries(
+                        name: "Employee",
+                        xValue: new[] { "Peter", "Andrew", "Julie", "Mary", "Dave" },
+                        yValues: new[] { "2", "6", "4", "5", "3" })
+                    .Write();
+            }*@
+
 
         </div>
     </div>
 </div>
-
+<!-- end row -->
 @*regular modal here*@
-<div class="modal fade" id="contactModal" role="dialog" aria-labelledby="displayModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
+@*<div class="modal fade" id="viewTransactionModal" role="dialog" aria-labelledby="displayModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
 
+            </div>
         </div>
-    </div>
-</div>
-
-<div class="modal fade" id="createModal" role="dialog" aria-labelledby="displayModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-
-        </div>
-    </div>
-</div>
+    </div>*@
 
 
 
 @section scripts{
-    <script>
-        $('.clickHere').click(function () {
-            $('#renderHere').load('/Home/_Contact/' + $(this).data('id'))
-        })
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
+    <script src="~/Assets/plugins/morris/morris.min.js"></script>
 
+    <script>
+        Morris.Bar({
+            element: 'bar-example',
+            data: [
+                @*{ y: '', a: @Model.TotalTransactions, b: @Model.Budget.Amount }*@
+                { y: '', a: 90.96, b: 100.00 }
+                //{ y: '', a: 139.74, b: 1000.02 },
+                //{ y: '', a: 0.00, b: 0.03 },
+                //{ y: '', a: 20.00, b: 0.00 }
+            ],
+            xkey: 'y',
+            ykeys: ['a', 'b'],
+            labels: ['Expenses', 'Income'],
+            barColors: ['#eed391', '#b8860b'],
+            hideHover: ['true'],
+            resize: ['true']
+        });
+    </script>
+
+
+    <script>
+        $(document).ready(function () {
+            $(function () {
+                // when the modal is closed
+                $('#viewTransactionModal').on('hidden.bs.modal', function () {
+                    // remove the bs.modal data attribute from it
+                    $(this).removeData('bs.modal');
+                    // and empty the modal-content element
+                    $('#viewTransactionModal .modal-content').empty();
+                });
+            });
+        });
+    </script>
+
+
+
+
+    <!-- Datatables-->
+    <script src="~/Assets/plugins/datatables/jquery.dataTables.min.js"></script>
+    <script src="~/Assets/plugins/datatables/dataTables.bootstrap.js"></script>
+    <script src="~/Assets/plugins/datatables/dataTables.buttons.min.js"></script>
+    <script src="~/Assets/plugins/datatables/buttons.bootstrap.min.js"></script>
+    <script src="~/Assets/plugins/datatables/jszip.min.js"></script>
+    <script src="~/Assets/plugins/datatables/pdfmake.min.js"></script>
+    <script src="~/Assets/plugins/datatables/vfs_fonts.js"></script>
+    <script src="~/Assets/plugins/datatables/buttons.html5.min.js"></script>
+    <script src="~/Assets/plugins/datatables/buttons.print.min.js"></script>
+    <script src="~/Assets/plugins/datatables/dataTables.fixedHeader.min.js"></script>
+    <script src="~/Assets/plugins/datatables/dataTables.keyTable.min.js"></script>
+    <script src="~/Assets/plugins/datatables/dataTables.responsive.min.js"></script>
+    <script src="~/Assets/plugins/datatables/responsive.bootstrap.min.js"></script>
+    <script src="~/Assets/plugins/datatables/dataTables.scroller.min.js"></script>
+
+    <!-- Datatable init js -->
+    <script src="~/Assets/pages/datatables.init.js"></script>
+
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#datatable').DataTable();
+        });
     </script>
 }
-
-
-
-
-
-
-
-@*
-    
-Inside a dropdown list:
-=======================
-<li>
-    <a class="AcctDetails" style="cursor:pointer" data-id="@item.Id">@item.Name</a>
-</li>
-
-
-Set up an empty div:
-====================
-<div id="acctdetails-partial">
-    </div>
-
-
-Scripts:
-========
-<script>
-    $(document).ready(function() {
-        $("#acctdetails-partial").load('/FinancialAccounts/_AcctDetails/' + @ViewBag.AcctId);
-    })
-</script>
-<script>
-    $(".AcctDetails").click(function () {
-        $("#acctdetails-partial").load
-    })
-</script>
-
-
-In the Controller, set ActionResult to:
-======================================= 
-public PartialViewResult _AcctDetails(int? id)
-{
-    controller body
-
-    return PartialView();
-}
-    
-*@
-
-
