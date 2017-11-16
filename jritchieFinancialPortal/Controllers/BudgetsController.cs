@@ -46,6 +46,7 @@ namespace jritchieFinancialPortal.Controllers
             btViewModel.Transactions = db.Transactions.Where(t => t.Account.HouseholdId == currentUserHouseholdId).Where(t => t.CategoryId == budget.CategoryId).ToList();
             decimal currentTransactionsTotal = db.Transactions.Where(t => t.Account.HouseholdId == currentUserHouseholdId).Where(t => t.CategoryId == budget.CategoryId).Sum(t => (decimal?)t.Amount) ?? 0;
             btViewModel.TotalTransactions = currentTransactionsTotal * -1;
+            btViewModel.DisplayTotalTransactions = currentTransactionsTotal;
             return View(btViewModel);
 
             //return View(budget);

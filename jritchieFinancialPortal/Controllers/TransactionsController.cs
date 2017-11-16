@@ -139,12 +139,6 @@ namespace jritchieFinancialPortal.Controllers
         }
 
 
-
-
-
-
-
-
         // GET: Transactions/Create
         public ActionResult Create()
         {
@@ -163,6 +157,13 @@ namespace jritchieFinancialPortal.Controllers
 
             //ViewBag.PostedById = new SelectList(db.Users, "Id", "FirstName");
             //ViewBag.ReconciledById = new SelectList(db.Users, "Id", "FirstName");
+
+
+            var currentHouseholdId = User.Identity.GetHouseholdId();
+            var bankAccounts = db.BankAccounts.Where(b => b.HouseholdId == currentHouseholdId).OrderBy(b => b.Bank.Name).ThenBy(b => b.Name);
+            //return View(bankAccounts.ToList());
+            ViewBag.BankAccountBalances = bankAccounts.ToList();
+
             return View();
         }
 
@@ -424,14 +425,6 @@ namespace jritchieFinancialPortal.Controllers
             //ViewBag.ReconciledById = new SelectList(db.Users, "Id", "FirstName", transaction.ReconciledById);
             return View(retryTransaction);
         }
-
-
-
-
-
-
-
-
 
 
 

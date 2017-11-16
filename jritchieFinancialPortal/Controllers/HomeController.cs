@@ -79,14 +79,6 @@ namespace jritchieFinancialPortal.Controllers
             }
 
             return View(dashViewModel);
-
-
-            //decimal currentExpenseTransactionsTotal = db.Transactions.Where(t => t.Account.HouseholdId == currentUserHouseholdId).Where(t => t.Category.TransactionTypeId == 1).Sum(t => (decimal?)t.Amount) ?? 0;
-            //decimal currentIncomeTransactionsTotal = db.Transactions.Where(t => t.Account.HouseholdId == currentUserHouseholdId).Where(t => t.Category.TransactionTypeId == 2).Sum(t => (decimal?)t.Amount) ?? 0;
-
-            //dashViewModel.TotalExpenseTransactions = currentIncomeTransactionsTotal * -1;
-            //dashViewModel.TotalIncomeTransactions = currentIncomeTransactionsTotal;
-            //return View(dashViewModel);
         }
 
     }

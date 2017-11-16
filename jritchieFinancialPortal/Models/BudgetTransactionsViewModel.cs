@@ -11,5 +11,6 @@ namespace jritchieFinancialPortal.Models
         public Budget Budget { get; set; }
         public List<Transaction> Transactions { get; set; }
         public decimal TotalTransactions { get; set; }
+        public decimal DisplayTotalTransactions { get; set; }
     }
 }

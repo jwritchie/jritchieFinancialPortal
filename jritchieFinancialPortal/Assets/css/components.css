@@ -749,6 +749,13 @@ File: Components
   border-color: #ff8acc !important;
   color: #ff8acc !important;
 }
+
+.panel-border.panel-gold .panel-heading {
+    border-color: gold !important;
+    color: gold !important;
+}
+
+
 .panel-border.panel-inverse .panel-heading {
   border-color: #575E6F !important;
   color: #575E6F !important;

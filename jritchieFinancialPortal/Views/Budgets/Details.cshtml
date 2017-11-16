@@ -70,7 +70,7 @@
                         </div>
                         <div id="bar-example" style="height: 200px;"></div>
 
-                    </div>
+                    </div><!-- end col -->
 
                     <div class="col-md-6">
                         <table id="datatable" class="table table-condensed table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
@@ -91,9 +91,9 @@
                                 }
                             </tbody>
                         </table>
-                        <p style="color:gold; float:right">Total Transactions: @Model.TotalTransactions.ToString()</p>
+                        <p style="color:gold; float:right">Total Transactions: @Model.DisplayTotalTransactions.ToString("$#,##0.00")</p>
                     </div><!-- end col-->
-                </div>
+                </div><!-- end row -->
 
                 <div class="row">
                     <div class="col-sm-12">
@@ -119,7 +119,7 @@
 @*regular modal here*@
 <div class="modal fade" id="viewTransactionModal" role="dialog" aria-labelledby="displayModalLabel" aria-hidden="true">
     <div class="modal-dialog">
-        <div class="modal-content">
+        <div class="modal-content" style="background:linear-gradient(to top, #382538 0%, #cc0052 90%); border-radius:6px">
 
         </div>
     </div>

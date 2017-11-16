@@ -17,28 +17,16 @@
         <div class="col-sm-12">
 
             <div class="card-box table-responsive">
-
                 <div class="row">
 
                     @{ 
                         int chart = 0;
-                        //decimal currentExpenses = 0;
-                        //decimal currentIncome = 0;
-
-
                         foreach (var bankAccount in Model)
                         {
-                            //currentExpenses = bankAccount.TotalExpenseTransactions;
-                            //currentIncome = bankAccount.TotalIncomeTransactions;
-
-
-                            <div class="col-xs-4">
-
+                            <div class="col-xs-3">
                                 <div class="text-center">
                                     <h4 class="header-title m-t-0 m-b-30">@bankAccount.AccountName</h4>
-
                                     <hr />
-
                                     <ul class="list-inline chart-detail-list">
                                         <li>
                                             <h5 style="color: #eed391;"><i class="fa fa-circle m-r-5"></i>Total Expenses</h5>
@@ -50,9 +38,7 @@
                                 </div>
 
                                 @*<div id="bar-example" style="height: 200px;"></div>*@
-
                                 <div id="bar-example + (@chart)" style="height: 200px;"></div>
-
 
                             </div>
                             chart++;
@@ -62,21 +48,12 @@
                 </div>
             </div>
 
-            @*@{
-                var myChart = new Chart(width: 600, height: 400)
-                    .AddTitle("Chart Title")
-                    .AddSeries(
-                        name: "Employee",
-                        xValue: new[] { "Peter", "Andrew", "Julie", "Mary", "Dave" },
-                        yValues: new[] { "2", "6", "4", "5", "3" })
-                    .Write();
-            }*@
-
-
         </div>
     </div>
 </div>
 <!-- end row -->
+
+
 @*regular modal here*@
 @*<div class="modal fade" id="viewTransactionModal" role="dialog" aria-labelledby="displayModalLabel" aria-hidden="true">
         <div class="modal-dialog">
