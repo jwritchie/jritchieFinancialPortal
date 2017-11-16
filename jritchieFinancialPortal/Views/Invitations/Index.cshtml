@@ -4,53 +4,116 @@
     ViewBag.Title = "Index";
 }
 
-<h2>Index</h2>
 
-<table class="table">
-    <tr>
-        <th>
-            Household Name
-            @*@Html.DisplayNameFor(model => model.Household.Name)*@
-        </th>
-        <th>
-            Email of Person Invited
-            @*@Html.DisplayNameFor(model => model.Email)*@
-        </th>
-        <th>
-            Invitation issued
-            @*@Html.DisplayNameFor(model => model.DateTimeIssued)*@
-        </th>
-        <th>
-            Invitation expires
-            @*@Html.DisplayNameFor(model => model.DateTimeExpires)*@
-        </th>
-        <th></th>
-    </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Household.Name)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Email)
-        </td>
-        <td>
-            @Html.ToUserTime(item.DateTimeIssued, ViewBag.UserTimeZone as string, "MM/dd/yyyy | hh:mm:ss")
-            @*@Html.DisplayFor(modelItem => item.DateTimeIssued)*@
-        </td>
-        <td>
-            @Html.ToUserTime(item.DateTimeExpires, ViewBag.UserTimeZone as string, "MM/dd/yyyy | hh:mm:ss")
-            @*@Html.DisplayFor(modelItem => item.DateTimeExpires)*@
-        </td>
-        <td>
-            @*@Html.ActionLink("Edit", "Edit", new { id=item.Id }) |*@
-            @*@Html.ActionLink("Details", "Details", new { id=item.Id }) |*@
-            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
-        </td>
-    </tr>
+
+<div class="container">
+
+    <div class="row" style="margin-top:10px">
+        <div class="col-sm-12">
+            <div class="card-box table-responsive">
+
+                <div class="row">
+                    <h4 class="header-title m-t-0 m-b-30">Existing Invitations</h4>
+
+                    <table id="datatable-buttons" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
+
+                        <thead>
+                            <tr>
+                                <th>
+                                    Household Name
+                                </th>
+                                <th>
+                                    Email of Person Invited
+                                </th>
+                                <th>
+                                    Invitation issued
+                                </th>
+                                <th>
+                                    Invitation expires
+                                </th>
+                                <th></th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Household.Name)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Email)
+                                    </td>
+                                    <td>
+                                        @Html.ToUserTime(item.DateTimeIssued, ViewBag.UserTimeZone as string, "MM/dd/yyyy | hh:mm:ss")
+                                    </td>
+                                    <td>
+                                        @Html.ToUserTime(item.DateTimeExpires, ViewBag.UserTimeZone as string, "MM/dd/yyyy | hh:mm:ss")
+                                    </td>
+                                    <td style="text-align:center">
+                                        @*@Html.ActionLink("Edit", "Edit", new { id=item.Id }) |*@
+                                        @*@Html.ActionLink("Details", "Details", new { id=item.Id }) |*@
+                                        @Html.ActionLink("Delete", "Delete", new { id = item.Id }, new { style = "color:#ebe0eb" })
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-12">
+
+                        <hr />
+
+                        <div class="col-md-12" style="text-align:center">
+                            <p>
+                                @Html.ActionLink("Return to Household's Details", "Details", "Households", new { id = ViewBag.CurrentUserHouseholdId }, new { style = "color:#ebe0eb" })
+                            </p>
+                        </div>
+
+                    </div><!-- end col -->
+                </div><!-- end row -->
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+@section scripts
+{
+    <!-- Datatables-->
+    <script src="~/Assets/plugins/datatables/jquery.dataTables.min.js"></script>
+    <script src="~/Assets/plugins/datatables/dataTables.bootstrap.js"></script>
+    <script src="~/Assets/plugins/datatables/dataTables.buttons.min.js"></script>
+    <script src="~/Assets/plugins/datatables/buttons.bootstrap.min.js"></script>
+    <script src="~/Assets/plugins/datatables/jszip.min.js"></script>
+    <script src="~/Assets/plugins/datatables/pdfmake.min.js"></script>
+    <script src="~/Assets/plugins/datatables/vfs_fonts.js"></script>
+    <script src="~/Assets/plugins/datatables/buttons.html5.min.js"></script>
+    <script src="~/Assets/plugins/datatables/buttons.print.min.js"></script>
+    <script src="~/Assets/plugins/datatables/dataTables.fixedHeader.min.js"></script>
+    <script src="~/Assets/plugins/datatables/dataTables.keyTable.min.js"></script>
+    <script src="~/Assets/plugins/datatables/dataTables.responsive.min.js"></script>
+    <script src="~/Assets/plugins/datatables/responsive.bootstrap.min.js"></script>
+    <script src="~/Assets/plugins/datatables/dataTables.scroller.min.js"></script>
+
+    <!-- Datatable init js -->
+    <script src="~/Assets/pages/datatables.init.js"></script>
+
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#datatable-responsive').DataTable();
+        });
+        TableManageButtons.init();
+    </script>
 }
-
-</table>
-
-@Html.ActionLink("Return to Household's Details", "Details", "Households", new { id = ViewBag.CurrentUserHouseholdId }, null)

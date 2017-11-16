@@ -32,14 +32,17 @@
         $('#sa-warning').click(function () {
             swal({
                 title: "Are you sure?",
-                text: "You will not be able to recover this imaginary file!",
+                text: "You are about to Leave this Household. All access will be lost.",
+                //text: "You will not be able to recover this imaginary file!",
                 type: "warning",
                 showCancelButton: true,
                 confirmButtonClass: 'btn-warning',
-                confirmButtonText: "Yes, delete it!",
+                confirmButtonText: "Yes, I want to leave!",
+                //confirmButtonText: "Yes, delete it!",
                 closeOnConfirm: false
             }, function () {
-                swal("Deleted!", "Your imaginary file has been deleted.", "success");
+                swal("Goodbye!", "Your access has been removed.", "success");
+                //swal("Done!", "Your imaginary file has been deleted.", "success");
             });
         });
 

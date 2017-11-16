@@ -205,6 +205,12 @@ namespace jritchieFinancialPortal.Controllers
 
             //ViewBag.PostedById = new SelectList(db.Users, "Id", "FirstName", transaction.PostedById);
             //ViewBag.ReconciledById = new SelectList(db.Users, "Id", "FirstName", transaction.ReconciledById);
+
+            var currentHouseholdId = User.Identity.GetHouseholdId();
+            var bankAccounts = db.BankAccounts.Where(b => b.HouseholdId == currentHouseholdId).OrderBy(b => b.Bank.Name).ThenBy(b => b.Name);
+            //return View(bankAccounts.ToList());
+            ViewBag.BankAccountBalances = bankAccounts.ToList();
+
             return View(transaction);
         }
 
@@ -236,9 +242,15 @@ namespace jritchieFinancialPortal.Controllers
             ViewBag.CategoryId = new SelectList(currentUserCategories, "Id", "Name", transaction.CategoryId);
 
             ViewBag.TransactionsAccountId = transaction.AccountId;
-            
+
             //ViewBag.PostedById = new SelectList(db.Users, "Id", "FirstName", transaction.PostedById);
             //ViewBag.ReconciledById = new SelectList(db.Users, "Id", "FirstName", transaction.ReconciledById);
+
+            var currentHouseholdId = User.Identity.GetHouseholdId();
+            var bankAccounts = db.BankAccounts.Where(b => b.HouseholdId == currentHouseholdId).OrderBy(b => b.Bank.Name).ThenBy(b => b.Name);
+            //return View(bankAccounts.ToList());
+            ViewBag.BankAccountBalances = bankAccounts.ToList();
+
             return View(transaction);
         }
 
@@ -285,6 +297,12 @@ namespace jritchieFinancialPortal.Controllers
 
             //ViewBag.PostedById = new SelectList(db.Users, "Id", "FirstName", transaction.PostedById);
             //ViewBag.ReconciledById = new SelectList(db.Users, "Id", "FirstName", transaction.ReconciledById);
+
+            var currentHouseholdId = User.Identity.GetHouseholdId();
+            var bankAccounts = db.BankAccounts.Where(b => b.HouseholdId == currentHouseholdId).OrderBy(b => b.Bank.Name).ThenBy(b => b.Name);
+            //return View(bankAccounts.ToList());
+            ViewBag.BankAccountBalances = bankAccounts.ToList();
+
             return View(transaction);
         }
 

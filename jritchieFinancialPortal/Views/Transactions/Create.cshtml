@@ -5,8 +5,6 @@
 }
 
 
-
-
 <script type="text/javascript">
     function gettoken() {
         var token = '@Html.AntiForgeryToken()';
@@ -50,7 +48,6 @@
 
     <div class="row" style="margin-top:10px">
         <div class="col-sm-12">
-
             <div class="card-box table-responsive">
 
                 <div class="row">
@@ -164,17 +161,18 @@
 
                                 </div>
                             </div>
-                        </div><!-- end col -->
+                        </div><!-- end inner col -->
 
-                    </div>
+                    </div><!-- end outer col -->
+                </div><!-- end row -->
 
-                </div><!-- end col -->
-            </div><!-- end row -->
 
-            <hr />
+                <hr />
 
-            <div class="row" style="text-align:center">
-                <a href="@Url.Action("Index")" style="color:#ebe0eb"><i class="fa fa-ticket"></i><span> Back to Transaction List </span></a>
+                <div class="row" style="text-align:center">
+                    <a href="@Url.Action("Index")" style="color:#ebe0eb"><i class="fa fa-ticket"></i><span> Back to Transaction List </span></a>
+                </div>
+
             </div>
 
         </div>

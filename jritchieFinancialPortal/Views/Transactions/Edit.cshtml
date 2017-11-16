@@ -50,178 +50,208 @@
         <div class="col-sm-12">
             <div class="card-box table-responsive">
 
-                <h4 class="header-title m-t-0 m-b-30">Edit Transaction</h4>
-
-                @*<div class="form-horizontal">
-                        <div class="form-group">
-                            @Html.LabelFor(model => model.Id, "Ticket ID", htmlAttributes: new { @class = "control-label col-md-2", @style = "padding-right:16px" })
-                            <div style="margin-top:7px">
-                                <span style="margin-left:20px !important">@Model.Id</span>
-                            </div>
-                        </div>
-                    </div>*@
-
-                <hr />
-
                 <div class="row">
-                    @using (Html.BeginForm("Edit", "Transactions", new { PriorAccountId = ViewBag.TransactionsAccountId }, FormMethod.Post))
-                    {
-                        @Html.AntiForgeryToken()
+                    <h4 class="header-title m-t-0 m-b-30">Edit Transaction</h4>
 
-                        <div class="form-horizontal">
+                    <hr />
 
-                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    <div class="col-md-6">
+                        @using (Html.BeginForm("Edit", "Transactions", new { PriorAccountId = ViewBag.TransactionsAccountId }, FormMethod.Post))
+                        {
+                            @Html.AntiForgeryToken()
 
-                            @Html.HiddenFor(model => model.Id)
-                            @Html.HiddenFor(model => model.PostedById)
-                            @Html.HiddenFor(model => model.DatePosted)
-                            @Html.HiddenFor(model => model.DateReconciled)
-                            @Html.HiddenFor(model => model.ReconciledById)
+                            <div class="form-horizontal">
 
+                                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
-                            <div class="form-group">
-                                <label class="control-label col-md-2">Transaction Date</label>
-                                <div class="col-md-9">
-                                    <div class="input-group">
-                                        @{
-                                            var transactionDate = @Html.ToUserTime(Model.DateOfTransaction, ViewBag.UserTimeZone as string, "MM/dd/yyyy");
-                                            <input value="@transactionDate" name="DateOfTransaction" type="text" class="form-control" placeholder="mm/dd/yyyy" id="datepicker-autoclose">
-                                        }
-                                        @*@Html.EditorFor(model => model.DateOfTransaction, new { htmlAttributes = new { @class = "form-control", id = "datepicker-autoclose" } })*@
-                                        @*<input name="DateOfTransaction" type="text" class="form-control" placeholder="mm/dd/yyyy" id="datepicker-autoclose">*@
-                                        <span class="input-group-addon bg-primary b-0 text-white"><i class="ti-calendar"></i></span>
-                                    </div>
-                                </div>
-                            </div>
+                                @Html.HiddenFor(model => model.Id)
+                                @Html.HiddenFor(model => model.PostedById)
+                                @Html.HiddenFor(model => model.DatePosted)
+                                @Html.HiddenFor(model => model.DateReconciled)
+                                @Html.HiddenFor(model => model.ReconciledById)
 
-                            <div class="form-group">
-                                @Html.LabelFor(model => model.AccountId, "Account Name", htmlAttributes: new { @class = "control-label col-md-2" })
-                                <div class="col-md-9">
-                                    @Html.DropDownList("AccountId", null, htmlAttributes: new { @class = "form-control" })
-                                    @Html.ValidationMessageFor(model => model.AccountId, "", new { @class = "text-danger" })
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-2" })
-                                <div class="col-md-9">
-                                    @Html.TextAreaFor(model => model.Description, htmlAttributes: new { @class = "form-control" })
-                                    @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
-                                </div>
-                            </div>
-
-
-                            <!-- *** *** -->
-                            @using (Html.BeginForm())
-                            {
-                                @*@Html.AntiForgeryToken()*@
 
                                 <div class="form-group">
-                                    @Html.LabelFor(model => model.Category.TransactionTypeId, "Transaction Type", htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <label class="control-label col-md-3">Transaction Date</label>
                                     <div class="col-md-9">
-                                        @Html.DropDownListFor(model => model.Category.TransactionTypeId, (SelectList)ViewBag.TransactionTypeId, "--  Select  --", new { @class = "form-control", id = "transactionType", @onchange = "javascript:GetCategory(this.value);" })
-                                        @Html.ValidationMessageFor(model => model.Category.TransactionTypeId, "", new { @class = "text-danger" })
+                                        <div class="input-group">
+                                            @{
+                                                var transactionDate = @Html.ToUserTime(Model.DateOfTransaction, ViewBag.UserTimeZone as string, "MM/dd/yyyy");
+                                                <input value="@transactionDate" name="DateOfTransaction" type="text" class="form-control" placeholder="mm/dd/yyyy" id="datepicker-autoclose">
+                                            }
+                                            @*@Html.EditorFor(model => model.DateOfTransaction, new { htmlAttributes = new { @class = "form-control", id = "datepicker-autoclose" } })*@
+                                            @*<input name="DateOfTransaction" type="text" class="form-control" placeholder="mm/dd/yyyy" id="datepicker-autoclose">*@
+                                            <span class="input-group-addon bg-primary b-0 text-white"><i class="ti-calendar"></i></span>
+                                        </div>
                                     </div>
                                 </div>
 
                                 <div class="form-group">
-                                    @Html.LabelFor(model => model.CategoryId, "Category", htmlAttributes: new { @class = "control-label col-md-2" })
+                                    @Html.LabelFor(model => model.AccountId, "Account Name", htmlAttributes: new { @class = "control-label col-md-3" })
                                     <div class="col-md-9">
-                                        @Html.DropDownList("CategoryId", null, htmlAttributes: new { @class = "form-control", id = "CategoryId" })
-                                        @*<select class="form-control" id="CategoryId" name="CategoryId"></select>*@
+                                        @Html.DropDownList("AccountId", null, htmlAttributes: new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(model => model.AccountId, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
-                            }
 
-                            <div class="form-group">
-                                @Html.LabelFor(model => model.Amount, htmlAttributes: new { @class = "control-label col-md-2" })
-                                <div class="col-md-2">
-                                    @Html.EditorFor(model => model.Amount, new { htmlAttributes = new { @class = "form-control" } })
-                                    @Html.ValidationMessageFor(model => model.Amount, "", new { @class = "text-danger" })
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-3" })
+                                    <div class="col-md-9">
+                                        @Html.TextAreaFor(model => model.Description, htmlAttributes: new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+
+                                <!-- *** *** -->
+                                @using (Html.BeginForm())
+                                {
+                                    @*@Html.AntiForgeryToken()*@
+
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.Category.TransactionTypeId, "Transaction Type", htmlAttributes: new { @class = "control-label col-md-3" })
+                                        <div class="col-md-9">
+                                            @Html.DropDownListFor(model => model.Category.TransactionTypeId, (SelectList)ViewBag.TransactionTypeId, "--  Select  --", new { @class = "form-control", id = "transactionType", @onchange = "javascript:GetCategory(this.value);" })
+                                            @Html.ValidationMessageFor(model => model.Category.TransactionTypeId, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.CategoryId, "Category", htmlAttributes: new { @class = "control-label col-md-3" })
+                                        <div class="col-md-9">
+                                            @Html.DropDownList("CategoryId", null, htmlAttributes: new { @class = "form-control", id = "CategoryId" })
+                                            @*<select class="form-control" id="CategoryId" name="CategoryId"></select>*@
+                                        </div>
+                                    </div>
+                                }
+
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.Amount, htmlAttributes: new { @class = "control-label col-md-3" })
+                                    <div class="col-md-6">
+                                        @Html.EditorFor(model => model.Amount, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.Amount, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <hr />
+
+                                <!-- *** Radio Button test. *** -->
+                                @*<label class="radio-inline">
+                                        @Html.RadioButtonFor(model => model.Reconciled, true) Reconciled
+                                    </label>
+                                    <label class="radio-inline">
+                                        @Html.RadioButtonFor(model => model.Reconciled, false) UnReconciled
+                                    </label>*@
+                                <!-- ****** -->
+                                <!-- *** Void checkbox. *** -->
+                                @if (Model.Void)
+                                {
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.Void, htmlAttributes: new { @class = "control-label col-md-3" })
+                                        <div class="col-md-9">
+                                            <div class="checkbox checkbox-danger checkbox-circle">
+                                                <input id="checkbox-Void" type="checkbox" name="Void" value="true" checked>
+                                                <label for="checkbox-Void">
+                                                    &nbsp;
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                                @if (!Model.Void)
+                                {
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.Void, htmlAttributes: new { @class = "control-label col-md-3" })
+                                        <div class="col-md-9">
+                                            <div class="checkbox checkbox-danger checkbox-circle">
+                                                <input id="checkbox-Void" type="checkbox" name="Void" value="true">
+                                                <label for="checkbox-Void">
+                                                    &nbsp;
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                                <!-- ****** -->
+                                <!-- *** Reconciled checkbox. *** -->
+                                @*@if (Model.Reconciled)
+                                    {
+                                        <div class="form-group">
+                                            @Html.LabelFor(model => model.Reconciled, htmlAttributes: new { @class = "control-label col-md-2" })
+                                            <div class="col-md-10">
+                                                <div class="checkbox checkbox-success checkbox-circle">
+                                                    <input id="checkbox-Reconciled" type="checkbox" name="Reconciled" value="true" checked>
+                                                    <label for="checkbox-Reconciled">
+                                                        &nbsp;
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    }
+                                    @if (!Model.Reconciled)
+                                    {
+                                        <div class="form-group">
+                                            @Html.LabelFor(model => model.Reconciled, htmlAttributes: new { @class = "control-label col-md-2" })
+                                            <div class="col-md-10">
+                                                <div class="checkbox checkbox-success checkbox-circle">
+                                                    <input id="checkbox-Reconciled" type="checkbox" name="Reconciled" value="true">
+                                                    <label for="checkbox-Reconciled">
+                                                        &nbsp;
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    }*@
+                                <!-- ****** -->
+
+                                <hr />
+
+                                <div class="form-group">
+                                    <div class="col-md-offset-3 col-md-9">
+                                        <input type="submit" value="Update record" class="btn btn-default" />
+                                    </div>
                                 </div>
                             </div>
+                                                }
+                    </div>
 
-                            <hr />
+                    <div class="col-md-6">
 
-                            <!-- *** Radio Button test. *** -->
-                            @*<label class="radio-inline">
-                        @Html.RadioButtonFor(model => model.Reconciled, true) Reconciled
-                    </label>
-                    <label class="radio-inline">
-                        @Html.RadioButtonFor(model => model.Reconciled, false) UnReconciled
-                    </label>*@
-                            <!-- ****** -->
-                            <!-- *** Void checkbox. *** -->
-                            @if (Model.Void)
-                            {
-                                <div class="form-group">
-                                    @Html.LabelFor(model => model.Void, htmlAttributes: new { @class = "control-label col-md-2" })
-                                    <div class="col-md-10">
-                                        <div class="checkbox checkbox-danger checkbox-circle">
-                                            <input id="checkbox-Void" type="checkbox" name="Void" value="true" checked>
-                                            <label for="checkbox-Void">
-                                                &nbsp;
-                                            </label>
-                                        </div>
-                                    </div>
+                        <div class="col-md-10 col-lg-offset-1">
+                            <div class="panel panel-border panel-gold" style="background:linear-gradient(to top, #382538 0%, #cc0052 90%)">
+                                <div class="panel-heading">
+                                    <h3 class="panel-title">Available Balances</h3>
                                 </div>
-                            }
-                            @if (!Model.Void)
-                            {
-                                <div class="form-group">
-                                    @Html.LabelFor(model => model.Void, htmlAttributes: new { @class = "control-label col-md-2" })
-                                    <div class="col-md-10">
-                                        <div class="checkbox checkbox-danger checkbox-circle">
-                                            <input id="checkbox-Void" type="checkbox" name="Void" value="true">
-                                            <label for="checkbox-Void">
-                                                &nbsp;
-                                            </label>
-                                        </div>
-                                    </div>
-                                </div>
-                            }
-                            <!-- ****** -->
-                            <!-- *** Reconciled checkbox. *** -->
-                            @*@if (Model.Reconciled)
-                            {
-                                <div class="form-group">
-                                    @Html.LabelFor(model => model.Reconciled, htmlAttributes: new { @class = "control-label col-md-2" })
-                                    <div class="col-md-10">
-                                        <div class="checkbox checkbox-success checkbox-circle">
-                                            <input id="checkbox-Reconciled" type="checkbox" name="Reconciled" value="true" checked>
-                                            <label for="checkbox-Reconciled">
-                                                &nbsp;
-                                            </label>
-                                        </div>
-                                    </div>
-                                </div>
-                            }
-                            @if (!Model.Reconciled)
-                            {
-                                <div class="form-group">
-                                    @Html.LabelFor(model => model.Reconciled, htmlAttributes: new { @class = "control-label col-md-2" })
-                                    <div class="col-md-10">
-                                        <div class="checkbox checkbox-success checkbox-circle">
-                                            <input id="checkbox-Reconciled" type="checkbox" name="Reconciled" value="true">
-                                            <label for="checkbox-Reconciled">
-                                                &nbsp;
-                                            </label>
-                                        </div>
-                                    </div>
-                                </div>
-                            }*@
-                            <!-- ****** -->
+                                <div class="panel-body">
 
-                            <hr />
+                                    <table class="table table-condensed table-striped m-0">
+                                        <thead>
+                                            <tr>
+                                                <th>Account</th>
+                                                <th style="text-align:center">Balance</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach (var item in ViewBag.BankAccountBalances)
+                                            {
+                                                <tr>
+                                                    <td>
+                                                        <span>@item.Name</span>
+                                                    </td>
+                                                    <td style="text-align:right">
+                                                        <span>@item.Balance</span>
+                                                    </td>
+                                                </tr>
+                                            }
+                                        </tbody>
+                                    </table>
 
-                            <div class="form-group">
-                                <div class="col-md-offset-2 col-md-10">
-                                    <input type="submit" value="Update record" class="btn btn-default" />
                                 </div>
                             </div>
-                        </div>
-                    }
-                </div>
+                        </div><!-- end inner col -->
+
+                    </div><!-- end outer col -->
+                </div><!-- end row -->
 
                 <hr />
 
@@ -229,10 +259,12 @@
                     <a href="@Url.Action("Index")" style="color:#ebe0eb"><i class="fa fa-ticket"></i><span> Return to Transactions </span></a>
                 </div>
 
-            </div>
+            </div><!-- end col -->
+
         </div>
     </div>
 </div>
+
 
 
 @section Scripts {

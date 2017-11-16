@@ -48,8 +48,7 @@
                                 @{
                                     if (User.IsInRole("Admin"))
                                     {
-                                        <span>&nbsp;|&nbsp;</span>
-                                        @Html.ActionLink("Back to List of Households", "Index", null, new { style = "color:#ebe0eb" })
+                                        @Html.ActionLink("Back to List of Households (Admin Only)", "Index", null, new { style = "color:#ebe0eb" })
                                     }
                                 }
                             </dd>
@@ -77,9 +76,19 @@
                                             @Html.ActionLink("Update Profile", "Index", "Manage", null, new { style = "color:#ebe0eb" })
                                         </td>
 
-                                        <td>
-                                            @Html.ActionLink("Leave this Household", "LeaveHousehold", "Households", null, new { style = "color:#ebe0eb" })
-                                        </td>
+                                        if (member.Email == "DemoUser@coderfoundry.com")
+                                        {
+                                            <td>
+                                                &nbsp;
+                                            </td>
+                                        }
+                                        else
+                                        {
+                                            <td>
+                                                @*<button class="btn btn-custom waves-effect waves-light btn-sm" id="sa-warning">Click me to Leave this Household</button>*@
+                                                @Html.ActionLink("Leave this Household", "LeaveHousehold", "Households", null, new { style = "color:#ebe0eb" })
+                                            </td>
+                                        }
                                     }
                                     else
                                     {
@@ -110,7 +119,7 @@
                                     <div class="row">
                                         <div class="col-md-4" style="text-align:center">
                                             <input name="Email" type="email" class="form-control" placeholder="Email" />
-                                            <button class="btn btn-primary center-block" style="margin-top:10px" type="submit">Submit Invitation</button>
+                                            <button class="btn btn-default center-block" style="margin-top:10px" type="submit">Submit Invitation</button>
                                             <br />
                                             @Html.ActionLink("Review Invitations", "Index", "Invitations", null, new { style = "color:#ebe0eb" })
                                         </div>

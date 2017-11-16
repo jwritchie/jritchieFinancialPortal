@@ -230,13 +230,17 @@ namespace jritchieFinancialPortal.Controllers
         public async Task<ActionResult> LeaveHousehold()
         {
             var user = db.Users.Find(User.Identity.GetUserId());
-            user.HouseholdId = null;
 
-            db.Entry(user).State = EntityState.Modified;
-            db.SaveChanges();
+            if (user.Email != "DemoUser@coderfoundry.com")
+            {
+                user.HouseholdId = null;
 
-            // Implementation of leaving household (flush browser cookie).
-            await ControllerContext.HttpContext.RefreshAuthentication(user);
+                db.Entry(user).State = EntityState.Modified;
+                db.SaveChanges();
+
+                // Implementation of leaving household (flush browser cookie).
+                await ControllerContext.HttpContext.RefreshAuthentication(user);
+            }
             return RedirectToAction("Index","Home");
         }
 

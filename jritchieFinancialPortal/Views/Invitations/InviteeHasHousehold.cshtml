@@ -4,20 +4,34 @@
     ViewBag.Title = "Invitation canceled";
 }
 
-<h2>@ViewBag.Title.</h2>
 
 
-<hr />
 
-<p>
-    This person already has a Household and cannot join yours.
-</p>
+<div class="container">
 
+    <div class="row" style="margin-top:10px">
+        <div class="col-sm-12">
+            <div class="card-box table-responsive">
 
-<hr />
+                <h4 class="header-title m-t-0 m-b-30">Invitee has Household</h4>
 
-<div class="row" style="text-align:center">
-    <a href="@Url.Action("Details", "Households", new { id = ViewBag.CurrentUserHouseholdId })"><i class="fa fa-stop-circle-o"></i><span> Cancel </span></a>
+                <hr />
+
+                <div class="row">
+
+                    <p>
+                        This person already has a Household and cannot join yours.
+                    </p>
+
+                    <hr />
+
+                    <div class="row" style="text-align:center">
+                        <a href="@Url.Action("Details", "Households", new { id = ViewBag.CurrentUserHouseholdId })"><i class="fa fa-stop-circle-o"></i><span> Cancel </span></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
 
