@@ -12,4 +12,9 @@ namespace jritchieFinancialPortal.Models
         public List<ApplicationUser> SelectedUsers { get; set; }
         public string[] SelectedUsersName { get; set; }
     }
+
+    public class LeaveHouseholdViewModel
+    {
+        public bool ConfirmLeave { get; set; }
+    }
 }

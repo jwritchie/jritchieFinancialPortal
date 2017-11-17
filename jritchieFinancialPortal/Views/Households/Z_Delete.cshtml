@@ -17,22 +17,25 @@
 
                 <hr />
 
-                <div class="row">
+                <div class="row" style="text-align:center">
 
-                    <div class="row" style="text-align:center">
-
-                        <a href="@Html.Action("LeaveHousehold")" class="btn btn-default">Leave this Household</a>
-
-                        @Html.ActionLink("Leave this Household", "LeaveHousehold", "Households", null, new { style = "color:#ebe0eb" })
+                    @*<a href="@Html.Action("LeaveHousehold")" class="btn btn-default">Leave this Household</a>
+                        @Html.ActionLink("Leave this Household", "LeaveHousehold", "Households", null, new { style = "color:#ebe0eb" })*@
 
 
+                    @using (Html.BeginForm())
+                    {
+                        @Html.AntiForgeryToken()
 
+                        <div class="form-actions no-color">
+                            <input type="submit" value="Leave this Household" class="btn btn-default" /> |
+                            @Html.ActionLink("Back to List", "Index", null, new { style = "color:#ebe0eb" })
+                        </div>
+                    }
 
-
-                        <a href="@Url.Action("Details", "Households", new { id = Model.Id } )" style="color:#ebe0eb"><i class="fa fa-ticket"></i><span> Back to Details </span></a>
-                    </div>
-
+                    <a href="@Url.Action("Details", "Households", new { id = Model.Id } )" style="color:#ebe0eb"><i class="fa fa-ticket"></i><span> Back to Details </span></a>
                 </div>
+
             </div>
         </div>
     </div>

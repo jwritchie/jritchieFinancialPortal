@@ -61,10 +61,10 @@
                         <div class="text-center">
                             <ul class="list-inline chart-detail-list">
                                 <li>
-                                    <h5 style="color: #eed391;"><i class="fa fa-circle m-r-5"></i>Actual</h5>
+                                    <h5 style="color: #b8860b;"><i class="fa fa-circle m-r-5"></i>Budgeted</h5>
                                 </li>
                                 <li>
-                                    <h5 style="color: #b8860b;"><i class="fa fa-circle m-r-5"></i>Budgeted</h5>
+                                    <h5 style="color: #eed391;"><i class="fa fa-circle m-r-5"></i>Actual</h5>
                                 </li>
                             </ul>
                         </div>
@@ -135,7 +135,7 @@
         Morris.Bar({
             element: 'bar-example',
             data: [
-                { y: '', a: @Model.TotalTransactions, b: @Model.Budget.Amount }
+                { y: '', a: @Model.Budget.Amount, b:  @Model.TotalTransactions}
 
                 //{ y: '2006', a: 100, b: 90 },
                 //{ y: '2007', a: 75, b: 65 },
@@ -147,8 +147,8 @@
             ],
             xkey: 'y',
             ykeys: ['a', 'b'],
-            labels: ['Actual', 'Budgeted'],
-            barColors: ['#eed391', '#b8860b'],
+            labels: ['Budgeted', 'Actual'],
+            barColors: ['#b8860b', '#eed391'],
             hideHover: ['true'],
             resize: ['true']
         });

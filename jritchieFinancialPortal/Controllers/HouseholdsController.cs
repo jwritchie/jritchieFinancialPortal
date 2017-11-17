@@ -182,16 +182,16 @@ namespace jritchieFinancialPortal.Controllers
         // GET: Households/Delete/5
         //public ActionResult Delete(int? id)
         //{
-            //if (id == null)
-            //{
-            //    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            //}
-            //Household household = db.Households.Find(id);
-            //if (household == null)
-            //{
-            //    return HttpNotFound();
-            //}
-            //return View(household);
+        //if (id == null)
+        //{
+        //    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+        //}
+        //Household household = db.Households.Find(id);
+        //if (household == null)
+        //{
+        //    return HttpNotFound();
+        //}
+        //return View(household);
         //}
 
 
@@ -226,25 +226,51 @@ namespace jritchieFinancialPortal.Controllers
         //}
 
 
-        // POST: LeaveHousehold
-        public async Task<ActionResult> LeaveHousehold()
+
+        [AuthorizeHouseholdRequired]
+        // GET: Households/LeaveHousehold
+        public ActionResult LeaveHousehold()
         {
-            var user = db.Users.Find(User.Identity.GetUserId());
-
-            if (user.Email != "DemoUser@coderfoundry.com")
-            {
-                user.HouseholdId = null;
-
-                db.Entry(user).State = EntityState.Modified;
-                db.SaveChanges();
-
-                // Implementation of leaving household (flush browser cookie).
-                await ControllerContext.HttpContext.RefreshAuthentication(user);
-            }
-            return RedirectToAction("Index","Home");
+            LeaveHouseholdViewModel leaveHouseholdVM = new LeaveHouseholdViewModel();
+            leaveHouseholdVM.ConfirmLeave = false;
+            return View(leaveHouseholdVM);
         }
 
-        
+        // POST: LeaveHousehold
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+
+
+        //public async Task<ActionResult> LeaveHousehold(bool confirmLeave)
+        public async Task<ActionResult> LeaveHousehold([Bind(Include = "ConfirmLeave")] bool? ConfirmLeave)
+        {
+            if (ModelState.IsValid)
+            {
+                if (ConfirmLeave != null && ConfirmLeave.Value == true)
+                {
+                    var user = db.Users.Find(User.Identity.GetUserId());
+
+                    if (user.Email != "DemoUser@coderfoundry.com")
+                    {
+                        user.HouseholdId = null;
+
+                        db.Entry(user).State = EntityState.Modified;
+                        db.SaveChanges();
+
+                        // Implementation of leaving household (flush browser cookie).
+                        await ControllerContext.HttpContext.RefreshAuthentication(user);
+                    }
+
+                    return RedirectToAction("Index","Home");
+                }
+
+                return RedirectToAction("Details", "Households", new { id = ViewBag.CurrentUserHouseholdId });
+            }
+
+            return RedirectToAction("Details", "Households", new { id = ViewBag.CurrentUserHouseholdId });
+        }
+
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)

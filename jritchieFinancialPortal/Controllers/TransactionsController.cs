@@ -90,7 +90,8 @@ namespace jritchieFinancialPortal.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public PartialViewResult _Create([Bind(Include = "Id,AccountId,PostedById,DatePosted,Amount,Description,CategoryId,Reconciled,ReconciledById,DateReconciled,Void,DateOfTransaction")] Transaction transaction)
+        public ActionResult _Create([Bind(Include = "Id,AccountId,PostedById,DatePosted,Amount,Description,CategoryId,Reconciled,ReconciledById,DateReconciled,Void,DateOfTransaction")] Transaction transaction)
+        //public PartialViewResult _Create([Bind(Include = "Id,AccountId,PostedById,DatePosted,Amount,Description,CategoryId,Reconciled,ReconciledById,DateReconciled,Void,DateOfTransaction")] Transaction transaction)
         {
             if (ModelState.IsValid)
             {
@@ -116,7 +117,7 @@ namespace jritchieFinancialPortal.Controllers
                 ViewBag.TransactionTypeId = new SelectList(transactionTypes, "Id", "Name");
 
                 //return PartialView();
-                RedirectToAction("Index");      /* Skips over this and continues below ... */
+                return RedirectToAction("Index");
             }
 
             var userHouseholdId2 = User.Identity.GetHouseholdId();
@@ -135,7 +136,8 @@ namespace jritchieFinancialPortal.Controllers
             //ViewBag.PostedById = new SelectList(db.Users, "Id", "FirstName", transaction.PostedById);
             //ViewBag.ReconciledById = new SelectList(db.Users, "Id", "FirstName", transaction.ReconciledById);
 
-            return PartialView(transaction);
+            //return PartialView(transaction);
+            return RedirectToAction("Index");      /* Skips over this and continues below ... */
         }
 
 
