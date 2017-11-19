@@ -12,5 +12,7 @@ namespace jritchieFinancialPortal.Models
         public string AccountName { get; set; }
         public decimal TotalIncomeTransactions { get; set; }
         public decimal TotalExpenseTransactions { get; set; }
+        public int CurrentYear { get; set; }
+        public bool AccountOverdrawn { get; set; }
     }
 }

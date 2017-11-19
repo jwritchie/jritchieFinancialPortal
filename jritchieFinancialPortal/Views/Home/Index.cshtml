@@ -11,7 +11,7 @@
 }
 
 
-<div class="container">
+<div class="container slide-in-right">
 
     <div class="row" style="margin-top:10px">
         <div class="col-sm-12">
@@ -29,7 +29,18 @@
                             <div class="col-xs-4">
                                 <div class="text-center">
                                     <h4 class="header-title m-t-0 m-b-30">@bankAccount.AccountName</h4>
-                                    <hr />
+
+                                    @if(bankAccount.AccountOverdrawn)
+                                    {
+                                        <p style="margin-top:-26px; color:gold">Account Overdrawn</p>
+                                        <hr style="margin-top:-6px" />
+                                    }
+                                    else
+                                    {
+                                        <hr />
+                                    }
+
+                                    <p>@bankAccount.CurrentYear Year-to-Date</p>
                                     <ul class="list-inline chart-detail-list">
                                         <li>
                                             <h5 style="color: #b8860b;"><i class="fa fa-circle m-r-5"></i>Total Income</h5>
