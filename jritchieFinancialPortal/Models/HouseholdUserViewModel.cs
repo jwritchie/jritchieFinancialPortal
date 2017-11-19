@@ -11,6 +11,7 @@ namespace jritchieFinancialPortal.Models
         public Household Household { get; set; }
         public List<ApplicationUser> SelectedUsers { get; set; }
         public string[] SelectedUsersName { get; set; }
+        public List<Invitation> OpenInvitations { get; set; }
     }
 
     public class LeaveHouseholdViewModel

@@ -85,31 +85,38 @@
                     <!-- Right(Notification and Searchbox -->
                     <ul class="nav navbar-nav navbar-right">
 
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <li>
+                                <p><a class="btn btn-default" style="margin-top:18px; margin-right:16px" href="@Url.Action("_Create", "Transactions")" data-target="#createModal" data-toggle="modal"><span> Add a New Transaction </span><i class="fa fa-plus-circle text-custom"></i></a></p>
+                            </li>
+                        }
+
                         @*<li>
-                            <!-- Notification -->
-                            <div class="notification-box">
-                                <ul class="list-inline m-b-0">
-                                    <li>
-                                        <a href="javascript:void(0);" class="right-bar-toggle">
-                                            <i class="zmdi zmdi-notifications-none"></i>
-                                        </a>
-                                        <div class="noti-dot">
-                                            <span class="dot"></span>
-                                            <span class="pulse"></span>
-                                        </div>
-                                    </li>
-                                </ul>
-                            </div>
-                            <!-- End Notification bar -->
-                        </li>*@
+                                <!-- Notification -->
+                                <div class="notification-box">
+                                    <ul class="list-inline m-b-0">
+                                        <li>
+                                            <a href="javascript:void(0);" class="right-bar-toggle">
+                                                <i class="zmdi zmdi-notifications-none"></i>
+                                            </a>
+                                            <div class="noti-dot">
+                                                <span class="dot"></span>
+                                                <span class="pulse"></span>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <!-- End Notification bar -->
+                            </li>*@
 
                         @*<li class="hidden-xs">
-                            <form role="search" class="app-search">
-                                <input type="text" placeholder="Search..."
-                                       class="form-control">
-                                <a href=""><i class="fa fa-search"></i></a>
-                            </form>
-                        </li>*@
+                                <form role="search" class="app-search">
+                                    <input type="text" placeholder="Search..."
+                                           class="form-control">
+                                    <a href=""><i class="fa fa-search"></i></a>
+                                </form>
+                            </li>*@
 
                     </ul>
 
@@ -117,8 +124,6 @@
             </div><!-- end navbar -->
         </div>
         <!-- Top Bar End -->
-
-
         <!-- ========== Left Sidebar Start ========== -->
         <div class="left side-menu" style="border-right:1px solid gold">
 
@@ -142,35 +147,35 @@
                 <!--- Sidemenu -->
                 <div id="sidebar-menu">
 
-                @if(User.Identity.IsAuthenticated)
-                {
-                    <ul>
-                        <li>
-                            <a href="@Url.Action("Index","Home")" class="waves-effect"><i></i> <span style="font-size:16px; color:darkgoldenrod"> Dashboard </span> </a>
-                        </li>
-                        <li>
-                            <a href="@Url.Action("Index","Transactions")" class="waves-effect"><i></i> <span style="font-size:16px; color:darkgoldenrod"> Transactions </span> </a>
-                        </li>
-                        <li>
-                            <a href="@Url.Action("Index","Budgets")#" class="waves-effect"><i></i> <span style="font-size:16px; color:darkgoldenrod"> Budgets </span> </a>
-                        </li>
-                        <li>
-                            <hr style="border-top: 1px solid transparent !important"/>
-                        </li>
-                        <li>
-                            <a href="@Url.Action("Index","Categories")#" class="waves-effect"><i></i> <span style="font-size:16px; color:darkgoldenrod"> Categories </span> </a>
-                        </li>
-                        <li>
-                            <a href="@Url.Action("Index","BankAccounts")" class="waves-effect"><i></i> <span style="font-size:16px; color:darkgoldenrod"> Accounts </span> </a>
-                        </li>
-                        <li>
-                            <a href="@Url.Action("Index","Banks")" class="waves-effect"><i></i> <span style="font-size:16px; color:darkgoldenrod"> Banks </span> </a>
-                        </li>
-                        <li>
-                            <a href="@Url.Action("Index","Households")" class="waves-effect"><i></i> <span style="font-size:16px; color:darkgoldenrod"> Household </span> </a>
-                        </li>
-                    </ul>
-                }
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <ul>
+                            <li>
+                                <a href="@Url.Action("Index","Home")" class="waves-effect"><i></i> <span style="font-size:16px; color:darkgoldenrod"> Dashboard </span> </a>
+                            </li>
+                            <li>
+                                <a href="@Url.Action("Index","Transactions")" class="waves-effect"><i></i> <span style="font-size:16px; color:darkgoldenrod"> Transactions </span> </a>
+                            </li>
+                            <li>
+                                <a href="@Url.Action("Index","Budgets")#" class="waves-effect"><i></i> <span style="font-size:16px; color:darkgoldenrod"> Budgets </span> </a>
+                            </li>
+                            <li>
+                                <hr style="border-top: 1px solid transparent !important" />
+                            </li>
+                            <li>
+                                <a href="@Url.Action("Index","Categories")#" class="waves-effect"><i></i> <span style="font-size:16px; color:darkgoldenrod"> Categories </span> </a>
+                            </li>
+                            <li>
+                                <a href="@Url.Action("Index","BankAccounts")" class="waves-effect"><i></i> <span style="font-size:16px; color:darkgoldenrod"> Accounts </span> </a>
+                            </li>
+                            <li>
+                                <a href="@Url.Action("Index","Banks")" class="waves-effect"><i></i> <span style="font-size:16px; color:darkgoldenrod"> Banks </span> </a>
+                            </li>
+                            <li>
+                                <a href="@Url.Action("Index","Households")" class="waves-effect"><i></i> <span style="font-size:16px; color:darkgoldenrod"> Household </span> </a>
+                            </li>
+                        </ul>
+                    }
 
                     <div class="clearfix"></div>
 
@@ -180,10 +185,8 @@
 
             </div>
 
-            </div>
+        </div>
         <!-- Left Sidebar End -->
-
-
         <!-- ============================================================== -->
         <!-- Start Content here -->
         <!-- ============================================================== -->
@@ -214,9 +217,18 @@
     <!-- END wrapper -->
 
 
+    <div class="modal fade" id="createModal" role="dialog" aria-labelledby="displayModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+
+            </div>
+        </div>
+    </div>
+
+
 
     <script>
-            var resizefunc = [];
+        var resizefunc = [];
     </script>
 
     <!-- jQuery  -->
@@ -238,8 +250,8 @@
 
     <!--Morris Chart-->
     @*<script src="~/assets/plugins/morris/morris.min.js"></script>
-    <script src="~/assets/plugins/raphael/raphael-min.js"></script>
-    <script src="~/assets/pages/jquery.morris.init.js"></script>*@
+        <script src="~/assets/plugins/raphael/raphael-min.js"></script>
+        <script src="~/assets/pages/jquery.morris.init.js"></script>*@
 
     <!-- Dashboard init -->
     @*<script src="~/assets/pages/jquery.dashboard.js"></script>*@
@@ -264,4 +276,3 @@
 
 </body>
 </html>
-

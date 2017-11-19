@@ -147,6 +147,19 @@
                                         <tbody>
                                             @foreach (var item in ViewBag.BankAccountBalances)
                                             {
+                                                if (item.Balance < 0)
+                                                {
+                                                    <tr style="background-color:gold !important; color:#382538">
+                                                        <td>
+                                                            <span>@item.Name</span>
+                                                        </td>
+                                                        <td style="text-align:right">
+                                                            <span>@item.Balance</span>
+                                                        </td>
+                                                    </tr>
+                                                }
+                                                else
+                                                {
                                                 <tr>
                                                     <td>
                                                         <span>@item.Name</span>
@@ -155,6 +168,7 @@
                                                         <span>@item.Balance</span>
                                                     </td>
                                                 </tr>
+                                                }
                                             }
                                         </tbody>
                                     </table>

@@ -22,7 +22,7 @@ namespace jritchieFinancialPortal.Controllers
         {
             var currentUserHousehold = User.Identity.GetHouseholdId();
             List<Transaction> currentUserTransactions = new List<Transaction>();
-            currentUserTransactions = db.Transactions.Where(t => t.Account.HouseholdId == currentUserHousehold).ToList();
+            currentUserTransactions = db.Transactions.Where(t => t.Account.HouseholdId == currentUserHousehold).OrderByDescending(t => t.DateOfTransaction).ToList();
 
             return View(currentUserTransactions);
 
@@ -75,6 +75,11 @@ namespace jritchieFinancialPortal.Controllers
             List<TransactionType> transactionTypes = new List<TransactionType>();
             transactionTypes = db.TransactionTypes.ToList();
             ViewBag.TransactionTypeId = new SelectList(transactionTypes, "Id", "Name");
+
+            var currentHouseholdId = User.Identity.GetHouseholdId();
+            var bankAccounts = db.BankAccounts.Where(b => b.HouseholdId == currentHouseholdId).OrderBy(b => b.Bank.Name).ThenBy(b => b.Name);
+            //return View(bankAccounts.ToList());
+            ViewBag.BankAccountBalances = bankAccounts.ToList();
 
             //List<Category> currentUserCategories = new List<Category>();
             //currentUserCategories = db.Categories.Where(c => c.HouseholdId == userHouseholdId).OrderBy(c => c.Name).ToList();
@@ -135,6 +140,11 @@ namespace jritchieFinancialPortal.Controllers
 
             //ViewBag.PostedById = new SelectList(db.Users, "Id", "FirstName", transaction.PostedById);
             //ViewBag.ReconciledById = new SelectList(db.Users, "Id", "FirstName", transaction.ReconciledById);
+
+            var currentHouseholdId = User.Identity.GetHouseholdId();
+            var bankAccounts = db.BankAccounts.Where(b => b.HouseholdId == currentHouseholdId).OrderBy(b => b.Bank.Name).ThenBy(b => b.Name);
+            //return View(bankAccounts.ToList());
+            ViewBag.BankAccountBalances = bankAccounts.ToList();
 
             //return PartialView(transaction);
             return RedirectToAction("Index");      /* Skips over this and continues below ... */
@@ -381,7 +391,7 @@ namespace jritchieFinancialPortal.Controllers
                         adjustingEntry.PostedById = User.Identity.GetUserId();
                         adjustingEntry.DatePosted = DateTimeOffset.UtcNow;
                         adjustingEntry.Amount = difference;
-                        adjustingEntry.Description = "Adjusting Entry: " + transaction.Description;
+                        adjustingEntry.Description = transaction.Description + "  (Adjusting Entry)";
                         adjustingEntry.CategoryId = transaction.CategoryId;
                         adjustingEntry.Reconciled = true;
                         adjustingEntry.ReconciledById = User.Identity.GetUserId();

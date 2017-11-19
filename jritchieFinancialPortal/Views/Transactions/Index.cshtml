@@ -13,7 +13,7 @@
 
                 <div class="dropdown pull-right">
 
-                    <a href="@Url.Action("Create")" class="btn btn-default"><span> New Transaction </span><i class="fa fa-plus-circle text-custom"></i></a>
+                    @*<a href="@Url.Action("Create")" class="btn btn-default"><span> New Transaction </span><i class="fa fa-plus-circle text-custom"></i></a>*@
                     @*@Html.ActionLink("Add new Transaction", "Create")*@
 
                     @*<a href="#" class="dropdown-toggle card-drop" data-toggle="dropdown" aria-expanded="false">
@@ -30,12 +30,12 @@
 
                 <h4 class="header-title m-t-0 m-b-30">Transactions</h4>
 
-                <table id="datatable-buttons" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
+                <table id="datatable-responsive" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
 
                     <thead>
                         <tr>
                             <th>
-                                Date Posted
+                                Transaction Date
                             </th>
                            <th>
                                 Account Name
@@ -64,8 +64,7 @@
                         {
                             <tr>
                                 <td>
-                                    @Html.ToUserTime(item.DatePosted, ViewBag.UserTimeZone as string, "MM/dd/yyyy")
-                                    @*@Html.DisplayFor(modelItem => item.DatePosted)*@
+                                    @Html.ToUserTime(item.DateOfTransaction, ViewBag.UserTimeZone as string, "MM/dd/yyyy")
                                 </td>
                                 <td>
                                     @Html.DisplayFor(modelItem => item.Account.Name)
@@ -172,7 +171,9 @@
 
     <script type="text/javascript">
         $(document).ready(function () {
-            $('#datatable-responsive').DataTable();
+            $('#datatable-responsive').DataTable(
+                {"order": [0, 'desc']
+                });
         });
         TableManageButtons.init();
     </script>

@@ -112,7 +112,7 @@ namespace jritchieFinancialPortal.Controllers
                     await Task.FromResult(0);
                 }
 
-                return RedirectToAction("Index");
+                return RedirectToAction("Details", "Households", new { id = invitation.HouseholdId });
             }
 
             ViewBag.HouseholdId = new SelectList(db.Households, "Id", "Name", invitation.HouseholdId);
@@ -173,9 +173,12 @@ namespace jritchieFinancialPortal.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             Invitation invitation = db.Invitations.Find(id);
+
+            int householdId = invitation.HouseholdId;
+
             db.Invitations.Remove(invitation);
             db.SaveChanges();
-            return RedirectToAction("Index");
+            return RedirectToAction("Details", "Households", new { id = householdId });
         }
 
         protected override void Dispose(bool disposing)

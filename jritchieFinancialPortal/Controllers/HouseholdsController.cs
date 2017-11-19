@@ -86,9 +86,14 @@ namespace jritchieFinancialPortal.Controllers
             householdUserVM.Household = db.Households.Find(id);
 
             householdUserVM.SelectedUsers = householdUserVM.Household.Users.ToList();
-
             householdUserVM.SelectedUsersName = householdUserVM.Household.Users.OrderBy(u => u.LastName).Select(u => u.Fullname).ToArray();
 
+
+            //var userHouseholdId = db.Users.Find(User.Identity.GetUserId()).HouseholdId;
+            var invitations = db.Invitations.Where(i => i.HouseholdId == householdUserVM.Household.Id);
+            householdUserVM.OpenInvitations = invitations.ToList();
+            //return View(invitations.ToList());
+            
             //Household household = db.Households.Find(id);
             if (householdUserVM == null)
             {

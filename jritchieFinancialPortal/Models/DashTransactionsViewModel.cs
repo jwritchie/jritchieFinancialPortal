@@ -8,8 +8,7 @@ namespace jritchieFinancialPortal.Models
 {
     public class DashTransactionsViewModel
     {
-        //public List<Transaction> IncomeTransactions { get; set; }
-        //public List<Transaction> ExpenseTransactions { get; set; }
+        public List<Transaction> Transaction { get; set; }
         public string AccountName { get; set; }
         public decimal TotalIncomeTransactions { get; set; }
         public decimal TotalExpenseTransactions { get; set; }

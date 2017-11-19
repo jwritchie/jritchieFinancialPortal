@@ -75,6 +75,10 @@ namespace jritchieFinancialPortal.Controllers
                 currentAccountVM.TotalExpenseTransactions = currentExpenseTotal * -1;
                 currentAccountVM.TotalIncomeTransactions = currentIncomeTotal;
 
+                List<Transaction> currentAccountTransactions = new List<Transaction>();
+                currentAccountTransactions = db.Transactions.Where(t => t.Account.HouseholdId == currentUserHouseholdId).Where(t =>t.AccountId == account.Id).OrderByDescending(t => t.DateOfTransaction).Take(10).ToList();
+                currentAccountVM.Transaction = currentAccountTransactions;
+
                 dashViewModel.Add(currentAccountVM);
             }
 
