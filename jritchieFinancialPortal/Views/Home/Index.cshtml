@@ -30,7 +30,7 @@
                                 <div class="text-center">
                                     <h4 class="header-title m-t-0 m-b-30">@bankAccount.AccountName</h4>
 
-                                    @if(bankAccount.AccountOverdrawn)
+                                    @if (bankAccount.AccountOverdrawn)
                                     {
                                         <p style="margin-top:-26px; color:gold">Account Overdrawn</p>
                                         <hr style="margin-top:-6px" />
@@ -76,8 +76,8 @@
                                                 Transaction Date
                                             </th>
                                             @*<th>
-                                                Account Name
-                                            </th>*@
+                                                    Account Name
+                                                </th>*@
                                             <th>
                                                 Description
                                                 @*@Html.DisplayNameFor(bankAccount.Transaction    model => model.Transaction.        .Transaction.Description)*@
@@ -90,12 +90,12 @@
                                                 @*@Html.DisplayNameFor(model => model.Amount)*@
                                             </th>
                                             @*<th>
-                                                Reconciled
-                                            </th>
-                                            <th>
-                                                Void
-                                            </th>
-                                            <th></th>*@
+                                                    Reconciled
+                                                </th>
+                                                <th>
+                                                    Void
+                                                </th>
+                                                <th></th>*@
                                         </tr>
                                     </thead>
 
@@ -107,8 +107,8 @@
                                                     @Html.ToUserTime(item.DateOfTransaction, ViewBag.UserTimeZone as string, "MM/dd/yyyy")
                                                 </td>
                                                 @*<td>
-                                                    @Html.DisplayFor(modelItem => item.Account.Name)
-                                                </td>*@
+                                                        @Html.DisplayFor(modelItem => item.Account.Name)
+                                                    </td>*@
                                                 <td>
                                                     @Html.DisplayFor(modelItem => item.Description)
                                                 </td>
@@ -127,53 +127,53 @@
                                                 </td>
 
                                                 @*<td style="text-align:center">
-                                                     *** Reconciled checkbox. *** 
-                                                    @if (item.Reconciled)
-                                                    {
-                                                        <div class="checkbox checkbox-success checkbox-circle">
-                                                            <input id="checkbox-Reconciled" type="checkbox" name="Reconciled" value="true" checked disabled>
-                                                            <label for="checkbox-Reconciled">
-                                                                &nbsp;
-                                                            </label>
-                                                        </div>
-                                                    }
-                                                    @if (!item.Reconciled)
-                                                    {
-                                                        <div class="checkbox checkbox-success checkbox-circle">
-                                                            <input id="checkbox-Reconciled" type="checkbox" name="Reconciled" value="true" disabled>
-                                                            <label for="checkbox-Reconciled">
-                                                                &nbsp;
-                                                            </label>
-                                                        </div>
-                                                    }
-                                                </td>*@
+                                                         *** Reconciled checkbox. ***
+                                                        @if (item.Reconciled)
+                                                        {
+                                                            <div class="checkbox checkbox-success checkbox-circle">
+                                                                <input id="checkbox-Reconciled" type="checkbox" name="Reconciled" value="true" checked disabled>
+                                                                <label for="checkbox-Reconciled">
+                                                                    &nbsp;
+                                                                </label>
+                                                            </div>
+                                                        }
+                                                        @if (!item.Reconciled)
+                                                        {
+                                                            <div class="checkbox checkbox-success checkbox-circle">
+                                                                <input id="checkbox-Reconciled" type="checkbox" name="Reconciled" value="true" disabled>
+                                                                <label for="checkbox-Reconciled">
+                                                                    &nbsp;
+                                                                </label>
+                                                            </div>
+                                                        }
+                                                    </td>*@
 
                                                 @*<td style="text-align:center">
-                                                     *** Void checkbox. *** 
-                                                    @if (item.Void)
-                                                    {
-                                                        <div class="checkbox checkbox-danger checkbox-circle">
-                                                            <input id="checkbox-Void" type="checkbox" name="Void" value="true" checked disabled>
-                                                            <label for="checkbox-Void">
-                                                                &nbsp;
-                                                            </label>
-                                                        </div>
-                                                    }
-                                                    @if (!item.Void)
-                                                    {
-                                                        <div class="checkbox checkbox-danger checkbox-circle">
-                                                            <input id="checkbox-Void" type="checkbox" name="Void" value="true" disabled>
-                                                            <label for="checkbox-Void">
-                                                                &nbsp;
-                                                            </label>
-                                                        </div>
-                                                    }
-                                                </td>*@
+                                                         *** Void checkbox. ***
+                                                        @if (item.Void)
+                                                        {
+                                                            <div class="checkbox checkbox-danger checkbox-circle">
+                                                                <input id="checkbox-Void" type="checkbox" name="Void" value="true" checked disabled>
+                                                                <label for="checkbox-Void">
+                                                                    &nbsp;
+                                                                </label>
+                                                            </div>
+                                                        }
+                                                        @if (!item.Void)
+                                                        {
+                                                            <div class="checkbox checkbox-danger checkbox-circle">
+                                                                <input id="checkbox-Void" type="checkbox" name="Void" value="true" disabled>
+                                                                <label for="checkbox-Void">
+                                                                    &nbsp;
+                                                                </label>
+                                                            </div>
+                                                        }
+                                                    </td>*@
 
                                                 @*<td style="text-align:center">
-                                                    @Html.ActionLink("Edit", "Edit", new { id = item.Id }, new { style = "color:#ebe0eb" }) |
-                                                    @Html.ActionLink("Details", "Details", new { id = item.Id }, new { style = "color:#ebe0eb" })
-                                                </td>*@
+                                                        @Html.ActionLink("Edit", "Edit", new { id = item.Id }, new { style = "color:#ebe0eb" }) |
+                                                        @Html.ActionLink("Details", "Details", new { id = item.Id }, new { style = "color:#ebe0eb" })
+                                                    </td>*@
                                             </tr>
 
                                         }
@@ -185,9 +185,9 @@
 
                         </div>
                     </div>
-                    chart++;
+                                        chart++;
 
-                }
+                                    }
             }
 
             @*</div>

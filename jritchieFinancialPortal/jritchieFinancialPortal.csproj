@@ -1876,7 +1876,6 @@
     <Content Include="Views\Budgets\_Details.cshtml" />
     <Content Include="Views\Transactions\_Details.cshtml" />
     <Content Include="Views\Home\LandingPage.cshtml" />
-    <Content Include="Views\Home\Index - Hold.cshtml" />
     <Content Include="Views\Households\LeaveHousehold.cshtml" />
   </ItemGroup>
   <ItemGroup>

@@ -96,6 +96,23 @@ namespace jritchieFinancialPortal.Controllers
                 dashViewModel.Add(currentAccountVM);
             }
 
+            List<BudgetTransactionsViewModel> btVM = new List<BudgetTransactionsViewModel>();
+            List<Budget> currentUserBudgets = db.Budgets.Where(b => b.HouseholdId == currentUserHouseholdId).ToList();
+            foreach (var budget in currentUserBudgets)
+            {
+                // Build & populate BudgetTransactionsViewModel
+                BudgetTransactionsViewModel btViewModel = new BudgetTransactionsViewModel();
+                btViewModel.Budget = budget;
+                btViewModel.Transactions = db.Transactions.Where(t => t.Account.HouseholdId == currentUserHouseholdId).Where(t => t.CategoryId == budget.CategoryId).ToList();
+                decimal currentTransactionsTotal = db.Transactions.Where(t => t.Account.HouseholdId == currentUserHouseholdId).Where(t => t.CategoryId == budget.CategoryId).Sum(t => (decimal?)t.Amount) ?? 0;
+                btViewModel.TotalTransactions = currentTransactionsTotal * -1;
+                btViewModel.DisplayTotalTransactions = currentTransactionsTotal;
+
+                btVM.Add(btViewModel);
+            }
+
+            ViewBag.DashBudgets = btVM;
+
             return View(dashViewModel);
         }
 

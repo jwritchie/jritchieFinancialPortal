@@ -14,5 +14,7 @@ namespace jritchieFinancialPortal.Models
         public decimal TotalExpenseTransactions { get; set; }
         public int CurrentYear { get; set; }
         public bool AccountOverdrawn { get; set; }
+
+        public List<BudgetTransactionsViewModel> BudgetTransactionsVM { get; set; }
     }
 }

@@ -1,0 +1,369 @@
+﻿@*@model jritchieFinancialPortal.Models.CodeFirst.Budget*@
+@*@model jritchieFinancialPortal.Models.DashTransactionsViewModel*@
+
+@model IEnumerable<jritchieFinancialPortal.Models.DashTransactionsViewModel>
+
+
+@using jritchieFinancialPortal.Models
+
+@{
+    ViewBag.Title = "Dashboard";
+    List<BudgetTransactionsViewModel> btVM = new List<BudgetTransactionsViewModel>();
+    btVM = ViewBag.DashBudgets;
+}
+
+
+<div class="container slide-in-right">
+
+    <div class="row" style="margin-top:10px">
+        <div class="col-sm-12">
+
+
+            <ul class="nav nav-tabs nav-justified" style="background-color: #6b476b">
+                <li role="presentation" class="active">
+                    <a href="#Accounts" id="Accounts-tab" role="tab" data-toggle="tab" aria-controls="Accounts" aria-expanded="true">Accounts</a>
+                </li>
+                <li role="presentation">
+                    <a href="#Budgets" role="tab" id="Budgets-tab" data-toggle="tab" aria-controls="Budgets">Budgets</a>
+                </li>
+            </ul>
+            <div class="tab-content" style="background-color: #6b476b">
+                <div role="tabpanel" class="tab-pane fade in active" id="Accounts" aria-labelledby="Accounts-tab">
+
+                    @{
+                        int chart = 0;
+                        foreach (var bankAccount in Model)
+                        {
+                            <div class="card-box table-responsive" style="box-shadow: 0 0px 8px 0 rgba(0,0,0,0.50), 0 1px 0px 0 rgba(0,0,0,0.02)">
+                                <div class="row">
+
+                                    <div class="col-xs-4">
+                                        <div class="text-center">
+                                            <h4 class="header-title m-t-0 m-b-30">@bankAccount.AccountName</h4>
+
+                                            @if (bankAccount.AccountOverdrawn)
+                                            {
+                                                <p style="margin-top:-26px; color:gold">Account Overdrawn</p>
+                                                <hr style="margin-top:-6px" />
+                                            }
+                                            else
+                                            {
+                                                <hr />
+                                            }
+
+                                            <p>@bankAccount.CurrentYear Year-to-Date</p>
+                                            <ul class="list-inline chart-detail-list">
+                                                <li>
+                                                    <h5 style="color: #b8860b;"><i class="fa fa-circle m-r-5"></i>Total Income</h5>
+                                                </li>
+                                                <li>
+                                                    <h5 style="color: #eed391;"><i class="fa fa-circle m-r-5"></i>Total Expenses</h5>
+                                                </li>
+                                            </ul>
+                                        </div>
+
+                                        @*<div id="bar-example" style="height: 200px;"></div>*@
+                                        <div id="bar-account + (@chart)" style="height: 200px;"></div>
+
+                                    </div>
+
+                                    <div class="col-xs-8">
+                                        @{
+                                            if (bankAccount.Transaction.Count == 1)
+                                            {
+                                                <p style="margin-top:14px">Last @bankAccount.Transaction.Count transaction</p>
+                                            }
+                                            else
+                                            {
+                                                <p style="margin-top:14px">Last @bankAccount.Transaction.Count transactions</p>
+                                            }
+                                        }
+
+                                        <table id="datatable-responsive" class="table table-striped table-bordered table-condensed dt-responsive nowrap" cellspacing="0" width="100%">
+
+                                            <thead>
+                                                <tr>
+                                                    <th>
+                                                        Transaction Date
+                                                    </th>
+                                                    @*<th>
+                                                            Account Name
+                                                        </th>*@
+                                                    <th>
+                                                        Description
+                                                        @*@Html.DisplayNameFor(bankAccount.Transaction    model => model.Transaction.        .Transaction.Description)*@
+                                                    </th>
+                                                    <th>
+                                                        Category
+                                                    </th>
+                                                    <th>
+                                                        Amount
+                                                        @*@Html.DisplayNameFor(model => model.Amount)*@
+                                                    </th>
+                                                    @*<th>
+                                                            Reconciled
+                                                        </th>
+                                                        <th>
+                                                            Void
+                                                        </th>
+                                                        <th></th>*@
+                                                </tr>
+                                            </thead>
+
+                                            <tbody>
+                                                @foreach (var item in bankAccount.Transaction)
+                                                {
+                                                    <tr>
+                                                        <td>
+                                                            @Html.ToUserTime(item.DateOfTransaction, ViewBag.UserTimeZone as string, "MM/dd/yyyy")
+                                                        </td>
+                                                        @*<td>
+                                                                @Html.DisplayFor(modelItem => item.Account.Name)
+                                                            </td>*@
+                                                        <td>
+                                                            @Html.DisplayFor(modelItem => item.Description)
+                                                        </td>
+                                                        <td>
+                                                            @Html.DisplayFor(modelItem => item.Category.Name)
+                                                        </td>
+                                                        <td style="text-align:right; padding-right:25px">
+                                                            @if (item.Amount < 0)
+                                                            {
+                                                                <span style="color:#ff99c2">@Html.DisplayFor(modelItem => item.Amount)</span>
+                                                            }
+                                                            else
+                                                            {
+                                                                <span style="color:#99ffeb">@Html.DisplayFor(modelItem => item.Amount)</span>
+                                                            }
+                                                        </td>
+                                                    </tr>
+
+                                                }
+
+                                            </tbody>
+                                        </table>
+
+                                    </div>
+
+                                </div>
+                            </div>
+                            chart++;
+                        }
+                    }
+                </div>
+
+                <div role="tabpanel" class="tab-pane fade" id="Budgets" aria-labelledby="Budgets-tab">
+
+                    @{
+                        int budgetChart = 0;
+                        foreach (var budgetItem in btVM)
+                        {
+                            <div class="card-box table-responsive">
+
+                                <div class="row">
+                                    <h4 class="header-title m-t-0 m-b-30">@budgetItem.Budget.Name Details</h4>
+
+                                    <hr />
+
+                                    <div class="col-md-6">
+                                        <dl class="dl-horizontal">
+                                            <dt>
+                                                Budget Name
+                                            </dt>
+                                            <dd>
+                                                @budgetItem.Budget.Name
+                                            </dd>
+
+                                            <dt>
+                                                Budget Type
+                                            </dt>
+                                            <dd>
+                                                @budgetItem.Budget.TransactionType.Name
+                                            </dd>
+
+                                            <dt>
+                                                Category
+                                            </dt>
+                                            <dd>
+                                                @budgetItem.Budget.Category.Name
+                                            </dd>
+
+                                            <dt>
+                                                Frequency
+                                            </dt>
+                                            <dd>
+                                                @budgetItem.Budget.Frequency.Name
+                                            </dd>
+
+                                            <dt>
+                                                Amount
+                                            </dt>
+                                            <dd>
+                                                @budgetItem.Budget.Amount
+                                            </dd>
+                                        </dl>
+
+                                        <hr />
+
+                                        <div class="text-center">
+                                            <ul class="list-inline chart-detail-list">
+                                                <li>
+                                                    <h5 style="color: #b8860b;"><i class="fa fa-circle m-r-5"></i>Budgeted</h5>
+                                                </li>
+                                                <li>
+                                                    <h5 style="color: #eed391;"><i class="fa fa-circle m-r-5"></i>Actual</h5>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        <div id="bar-budget + (@budgetChart)" style="height: 200px;"></div>
+
+                                    </div><!-- end col -->
+
+                                    <div class="col-md-6">
+                                        <table id="datatable + (@budgetChart)" class="table table-condensed table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
+                                            <thead>
+                                                <tr>
+                                                    <th>Description</th>
+                                                    <th style="text-align:center">Amount</th>
+                                                </tr>
+                                            </thead>
+
+                                            <tbody>
+                                                @foreach (var item in budgetItem.Transactions)
+                                                {
+                                                    <tr>
+                                                        <td>@item.Description &nbsp; <a href="@Url.Action("_Details", "Transactions", new { id = item.Id } )" data-target="#viewTransactionModal" data-toggle="modal" style="color:gold"><i class="fa fa-question-circle"></i></a></td>
+                                                        <td style="text-align:right; padding-right:20px">@item.Amount.ToString()</td>
+                                                    </tr>
+                                                }
+                                            </tbody>
+                                        </table>
+                                        <p style="color:gold; float:right">Total Transactions: @budgetItem.DisplayTotalTransactions.ToString("$#,##0.00")</p>
+                                    </div><!-- end col-->
+                                </div><!-- end row -->
+                            </div>
+
+                            budgetChart++;
+                        }
+                    }
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+<!-- end row -->
+
+
+@*regular modal here*@
+<div class="modal fade" id="viewTransactionModal" role="dialog" aria-labelledby="displayModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content" style="background:linear-gradient(to top, #382538 0%, #cc0052 90%); border-radius:6px">
+
+        </div>
+    </div>
+</div>
+
+
+
+@section scripts{
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
+    <script src="~/Assets/plugins/morris/morris.min.js"></script>
+    @{
+        int chart1 = 0;
+        foreach (var bankAccount in Model)
+        {
+            <script>
+                Morris.Bar({
+                    element: 'bar-account + (@chart1)',
+                    data: [
+                        { y: '', a: @bankAccount.TotalIncomeTransactions, b: @bankAccount.TotalExpenseTransactions }
+                    ],
+                    xkey: 'y',
+                    ykeys: ['a', 'b'],
+                    labels: ['Income', 'Expenses'],
+                    barColors: ['#b8860b','#eed391'],
+                    hideHover: ['true'],
+                    resize: ['true']
+                });
+            </script>
+
+            chart1++;
+        }
+    }
+
+
+    @{
+        int budgetChart1 = 0;
+        foreach (var budgetItem in btVM)
+        {
+            <script>
+                Morris.Bar({
+                    element: 'bar-budget + (@budgetChart1)',
+                    data: [
+                        { y: '', a: @budgetItem.Budget.Amount, b: @budgetItem.TotalTransactions }
+                    ],
+                    xkey: 'y',
+                    ykeys: ['a', 'b'],
+                    labels: ['Budgeted', 'Actual'],
+                    barColors: ['#b8860b','#eed391'],
+                    hideHover: ['true'],
+                    resize: ['true']
+                });
+            </script>
+
+            budgetChart1++;
+        }
+    }
+
+
+    <script>
+                $(document).ready(function () {
+                    $(function () {
+                        // when the modal is closed
+                        $('#viewTransactionModal').on('hidden.bs.modal', function () {
+                            // remove the bs.modal data attribute from it
+                            $(this).removeData('bs.modal');
+                            // and empty the modal-content element
+                            $('#viewTransactionModal .modal-content').empty();
+                        });
+                    });
+                });
+    </script>
+
+
+
+
+    <!-- Datatables-->
+    <script src="~/Assets/plugins/datatables/jquery.dataTables.min.js"></script>
+    <script src="~/Assets/plugins/datatables/dataTables.bootstrap.js"></script>
+    <script src="~/Assets/plugins/datatables/dataTables.buttons.min.js"></script>
+    <script src="~/Assets/plugins/datatables/buttons.bootstrap.min.js"></script>
+    <script src="~/Assets/plugins/datatables/jszip.min.js"></script>
+    <script src="~/Assets/plugins/datatables/pdfmake.min.js"></script>
+    <script src="~/Assets/plugins/datatables/vfs_fonts.js"></script>
+    <script src="~/Assets/plugins/datatables/buttons.html5.min.js"></script>
+    <script src="~/Assets/plugins/datatables/buttons.print.min.js"></script>
+    <script src="~/Assets/plugins/datatables/dataTables.fixedHeader.min.js"></script>
+    <script src="~/Assets/plugins/datatables/dataTables.keyTable.min.js"></script>
+    <script src="~/Assets/plugins/datatables/dataTables.responsive.min.js"></script>
+    <script src="~/Assets/plugins/datatables/responsive.bootstrap.min.js"></script>
+    <script src="~/Assets/plugins/datatables/dataTables.scroller.min.js"></script>
+
+    <!-- Datatable init js -->
+    <script src="~/Assets/pages/datatables.init.js"></script>
+
+    @{
+        int budgetChart2 = 0;
+        foreach(var budgetItem in btVM)
+        {
+            <script type="text/javascript">
+                        $(document).ready(function () {
+                            $('datatable + (@budgetChart2)').DataTable();
+                        });
+            </script>
+        }
+    }
+
+
+}
